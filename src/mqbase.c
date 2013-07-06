@@ -1,7 +1,7 @@
 /******************************************************************************/
-/*                                                                        */
+/*                                                                            */
 /*                      M Q   B A S E   F U N C T I O N S                     */
-/*                                                                  */
+/*                                                                    */
 /*  funstions:                                                   */
 /*    - mqConn                                          */
 /******************************************************************************/
@@ -63,6 +63,12 @@ int mqConn( char* qmName, PMQHCONN pHconn )
                     pHconn    ,  // pointer to connection handle
                     &compCode ,  // completion code
                     &reason  );  // reason code
+
+  if( compCode == MQCC_FAILED )
+  {
+  }
+
+  _door :
 
   logFuncExit( ) ;
 }
