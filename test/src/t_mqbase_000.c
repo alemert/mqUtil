@@ -22,7 +22,8 @@
 // own 
 // ---------------------------------------------------------
 #include "tutl.h"
-#include <inihnd.h>
+#include <ctl.h>
+#include <mqbase.h>
 
 #include <cmqc.h>
 
