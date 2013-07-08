@@ -18,7 +18,9 @@ DBGOPT = -g
 # ------------------------------------------------------------------------------
 # sources
 # ------------------------------------------------------------------------------
-SOURCES = mqbase.c mqreason.c
+SOURCES = mqbase.c 
+
+GENERATE_SOURCES = mqreason.c
 
 # ------------------------------------------------------------------------------
 # main source
@@ -55,24 +57,30 @@ MQRC = mqrc
 $(TMP_PATH)/mqreason.tmp : Makefile
 	$(MQRC) -R -f 0 -l 99999999999 | $(CUT) -b1-65 | $(GREP) -v "^$$" > $@
 
-$(INCLUDE_PATH)/mqreason.h :  $(TMP_PATH)/mqreason.tmp 
+$(INCLUDE_PATH)/mqreason.h :  $(TMP_PATH)/mqreason.tmp   \
+                             $(INCLUDE_PATH)/mqreason.ss \
+                             $(INCLUDE_PATH)/mqreason.se 
+	$(CP) $(INCLUDE_PATH)/mqreason.ss $@
 	$(PERL) -n -e  '{         \
                 chomp;            \
                 /^\s*(\d+)\s+0x(\w+)\s+(\S+)/ ; $$i=$$1; $$n=$$3; \
                 next unless $$n=~/^rrcI_/ ;    \
                 printf( "#define %-40s %5d\n" ,$$n ,$$i); }'  $< >$@
+	$(CAT) $(INCLUDE_PATH)/mqreason.se >> $@
 
-$(SOURCE_PATH)/mqreason.c :  $(TMP_PATH)/mqreason.tmp   \
-                             $(SOURCE_PATH)/mqreason.ss \
-                             $(SOURCE_PATH)/mqreason.se 
-	$(CP) $(SOURCE_PATH)/mqreason.ss $@
-	$(PERL) -n -e  '{                                       \
-                chomp;/^\s*(\d+)\s+0x(\w+)\s+(\S+)/;$$n=$$3;    \
-                next unless ($$n=~/^MQRC_/||$$n=~/^rrcI_/);     \
-                next if $$n=~/MQRC_CONVERTED_MSG_TOO_BIG/;      \
-                next if $$n=~/MQRC_PAGESET_FULL/         ;      \
-                printf( "    convert(%-40s) ;\n",$$n); }' $< >>$@
-	$(CAT) $(SOURCE_PATH)/mqreason.se >> $@
+$(SOURCE_PATH)/%.c :  $(SOURCE_PATH)/%.ss \
+                      $(TMP_PATH)/%.tmp   \
+                      $(SOURCE_PATH)/%.se 
+	$(CAT) $^ > $@
+
+#	$(CP) $(SOURCE_PATH)/mqreason.ss $@
+#	$(PERL) -n -e  '{                                       \
+#                chomp;/^\s*(\d+)\s+0x(\w+)\s+(\S+)/;$$n=$$3;    \
+#                next unless ($$n=~/^MQRC_/||$$n=~/^rrcI_/);     \
+#                next if $$n=~/MQRC_CONVERTED_MSG_TOO_BIG/;      \
+#                next if $$n=~/MQRC_PAGESET_FULL/         ;      \
+#                printf( "    convert(%-40s) ;\n",$$n); }' $< >>$@
+#	$(CAT) $(SOURCE_PATH)/mqreason.se >> $@
 	
 
 cleanlocal :
