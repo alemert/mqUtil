@@ -55,6 +55,7 @@ include $(MAKE_INCLUDE_PATH)/general.modules.mk
 # ------------------------------------------------------------------------------
 # mqreason
 # ------------------------------------------------------------------------------
+include $(MAKE_INCLUDE_PATH)/mq.mk
 
 cleanlocal :
 	$(RM) include/mqreason.h
