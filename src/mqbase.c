@@ -3,7 +3,7 @@
 /*                      M Q   B A S E   F U N C T I O N S                     */
 /*                                                                            */
 /*  funstions:                                                               */
-/*    - mqConn                                                */
+/*    - mqConn                                                      */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -53,6 +53,8 @@ int mqConn( char* qmName, PMQHCONN pHconn )
 {
   logFuncCall( ) ;
 
+  int sysRc = 0 ;
+
   MQLONG compCode ;
   MQLONG reason   ;
 
@@ -67,9 +69,12 @@ int mqConn( char* qmName, PMQHCONN pHconn )
   if( compCode == MQCC_FAILED )
   {
     logMQCall( ERR, "MQCONN", reason ) ;
+    sysRc = reason ;
+    goto _door ;
   }
 
   _door :
-
   logFuncExit( ) ;
+
+  return sysRc ;
 }

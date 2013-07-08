@@ -22,6 +22,9 @@
 // own 
 // ---------------------------------------------------------
 #include "tutl.h"
+#include <inihnd.h>
+
+#include <cmqc.h>
 
 /******************************************************************************/
 /*   M A I N                                                                  */
@@ -30,14 +33,19 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
+  MQHCONN hConn ;
+
+  sysRc = initLogging( "test/log/t_mqbase_000.log", INF ) ;
+  if( sysRc != 0 ) goto _door ;
+
   // -------------------------------------------------------
-  // some test 
+  // some test
   // -------------------------------------------------------
-#if(0)
-  doTest( "some general test description ", \
-          function_return_code            , \
-          funstion_name                   , \
-          function_attribute_list         ) ;
+#if(1)
+  doIntTest( "connect qmgr"        , \
+                0         , \
+                mqConn    ,
+                "TEST", &hConn     ) ;
 #endif
 
 _door:
