@@ -3,8 +3,9 @@
 /*                      M Q   B A S E   F U N C T I O N S                     */
 /*                                                                            */
 /*  funstions:                                                                */
-/*    - mqConn                                                          */
-/*    - mqDisc              */
+/*    - mqConn                                                                */
+/*    - mqDisc                    */
+/*    - mqOpenObject                        */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -116,3 +117,88 @@ int mqDisc( PMQHCONN pHconn )
 
   return sysRc ;
 }
+
+/******************************************************************************/
+/*   M Q   O P E N   Q U E U E                                                */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*  open options:                                                             */
+/*    MQOO_INPUT_AS_Q_DEF           open object for get                       */
+/*    MQOO_INPUT_SHARED             open object with shared access            */
+/*    MQOO_INPUT_EXCLUSIVE          open object with exlusive access          */
+/*    MQOO_BROWSE                   open object for browse                    */
+/*    MQOO_OUTPUT                   open object for put                       */
+/*    MQOO_INQUIRE                  open object for inquire                   */
+/*    MQOO_SET                      open queue for MQSET                      */
+/*    MQOO_BIND_ON_OPEN             local qmgr binds the queue handle to      */
+/*                                  a particular instance of the destination  */
+/*                                  queue                                     */
+/*    MQOO_BIND_NOT_FIXED           stops local queue manage binding the      */
+/*                                  queue handle to a particular instnce of   */
+/*                                  the destination queue                     */
+/*    MQOO_BIND_AS_Q_DEF            local queue manager binds the queue       */
+/*                                  handle in the way defined by the DefBind  */
+/*                                 queue atribute                             */
+/*    MQOO_SAVE_ALL_CONTEXT         context information is associated with    */
+/*                                 this queue handle                          */
+/*    MQOO_PASS_IDENTITY_CONTEXT    allows the context to be specified in the */
+/*                                 PutMsgOpts when a message is put on a      */
+/*                                 queue                                      */
+/*    MQOO_PASS_ALL_CONTEXT         allows the context to be specified in the */
+/*                                 PutMsgOpts parameter when a messee is put  */
+/*                                 on a queue                                 */
+/*    MQOO_SET_IDENTITY_CONTEXT     allows the context to be specified in the */
+/*                                 PutMsgOpts parameter when a messee is put  */
+/*                                 on a queue                                 */
+/*    MQOO_SET_ALL_CONTEXT          allows the context to be specified in the */
+/*                                  PutMsgOpts parameter when a messee is put */
+/*                                  on a queue                                */
+/*    MQOO_ALTERNATE_USER_AUTHORITY contains a user identifier to use to      */
+/*                                  validate MQOPEN call                      */
+/*    MQOO_FAIL_IF_QUIESCING        MQOPEN Call fails if the queue manager is */
+/*                                  in quiscing state                         */
+/*                                                                            */
+/******************************************************************************/
+int mqOpenObject( MQHCONN hConn   , // connection handle
+                  PMQOD   pObjDesc, // pointer to object descriptor
+                  MQLONG  options , // options for MQOPEN
+                  PMQHOBJ pHobj   ) // pointer to object handle
+{
+  logFuncCall( ) ;
+
+  MQLONG compCode ;                 // Completion code
+  MQLONG reason   ;                 // Reason code qualifying CompCode
+
+  // -------------------------------------------------------
+  // open mq object
+  // -------------------------------------------------------
+   MQOPEN( hConn    ,        // connection handle
+           pObjDesc ,        // object descriptor for queue
+           options  ,        // open options
+           pHobj    ,        // object handle
+           &compCode,        // completion code
+           &reason );        // reason code
+
+#if(0)
+  logObjDscr( pObjDesc ) ;
+
+  // -------------------------------------------------------
+  // check Return Code and log it into log file
+  // -------------------------------------------------------
+#endif
+
+  if( compCode == MQCC_FAILED )
+  {
+    logMQCall( ERR, "MQOPEN", reason ) ;
+    goto _door ;
+  }
+
+  logMQCall( INF, "MQOPEN", reason ) ;
+
+  _door :
+
+  logFuncExit() ;
+
+  return reason ;
+}
+

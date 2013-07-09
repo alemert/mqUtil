@@ -2,3 +2,6 @@
 # TEST OK    mqConn     >>connect qmgr        << test/src/t_mqbase_000.c(0049)
 # TEST START mqDisc     >>connect qmgr        << test/src/t_mqbase_000.c(0054)
 # TEST OK    mqDisc     >>connect qmgr        << test/src/t_mqbase_000.c(0054)
+# TEST START mqDisc     >>connect qmgr        << test/src/t_mqbase_000.c(0059)
+# TEST ERR   mqDisc     >>connect qmgr        << test/src/t_mqbase_000.c(0059)
+              rcReal:  2018 rcGoal: 000
