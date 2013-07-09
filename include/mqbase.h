@@ -17,7 +17,6 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
-// #include <ctl.h>
 #include <msgcat/lgmqm.h>
 #include <mqreason.h>
 
@@ -33,11 +32,12 @@
 /******************************************************************************/
 /*   M A C R O S                                                              */
 /******************************************************************************/
-#define logMQCall( lev, call, reason )  logger( LMQM_ ##lev ##_CALL , \
-                                                call                , \
-                                                (char*) mqrc2str    )
+#define logMQCall( lev, call, reason ) logger( LMQM_ ##lev ##_CALL       , \
+                                                call                     , \
+                                                (char*) mqrc2str( reason ) )
 
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
 int mqConn( char* qmName, PMQHCONN pHconn ) ;
+int mqDisc( PMQHCONN pHconn ) ;

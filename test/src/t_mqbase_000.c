@@ -47,6 +47,11 @@ int main( int argc, const char** argv )
                 0         , \
                 mqConn    ,
                 "TEST", &hConn     ) ;
+
+  doIntTest( "connect qmgr"        , \
+                0         , \
+                mqDisc    ,
+                &hConn     ) ;
 #endif
 
 _door:

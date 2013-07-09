@@ -2,8 +2,9 @@
 /*                                                                            */
 /*                      M Q   B A S E   F U N C T I O N S                     */
 /*                                                                            */
-/*  funstions:                                                               */
-/*    - mqConn                                                      */
+/*  funstions:                                                                */
+/*    - mqConn                                                          */
+/*    - mqDisc              */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -73,6 +74,42 @@ int mqConn( char* qmName, PMQHCONN pHconn )
     sysRc = reason ;
     goto _door ;
   }
+
+ logMQCall( INF, "MQCONN", reason ) ;
+
+  _door :
+  logFuncExit( ) ;
+
+  return sysRc ;
+}
+
+/******************************************************************************/
+/* mq disconnect                                                              */
+/******************************************************************************/
+int mqDisc( PMQHCONN pHconn )
+{
+  logFuncCall( ) ;
+
+  int sysRc = 0 ;
+
+  MQLONG compCode ;
+  MQLONG reason   ;
+
+  // -------------------------------------------------------
+  // connect to queue manager
+  // -------------------------------------------------------
+  MQDISC( (PMQHCONN) pHconn    ,  // pointer to connection handle
+                    &compCode ,  // completion code
+                    &reason  );  // reason code
+
+  if( compCode == MQCC_FAILED )
+  {
+    logMQCall( ERR, "MQCONN", reason ) ;
+    sysRc = reason ;
+    goto _door ;
+  }
+
+ logMQCall( INF, "MQCONN", reason ) ;
 
   _door :
   logFuncExit( ) ;
