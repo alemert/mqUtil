@@ -4,7 +4,7 @@
 /*                                                                            */
 /*  funstions:                                                                */
 /*    - mqConn                                                                */
-/*    - mqDisc                    */
+/*    - mqDisc                          */
 /*    - mqOpenObject                        */
 /******************************************************************************/
 
@@ -179,13 +179,7 @@ int mqOpenObject( MQHCONN hConn   , // connection handle
            &compCode,        // completion code
            &reason );        // reason code
 
-#if(0)
-  logObjDscr( pObjDesc ) ;
-
-  // -------------------------------------------------------
-  // check Return Code and log it into log file
-  // -------------------------------------------------------
-#endif
+  dumpMqObjDscr( pObjDesc ) ;
 
   if( compCode == MQCC_FAILED )
   {

@@ -5,11 +5,9 @@
 /******************************************************************************/
 /*   I N C L U D E S                                                          */
 /******************************************************************************/
-
 // ---------------------------------------------------------
 // system
 // ---------------------------------------------------------
-#include <string.h>
 
 // ---------------------------------------------------------
 // MQ
@@ -19,10 +17,6 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
-#include <msgcat/lgmqm.h>
-#include <mqreason.h>
-#include <mqdump.h>
-
 
 /******************************************************************************/
 /*   D E F I N E S                                                            */
@@ -35,25 +29,9 @@
 /******************************************************************************/
 /*   M A C R O S                                                              */
 /******************************************************************************/
-#define logMQCall( lev, call, reason ) logger( LMQM_ ##lev ##_CALL       , \
-                                                call                     , \
-                                                (char*) mqrc2str( reason ) )
-#if(0)
-#define mqOpenQueue( queue, hConn, ObjDesc, opt, pHobj )           \
-        {                          \
-          memcpy( ObjDesc.ObjectName, queue, MQ_Q_NAME_LENGTH ) ; \
-          mqOpenObject( hConn, &ObjDesc, opt, pHobj ) ;            \
-        }
-#endif
 
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
-int mqConn( char* qmName, PMQHCONN pHconn ) ;
-int mqDisc( PMQHCONN pHconn ) ;
-
-int mqOpenObject( MQHCONN hConn   , // connection handle
-                  PMQOD   pObjDesc, // pointer to object descriptor
-                  MQLONG  options , // options for MQOPEN
-                  PMQHOBJ pHobj ) ; // pointer to object handle
-
+void dumper( ) ;
+void dumpMqObjDscr(  const PMQOD od ) ;
