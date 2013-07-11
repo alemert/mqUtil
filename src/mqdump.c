@@ -1,11 +1,11 @@
 /******************************************************************************/
 /*                      M Q   D U M P   U T I L I T I E S                     */
-/*                                                          */
-/*  functions:                          */
-/*   - dumper                            */
-/*   - setDumpItemStr                                */
-/*   - setDumpItemInt                  */
-/*   - dumpMqObjDscr                                  */
+/*                                                                            */
+/*  functions:                                        */
+/*   - dumper                                      */
+/*   - setDumpItemStr                                    */
+/*   - setDumpItemInt                      */
+/*   - dumpMqObjDscr                                      */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -39,6 +39,7 @@ int  _gDmpMsgIx ;                // index for line in dump buffer
 #define F_KEY       "%-25.25s"    // dump format for key
 #define F_STR       "%-48.20s"    // dump format for general string
 #define F_MQCHAR4   "%-48.4s"     // dump format for MQCHAR4
+#define F_MQCHAR12  "%-48.12"     // dump format for MQCHAR12
 #define F_MQCHAR48  "%-48.48s"    // dump format for MQCHAR48
 #define F_MQLONG    "%.10d"       // dump format for MQLONG
 
@@ -59,7 +60,7 @@ void setDumpItem( const char* frmt, const char* key, char* value )  ;
 // void dumpMqStruc( int _type, void* 
 
 /******************************************************************************/
-/* dump buffer to stdin                    */
+/* dump buffer to stdin                        */
 /******************************************************************************/
 void dumper( )
 {
@@ -102,24 +103,24 @@ void setDumpItemInt( const char* frmt, const char* key, MQLONG value )
 
 /******************************************************************************/
 /* dump mq object description      */
-/*                      */
-/* dump MQOD                  */
+/*                                      */
+/* dump MQOD                            */
 /******************************************************************************/
 void dumpMqObjDscr(  const PMQOD od )
 {
   _gDmpMsgIx = 0 ;  
 
-   setDumpItemStr(  F_MQCHAR4 , 
-                   "Structure identifier",
-                    od->StrucId); 
+   setDumpItemStr(  F_MQCHAR4             ,
+                   "Structure identifier" ,
+                    od->StrucId          ); 
 
-   setDumpItemStr( F_STR     , 
-                   "Structure version"   ,
-                   mqodVer2str(  od->Version));
+   setDumpItemStr( F_STR                      ,
+                   "Structure version"        ,
+                   (char*) mqodVer2str( od->Version ) );
 
    setDumpItemStr( F_STR     , 
                    "Object type"         ,
-                   mqObjType2str(od->ObjectType));
+                   (char*) mqObjType2str(od->ObjectType));
 
    setDumpItemStr( F_MQCHAR48, 
                    "Object name"         ,   
@@ -132,22 +133,45 @@ void dumpMqObjDscr(  const PMQOD od )
    setDumpItemStr( F_MQCHAR48, 
                    "Dynamic queue name",
                     od->DynamicQName);
+   setDumpItemStr( F_MQCHAR12,
+                   "Alternate user identifier" ,
+                    od->AlternateUserId );      
+
+  // -------------------------------------------------------
+  // version 2 or higher
+  // -------------------------------------------------------
+  if( od->Version < MQOD_VERSION_2 ) goto _door ;
+   
 #if(0)
-   MQCHAR12  AlternateUserId;      /* Alternate user identifier */
    /* Ver:1 */
-   MQLONG    RecsPresent;          /* Number of object records
-                                      present */
-   MQLONG    KnownDestCount;       /* Number of local queues opened
-                                      successfully */
-   MQLONG    UnknownDestCount;     /* Number of remote queues opened
-                                      successfully */
-   MQLONG    InvalidDestCount;     /* Number of queues that failed to
-                                      open */
-   MQLONG    ObjectRecOffset;      /* Offset of first object record
-                                      from start of MQOD */
-   MQLONG    ResponseRecOffset;    /* Offset of first response record
-                                      from start of MQOD */
+  setDumpItemInt( F_MQLONG    
+        "Number of object records present"
+        od->RecsPresent
+
+  setDumpItemInt( F_MQLONG    
+         "Number of local queues opened successfully"
+         od->KnownDestCount ,
+
+  setDumpItemInt( F_MQLONG    
+           "Number of remote queues opened successfully"
+           od->UnknownDestCount ,
+
+  setDumpItemInt( F_MQLONG    
+           "Number of queues that failed to open"
+       od->InvalidDestCount ,
+
+  setDumpItemInt( F_MQLONG    
+         "Offset of first object record from start of MQOD"
+     od->ObjectRecOffset ,
+
+  setDumpItemInt( F_MQLONG    
+             "Offset of first response record from start of MQOD"
+     od->ResponseRecOffset ,
+
+#if(0)
    MQPTR     ObjectRecPtr;         /* Address of first object record */
+
+  setDumpItemInt( F_MQLONG    
    MQPTR     ResponseRecPtr;       /* Address of first response
                                       record */
    /* Ver:2 */
@@ -160,6 +184,9 @@ void dumpMqObjDscr(  const PMQOD od )
    MQCHARV   ResObjectString;      /* Resolved long object name*/
    MQLONG    ResolvedType;         /* Alias queue resolved object type */ 
 #endif
+
+  _door :
+
   dumper() ;
 }
 

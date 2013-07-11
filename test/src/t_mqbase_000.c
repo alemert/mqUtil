@@ -43,20 +43,20 @@ int main( int argc, const char** argv )
   // some test
   // -------------------------------------------------------
 #if(1)
-  doIntTest( "connect qmgr"        , \
-                0         , \
-                mqConn    ,
-                "TEST", &hConn     ) ;
+  doIntTest( "connect qmgr"      , \
+                0                , \
+                mqConn           , \
+                "TEST", &hConn   ) ;
 
-  doIntTest( "connect qmgr"        , \
-                0         , \
-                mqDisc    ,
-                &hConn     ) ;
+  doIntTest( "disconnect qmgr"   , \
+                0                , \
+                mqDisc           , \
+                &hConn            ) ;
 
-  doIntTest( "connect qmgr"        , \
-                0         , \
-                mqDisc    ,
-                &hConn     ) ;
+  doIntTest( "disconnect qmgr"   , \
+                MQRC_HCONN_ERROR , \
+                mqDisc           , \
+                &hConn           ) ;
 #endif
 
 _door:

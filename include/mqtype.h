@@ -28,5 +28,5 @@
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
-const char* mqodVer2str( id ) ;
-const char* mqObjType2str( id ) ;
+const char* mqodVer2str( int id ) ;
+const char* mqObjType2str( int id ) ;
