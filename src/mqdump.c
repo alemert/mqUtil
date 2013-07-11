@@ -45,12 +45,18 @@ int  _gDmpMsgIx ;                // index for line in dump buffer
 #define F_MQCHAR4   "%-48.4s"     // dump format for MQCHAR4
 #define F_MQCHAR12  "%-48.12"     // dump format for MQCHAR12
 #define F_MQCHAR48  "%-48.48s"    // dump format for MQCHAR48
+#define F_MQCHARV   "%-48.20s"    // dump format for MQCHARV dummy
 #define F_MQLONG    "%.10d"       // dump format for MQLONG
 #define F_MQBYTE40     40         // length of hex string
 
 /******************************************************************************/
 /*   M A C R O S                                                              */
 /******************************************************************************/
+#define setDumpItemCharV( frmt, \
+                          key , \
+                          value )   setDumpItemStr( frmt, \
+                                                    key , \
+                                                   "MQCHARV Struct" ) ;
 
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
@@ -59,7 +65,6 @@ void setDumpItemStr(  const char* frmt, const char* key, char*   value ) ;
 void setDumpItemInt(  const char* frmt, const char* key, int     value ) ;
 void setDumpItemPtr(  const char* frmt, const char* key, MQPTR   value ) ;
 void setDumpItemByte(         int frmt, const char* key, PMQBYTE value ) ;
-void setDumpItemCharV(        int frmt, const char* key, MQCHARV value ) ;
 
 /******************************************************************************/
 /*                                                                            */
@@ -132,6 +137,7 @@ void setDumpItemPtr( const char* frmt, const char* key, MQPTR value )
   _gDmpMsg[_gDmpMsgIx*2][0] = '\0' ;
 }
 
+#if(0)
 /******************************************************************************/
 /* set dump items for key of type mqcahrv (Variable-length string)            */
 /******************************************************************************/
@@ -146,6 +152,7 @@ void setDumpItemCharV( const char* frmt, const char* key, MQPTR value )
 
   _gDmpMsg[_gDmpMsgIx*2][0] = '\0' ;
 }
+#endif
 
 /******************************************************************************/
 /* set dump items for key of type mqbyte      */
@@ -207,7 +214,7 @@ void dumpMqObjDscr(  const PMQOD od )
   // -------------------------------------------------------
   // version 2 or higher
   // -------------------------------------------------------
-//if( od->Version < MQOD_VERSION_2 ) goto _door ;
+  if( od->Version < MQOD_VERSION_2 ) goto _door ;
    
   setDumpItemInt(  F_MQLONG                   ,
                   "Nr of obj records present" ,
@@ -244,7 +251,7 @@ void dumpMqObjDscr(  const PMQOD od )
   // -------------------------------------------------------
   // version 3 or higher
   // -------------------------------------------------------
-//if( od->Version < MQOD_VERSION_3 ) goto _door ;
+  if( od->Version < MQOD_VERSION_3 ) goto _door ;
 
   setDumpItemByte(  F_MQBYTE40           ,
                    "Alternate security identifier" ,
@@ -258,18 +265,26 @@ void dumpMqObjDscr(  const PMQOD od )
                    "Resolved queue manager name" ,
                     od->ResolvedQMgrName       ) ;
 
-#if(0)
   // -------------------------------------------------------
   // version 4 or higher
   // -------------------------------------------------------
-//if( od->Version < MQOD_VERSION_4 ) goto _door ;
+  if( od->Version < MQOD_VERSION_4 ) goto _door ;
 
-   MQCHARV   ObjectString;         /* Object long name */
-   MQCHARV   SelectionString;      /* Message Selector */
-   MQCHARV   ResObjectString;      /* Resolved long object name*/
-   MQLONG    ResolvedType;         /* Alias queue resolved object type */ 
-#endif
+   setDumpItemCharV(  F_MQCHARV          ,
+                     "Object long name"  ,
+                      od->ObjectString ) ;
 
+   setDumpItemCharV(  F_MQCHARV             ,
+                     "Message Selector"     ,
+                      od->SelectionString ) ;
+
+   setDumpItemCharV(  F_MQCHARV                  ,
+                     "Resolved long object name" ,
+                      od->ResObjectString      ) ;
+
+   setDumpItemStr(  F_STR                                    ,
+                   "qalias resolved object type"             ,
+                   (char*) mqObjType2str(od->ResolvedType) ) ;
   _door :
 
   dumper() ;
