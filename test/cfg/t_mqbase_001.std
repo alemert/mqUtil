@@ -1,0 +1,6 @@
+# TEST START mqConn     >>connect qmgr        << test/src/t_mqbase_001.c(0052)
+# TEST OK    mqConn     >>connect qmgr        << test/src/t_mqbase_001.c(0052)
+# TEST START mqOpenObject >>open queue          << test/src/t_mqbase_001.c(0065)
+# TEST OK    mqOpenObject >>open queue          << test/src/t_mqbase_001.c(0065)
+# TEST START mqDisc     >>connect qmgr        << test/src/t_mqbase_001.c(0070)
+# TEST OK    mqDisc     >>connect qmgr        << test/src/t_mqbase_001.c(0070)

@@ -179,7 +179,9 @@ int mqOpenObject( MQHCONN hConn   , // connection handle
            &compCode,        // completion code
            &reason );        // reason code
 
-  dumpMqObjDscr( pObjDesc ) ;
+
+  dumpMqStruct( "OD  ", pObjDesc, NULL  ) ;
+//dumpMqObjDscr( pObjDesc ) ;
 
   if( compCode == MQCC_FAILED )
   {

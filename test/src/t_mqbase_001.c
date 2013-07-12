@@ -38,7 +38,7 @@ int main( int argc, const char** argv )
   MQOD    odQueue = {MQOD_DEFAULT} ;
   MQHOBJ  ohQueue ;
 
-  sysRc = initLogging( "test/log/t_mqbase_000.log", INF ) ;
+  sysRc = initLogging( "test/log/t_mqbase_001.log", DBG ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------

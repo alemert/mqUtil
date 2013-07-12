@@ -2,12 +2,13 @@
 /*                      M Q   D U M P   U T I L I T I E S                     */
 /*                                                                            */
 /*  functions:                                                                */
-/*   - dumper                                                                 */
+/*   - dumpMqStruct                                                */
+/*   - mqDumper                                                               */
 /*   - setDumpItemStr                                                         */
 /*   - setDumpItemInt                                                         */
-/*   - setDumpItemPtr                                */
-/*   - setDumpItemByte                                */
-/*   - setDumpItemCharV              */
+/*   - setDumpItemPtr                                                         */
+/*   - setDumpItemByte                                                        */
+/*   - setDumpItemCharV                                                    */
 /*   - dumpMqObjDscr                                                          */
 /******************************************************************************/
 
@@ -19,6 +20,8 @@
 // system
 // ---------------------------------------------------------
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // ---------------------------------------------------------
 // own 
@@ -26,11 +29,13 @@
 #include <mqdump.h>
 #include <mqtype.h>
 
+#include <ctl.h>
+
 /******************************************************************************/
 /*   G L O B A L S                                                            */
 /******************************************************************************/
 #define DUMP_ITEM_CNT  47
-#define DUMP_ITEM_SIZE 50
+#define DUMP_ITEM_SIZE DMP_ITEM_LEN   // DMP_ITEM_LEN defined in "ctl.h"
 
 char _gDmpMsg[DUMP_ITEM_CNT*2]
              [DUMP_ITEM_SIZE] ;  // buffer for dump
@@ -71,24 +76,62 @@ void setDumpItemByte(         int frmt, const char* key, PMQBYTE value ) ;
 /*   F U N C T I O N S                                                        */
 /*                                                                            */
 /******************************************************************************/
-// void dumpMqStruc( int _type, void* 
+void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
+{
+
+  if( memcmp( _type, MQOD_STRUC_ID, 4 ) == 0 )
+  {
+    dumpMqObjDscr(  (PMQOD) _pStruct ) ;
+    goto _output ; 
+  }
+
+  _output :
+
+  if( output == NULL )
+  {
+    if( getLogFP() != NULL ) 
+    {
+      dumper( "  ", _type, _gDmpMsg ) ;
+    }
+    else
+    {
+      output = stderr ;
+    }
+  }
+
+  if( output == stderr )
+  {
+    mqDumper( stderr ) ;
+    goto _door ;
+  }
+  
+  if( output == stdout )
+  {
+    mqDumper( stderr ) ;
+    goto _door ;
+  }
+
+  _door :
+
+  return ;
+}
 
 /******************************************************************************/
-/* dump buffer to stdin                                                */
+/* dump buffer to stdin                                                       */
 /******************************************************************************/
-void dumper( )
+void mqDumper( FILE *output )
 {
   int i ;
 
   for( i=0; i< DUMP_ITEM_CNT; i+=2 )
   {
     if( _gDmpMsg[i][0] == '\0' ) break ;
-    printf( "%s: %s\n", _gDmpMsg[i], _gDmpMsg[i+1] ) ;
+    fprintf( output, "%s: %s\n", _gDmpMsg[i], _gDmpMsg[i+1] ) ;
   }
 }
 
 /******************************************************************************/
-/* set dump items for key of type strings                 */
+/* set dump items for key of type strings                                   */
 /******************************************************************************/
 void setDumpItemStr( const char* frmt, const char* key, char* value )
 {
@@ -102,7 +145,7 @@ void setDumpItemStr( const char* frmt, const char* key, char* value )
 }
 
 /******************************************************************************/
-/* set dump items for key of type mqlong         */
+/* set dump items for key of type mqlong                               */
 /******************************************************************************/
 void setDumpItemInt( const char* frmt, const char* key, MQLONG value )
 {
@@ -116,7 +159,7 @@ void setDumpItemInt( const char* frmt, const char* key, MQLONG value )
 }
 
 /******************************************************************************/
-/* set dump items for key of type pointer            */
+/* set dump items for key of type pointer                          */
 /******************************************************************************/
 void setDumpItemPtr( const char* frmt, const char* key, MQPTR value )  
 {
@@ -155,7 +198,7 @@ void setDumpItemCharV( const char* frmt, const char* key, MQPTR value )
 #endif
 
 /******************************************************************************/
-/* set dump items for key of type mqbyte      */
+/* set dump items for key of type mqbyte                              */
 /******************************************************************************/
 void setDumpItemByte( int frmt, const char* key, PMQBYTE value ) 
 {
@@ -175,8 +218,8 @@ void setDumpItemByte( int frmt, const char* key, PMQBYTE value )
 }
 
 /******************************************************************************/
-/* dump mq object description                            */
-/*                                                                        */
+/* dump mq object description                                                 */
+/*                                                                            */
 /* dump MQOD                                                                  */
 /******************************************************************************/
 void dumpMqObjDscr(  const PMQOD od )
@@ -287,6 +330,6 @@ void dumpMqObjDscr(  const PMQOD od )
                    (char*) mqObjType2str(od->ResolvedType) ) ;
   _door :
 
-  dumper() ;
+  return ;
 }
 
