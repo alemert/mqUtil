@@ -57,3 +57,10 @@ int mqOpenObject( MQHCONN hConn   , // connection handle
                   MQLONG  options , // options for MQOPEN
                   PMQHOBJ pHobj ) ; // pointer to object handle
 
+int mqPut( MQHCONN _hConn      ,    // connection handle
+           MQHOBJ  _hQueue     ,    // pointer to queue handle
+           PMQMD   _msgDscr    ,    // msg Desriptor
+           PMQPMO  _pPutMsgOpt ,    // Options controling MQPUT
+           PMQVOID _buffer     ,    // message buffer
+           MQLONG  _msgLng    );    // message length (buffer length)
+

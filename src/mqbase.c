@@ -206,16 +206,17 @@ int mqOpenObject( MQHCONN hConn   , // connection handle
 /*   Descrip: write messages to a queue                                       */
 /*                                                                            */
 /******************************************************************************/
-int mqPut( MQHCONN _hConn     ,         // connection handle
-           MQHOBJ  _hQueue    ,         // pointer to queue handle
-           PMQMD   _msgDscr   ,         // msg Desriptor
-           PMQPMO  _putMsgOpt ,         // Options controling MQPUT
-           PMQVOID _buffer    ,         // message buffer
-           MQLONG  _msgLng    )         // message length (buffer length)
-{                                       //
+int mqPut( MQHCONN _hConn      ,         // connection handle
+           MQHOBJ  _hQueue     ,         // pointer to queue handle
+           PMQMD   _msgDscr    ,         // msg Desriptor
+           PMQPMO  _pPutMsgOpt ,         // Options controling MQPUT
+           PMQVOID _buffer     ,         // message buffer
+           MQLONG  _msgLng     )         // message length (buffer length)
+{                                        //
   logFuncCall( ) ;
 
-  MQPMO   putMsgOpt = {MQPMO_DEFAULT};  // Options controling MQPUT
+  const MQPMO defPutMsgOpt ;            // Default Options controling MQPUT
+  MQPMO  putMsgOpt ;                    // Options controling MQPUT
                                         //
   MQLONG compCode ;                     // Completion code
   MQLONG reason   ;                     // Reason code qualifying CompCode
@@ -223,69 +224,61 @@ int mqPut( MQHCONN _hConn     ,         // connection handle
   // -------------------------------------------------------
   // set put messages options
   // -------------------------------------------------------
-  if( _putMsgOpt == NULL )                   //
-  {                                          //
-    putMsgOpt = {MQPMO_DEFAULT};             // Options controling MQPUT
-                                             //
-    memcpy( _msgDscr->MsgId         ,        // reset message id
-            MQMI_NONE               ,        //
-            sizeof(msgDscr->MsgId) );        //
-                                             //
-    memcpy( _msgDscr->CorrelId          ,    // reset correlation id
-            MQCI_NONE                   ,    //
-            sizeof(_msgDscr->CorrelId) );    //
-                                             //
-    memcpy( _msgDscr->Format          ,      // character string format
-            MQFMT_STRING              ,      //
-            (size_t)MQ_FORMAT_LENGTH );      //
-  }                                          //
-  else                                       //
-  {                                          //
-    putMsgOpt = &_putMsgOpt ;                //
-  }                                          //
-                                             //
+  if( _pPutMsgOpt == NULL )                   //
+  {                                           //
+    memcpy( &putMsgOpt     ,                  //
+            &defPutMsgOpt  ,                  //
+            sizeof(MQPMO) );                  // Options controling MQPUT
+    _pPutMsgOpt = &putMsgOpt ;                //
+                                              //
+    memcpy( _msgDscr->MsgId          ,        // reset message id
+            MQMI_NONE                ,        //
+            sizeof(_msgDscr->MsgId) );        //
+                                              //
+    memcpy( _msgDscr->CorrelId          ,     // reset correlation id
+            MQCI_NONE                   ,     //
+            sizeof(_msgDscr->CorrelId) );     //
+                                              //
+    memcpy( _msgDscr->Format          ,       // character string format
+            MQFMT_STRING              ,       //
+            (size_t)MQ_FORMAT_LENGTH );       //
+  }                                           //
+                                              //
   // -------------------------------------------------------
   // set buffer length if neccesary
   // -------------------------------------------------------
-  if( _msgLng == 0 )                         //
-  {                                          //
-    _msgLng = (MQLONG) strlen( _buffer );    //
-  }                                          //
-                                             //
+  if( _msgLng == 0 )                          //
+  {                                           //
+    _msgLng = (MQLONG) strlen( _buffer );     //
+  }                                           //
+                                              //
   // -------------------------------------------------------
   // put a message to a queue
   // -------------------------------------------------------
-  dumpMqStruct( "MQPMO", &putMsgOpt, NULL ); //
-  dumpMqStruct( "MQMD ", _msgDscr  , NULL ); //
-                                             //
-  MQPUT( _hConn     ,                        // connection handle
-         _hQueue    ,                        // object handle
-         _msgDscr   ,                        // message descriptor
-         &putMsgOpt ,                        // default options (datagram)
-         _msgLng    ,                        // message length
-         _buffer    ,                        // message buffer
-         &compCode  ,                        // completion code
-         &reason    );                       // reason code
-                                             //
-  dumpMqStruct( "MQPMO", &putMsgOpt, NULL ); //
-  dumpMqStruct( "MQMD ", _msgDscr  , NULL ); //
-                                             //
-#if(0)
-  if( compCode == MQCC_FAILED )      //
-  {         //
+//dumpMqStruct( "MQPMO", _pPutMsgOpt, NULL ); //
+  dumpMqStruct( "MD  ", _msgDscr   , NULL ); //
+                                              //
+  MQPUT( _hConn      ,                        // connection handle
+         _hQueue     ,                        // object handle
+         _msgDscr    ,                        // message descriptor
+         _pPutMsgOpt ,                        // default options (datagram)
+         _msgLng     ,                        // message length
+         _buffer     ,                        // message buffer
+         &compCode   ,                        // completion code
+         &reason     );                       // reason code
+                                              //
+  dumpMqStruct( "MQPMO", _pPutMsgOpt, NULL ); //
+  dumpMqStruct( "MQMD ", _msgDscr   , NULL ); //
+                                              //
+  if( compCode == MQCC_FAILED )               //
+  {                                     //
     logMQCall( ERR, "MQOPEN", reason ) ;     //
-    goto _door ;      //
-  }         //
-            //
+    goto _door ;        //
+  }                         //
+                    //
   logMQCall( INF, "MQOPEN", reason ) ;
-#endif
-            //
+                        //
   _door :                                    //
-                                             //
-  if( _putMsgOpt != NULL )                //
-  {                                        //
-    *_putMsgOpt = putMsgOpt ;      //
-  }                                          //
                                              //
   logFuncExit() ;
 

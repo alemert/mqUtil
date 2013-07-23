@@ -1,0 +1,7 @@
+# TEST START mqConn     >>connect qmgr        << test/src/t_mqbase_002.c(0053)
+# TEST OK    mqConn     >>connect qmgr        << test/src/t_mqbase_002.c(0053)
+# TEST START mqOpenObject >>open queue          << test/src/t_mqbase_002.c(0066)
+# TEST OK    mqOpenObject >>open queue          << test/src/t_mqbase_002.c(0066)
+# TEST START mqPut      >>put message err     << test/src/t_mqbase_002.c(0076)
+# TEST ERR   mqPut      >>put message err     << test/src/t_mqbase_002.c(0076)
+              rcReal:  2173 rcGoal: 000

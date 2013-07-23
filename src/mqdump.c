@@ -2,14 +2,15 @@
 /*                      M Q   D U M P   U T I L I T I E S                     */
 /*                                                                            */
 /*  functions:                                                                */
-/*   - dumpMqStruct                                                */
+/*   - dumpMqStruct                                                      */
 /*   - mqDumper                                                               */
 /*   - setDumpItemStr                                                         */
 /*   - setDumpItemInt                                                         */
 /*   - setDumpItemPtr                                                         */
 /*   - setDumpItemByte                                                        */
-/*   - setDumpItemCharV                                                    */
+/*   - setDumpItemCharV                                                       */
 /*   - dumpMqObjDscr                                                          */
+/*   - dumpMqMsgDscr                  */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -30,6 +31,7 @@
 #include <mqtype.h>
 
 #include <ctl.h>
+#include <lgmqm.h>
 
 /******************************************************************************/
 /*   G L O B A L S                                                            */
@@ -84,6 +86,15 @@ void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
     dumpMqObjDscr(  (PMQOD) _pStruct ) ;
     goto _output ; 
   }
+
+  if( memcmp( _type, MQMD_STRUC_ID, 4 ) == 0 )
+  {
+    dumpMqMsgDscr(  (PMQMD) _pStruct ) ;
+    goto _output ; 
+  }
+
+  logger( LMQM_UNKNOWN_DMP_STRUCT, _type ) ;
+  goto _door ;
 
   _output :
 
@@ -333,3 +344,139 @@ void dumpMqObjDscr(  const PMQOD od )
   return ;
 }
 
+/******************************************************************************/
+/* dump mq message description                                                */
+/*                                                                            */
+/* dump MQMD                                                                  */
+/******************************************************************************/
+void dumpMqMsgDscr(  const PMQMD md )
+{
+  _gDmpMsgIx = 0 ;  
+
+  setDumpItemStr(  F_MQCHAR4            ,
+                  "Structure identifier",
+                   md->StrucId          );           
+
+
+   setDumpItemStr(  F_STR               ,
+                   "Structure version"  ,
+                   (char*) mqmdVer2str( md->Version ) );
+
+// MQRO in einer endlos && auf einzelne teile aufbrechen
+#if(0)
+  F_MQLONG    
+Report;            
+"Options for report messages"
+
+  F_MQLONG    
+MsgType;           
+"Message type"
+
+  F_MQLONG    
+Expiry;            
+"Message lifetime"
+
+  F_MQLONG    
+Feedback;          
+"Feedback or reason code"
+
+  F_MQLONG    
+Encoding;          
+"Numeric encoding of message data"
+
+  F_MQLONG    
+CodedCharSetId;    
+"Character set identifier of message data"
+
+  F_MQCHAR8   
+Format;            
+"Format name of message data"
+
+  F_MQLONG    
+Priority;          
+"Message priority"
+
+  F_MQLONG    
+Persistence;       
+"Message persistence"
+
+  F_MQBYTE24  
+MsgId;             
+"Message identifier"
+
+  F_MQBYTE24  
+CorrelId;          
+"Correlation identifier"
+
+  F_MQLONG    
+BackoutCount;      
+"Backout counter"
+
+  F_MQCHAR48  
+ReplyToQ;          
+"Name of reply queue"
+
+  F_MQCHAR48  
+ReplyToQMgr;       
+"Name of reply queue manager"
+
+  F_MQCHAR12  
+UserIdentifier;    
+"User identifier"
+
+  F_MQBYTE32  
+AccountingToken;   
+"Accounting token"
+
+  F_MQCHAR32  
+ApplIdentityData;  
+"Application data relating to identity"
+
+  F_MQLONG    
+PutApplType;      
+ "Type of application that put the message"
+
+  F_MQCHAR28  
+PutApplName;       
+"Name of application that put the message"
+
+  F_MQCHAR8   
+PutDate;           
+"Date when message was put"
+
+  F_MQCHAR8   
+PutTime;           
+"Time when message was put"
+
+  F_MQCHAR4   
+ApplOriginData;    
+"Application data relating to origin"
+
+   /* Ver:1 */
+  F_MQBYTE24  
+GroupId;           
+"Group identifier"
+
+  F_MQLONG    
+MsgSeqNumber;      
+"Sequence number of logical message within group"
+
+  F_MQLONG    
+Offset;            
+"Offset of data in physical message from start of logical message"
+
+  F_MQLONG    
+MsgFlags;          
+"Message flags"
+
+  F_MQLONG    
+OriginalLength;    
+"Length of original message"
+
+   /* Ver:2 */
+#endif
+
+  _door :
+
+  return ;
+}

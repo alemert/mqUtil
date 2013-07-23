@@ -36,6 +36,7 @@ int main( int argc, const char** argv )
 
   MQHCONN hConn   ;
   MQOD    odQueue = {MQOD_DEFAULT} ;
+  MQMD    md      = {MQMD_DEFAULT} ;
   MQHOBJ  ohQueue ;
 
   sysRc = initLogging( "test/log/t_mqbase_002.log", DBG ) ;
@@ -65,8 +66,14 @@ int main( int argc, const char** argv )
               &ohQueue            ) ;
 
   doIntTest( "put message err" ,
-      0      ,
-      mqPut ) ;
+              0      ,
+              mqPut  ,
+              hConn   ,
+              ohQueue ,
+              &md  ,
+              NULL  ,
+              "hello world",
+              0 ) ;
 
   doIntTest( "disconnect qmgr"    , \
               0                   , \
