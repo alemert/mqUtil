@@ -2,7 +2,7 @@
 /*                      M Q   D U M P   U T I L I T I E S                     */
 /*                                                                            */
 /*  functions:                                                                */
-/*   - dumpMqStruct                                                      */
+/*   - dumpMqStruct                                                           */
 /*   - mqDumper                                                               */
 /*   - setDumpItemStr                                                         */
 /*   - setDumpItemInt                                                         */
@@ -10,7 +10,7 @@
 /*   - setDumpItemByte                                                        */
 /*   - setDumpItemCharV                                                       */
 /*   - dumpMqObjDscr                                                          */
-/*   - dumpMqMsgDscr                  */
+/*   - dumpMqMsgDscr                    */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -46,7 +46,7 @@ int  _gDmpMsgIx ;                // index for line in dump buffer
 /******************************************************************************/
 /*   D E F I N E S                                                            */
 /******************************************************************************/
-#define F_KEY       "%-30.30s"    // dump format for key
+#define F_KEY       "%-32.32s"    // dump format for key
 #define F_STR       "%-48.20s"    // dump format for general string
 #define F_MQPTR     "%-48.8s"     // dump format for general pointer
 #define F_MQCHAR4   "%-48.4s"     // dump format for MQCHAR4
@@ -362,24 +362,23 @@ void dumpMqMsgDscr(  const PMQMD md )
                    "Structure version"  ,
                    (char*) mqmdVer2str( md->Version ) );
 
-// MQRO in einer endlos && auf einzelne teile aufbrechen
+   setDumpItemStr(  F_STR             ,
+                   "Report messages options" ,
+                   (char*) mqReportOption2str( md->Report ) );
+
+   setDumpItemStr(  F_STR               ,
+                   "Message type"      ,
+                   (char*) mqMsgType2str( md->MsgType ) );           
+
+   setDumpItemInt(  F_MQLONG      ,
+                   "Message lifetime" ,
+                    md->Expiry ) ;            
+
+   setDumpItemStr(  F_STR               ,
+            "Feedback code"       ,
+                  mqFeedback2str( md->Feedback) );
+
 #if(0)
-  F_MQLONG    
-Report;            
-"Options for report messages"
-
-  F_MQLONG    
-MsgType;           
-"Message type"
-
-  F_MQLONG    
-Expiry;            
-"Message lifetime"
-
-  F_MQLONG    
-Feedback;          
-"Feedback or reason code"
-
   F_MQLONG    
 Encoding;          
 "Numeric encoding of message data"
