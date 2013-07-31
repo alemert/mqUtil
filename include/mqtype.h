@@ -28,9 +28,14 @@
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
-const char* mqodVer2str(        int id ) ;
-const char* mqmdVer2str(        int id ) ;
-const char* mqObjType2str(      int id ) ;
-const char* mqReportOption2str( int id ) ;
-const char* mqMsgType2str(      int id ) ;
-const char* mqFeedback2str(     int id ) ;
+const char* mqodVer2str(        int id );
+const char* mqmdVer2str(        int id );
+const char* mqObjType2str(      int id );
+const char* mqReportOption2str( int id );
+const char* mqMsgType2str(      int id );
+const char* mqFeedback2str(     int id );
+const char* mqEncondig2str(     int id );
+const char* mqCCSID2str(        int id );
+const char* mqPriority2str(     int id );
+const char* mqPersistence2str(  int id );
+const char* mqPutApplType2str(  int id );

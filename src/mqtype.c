@@ -7,7 +7,12 @@
 /*   - mqodVer2str                                                            */
 /*   - mqReportOption2str                                                     */
 /*   - mqMsgTypeId2Str                                                        */
-/*   - mqFeedback2str                        */
+/*   - mqFeedback2str                                                  */
+/*   - mqEncondig2str                            */
+/*   - mqCCSID2str                          */
+/*   - mqPriority2str                      */ 
+/*   - mqPersistence2str                  */
+/*   - mqPutApplType2str                        */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -179,7 +184,7 @@ const char* mqMsgType2str( int id )
 }
 
 /******************************************************************************/
-/* mq feedback to string                                                  */
+/* mq feedback to string                                                      */
 /******************************************************************************/
 const char* mqFeedback2str( int id )
 {
@@ -229,4 +234,145 @@ const char* mqFeedback2str( int id )
   }
 
   return "UNKNOWN MQ FEEDBACK" ;
+}
+
+/******************************************************************************/
+/* mq encondig to string                                                      */
+/******************************************************************************/
+const char* mqEncondig2str( int id )
+{
+  switch( id )
+  {
+    convert( MQENC_NATIVE              ) ;
+    convert( MQENC_INTEGER_MASK        ) ;
+    convert( MQENC_DECIMAL_MASK        ) ;
+    convert( MQENC_FLOAT_MASK          ) ;
+    convert( MQENC_RESERVED_MASK       ) ;
+    convert( MQENC_INTEGER_UNDEFINED   ) ;
+    convert( MQENC_INTEGER_NORMAL      ) ;
+    convert( MQENC_INTEGER_REVERSED    ) ;
+  //convert( MQENC_DECIMAL_UNDEFINED   ) ;
+    convert( MQENC_DECIMAL_NORMAL      ) ;
+    convert( MQENC_DECIMAL_REVERSED    ) ;
+  //convert( MQENC_FLOAT_UNDEFINED     ) ;
+    convert( MQENC_FLOAT_IEEE_NORMAL   ) ;
+    convert( MQENC_FLOAT_IEEE_REVERSED ) ;
+    convert( MQENC_FLOAT_S390          ) ;
+    convert( MQENC_FLOAT_TNS           ) ;
+  }
+
+  return "UNKNOWN MQ ENCONDING" ;
+}
+
+/******************************************************************************/
+/* mq CCSID to string                                          */
+/******************************************************************************/
+const char* mqCCSID2str( int id )
+{
+  switch( id )
+  {
+  //convert( MQCCSI_UNDEFINED  );
+  //convert( MQCCSI_DEFAULT    );
+    convert( MQCCSI_Q_MGR      );
+    convert( MQCCSI_INHERIT    );
+    convert( MQCCSI_EMBEDDED   );
+  }
+
+  return "UNKNOWN MQ CCSID" ;
+}
+
+/******************************************************************************/
+/* mq priority to string                                  */
+/******************************************************************************/
+const char* mqPriority2str( int id )
+{
+  switch( id )
+  {
+    convert( MQPRI_PRIORITY_AS_Q_DEF     ) ;
+    convert( MQPRI_PRIORITY_AS_PARENT    ) ;
+    convert( MQPRI_PRIORITY_AS_PUBLISHED ) ;
+  //convert( MQPRI_PRIORITY_AS_TOPIC_DEF ) ;
+    case 0 : return "0" ;
+    case 1 : return "1" ;
+    case 2 : return "2" ;
+    case 3 : return "3" ;
+    case 4 : return "4" ;
+    case 5 : return "5" ;
+    case 6 : return "6" ;
+    case 7 : return "7" ;
+    case 8 : return "8" ;
+    case 9 : return "9" ;
+  }
+
+  return "UNKNOWN MQ PRIORITY" ;
+}
+
+/******************************************************************************/
+/* mq persitance to string                      */
+/******************************************************************************/
+const char* mqPersistence2str( int id )
+{
+  switch( id )
+  {
+    convert( MQPER_PERSISTENCE_AS_PARENT    ) ;
+    convert( MQPER_NOT_PERSISTENT           ) ;
+    convert( MQPER_PERSISTENT               ) ;
+    convert( MQPER_PERSISTENCE_AS_Q_DEF     ) ;
+  //convert( MQPER_PERSISTENCE_AS_TOPIC_DEF ) ;
+  }
+
+  return "UNKNOWN MQ PERSISTENCE" ;
+}
+
+/******************************************************************************/
+/* mq put application type to string                  */
+/******************************************************************************/
+const char* mqPutApplType2str( int id )
+{
+  switch( id )
+  {
+    convert( MQAT_UNKNOWN           );
+    convert( MQAT_NO_CONTEXT        );
+    convert( MQAT_CICS              );
+    convert( MQAT_MVS               );
+    convert( MQAT_OS390             );
+    convert( MQAT_ZOS               );
+    convert( MQAT_IMS               );
+    convert( MQAT_OS2               );
+    convert( MQAT_DOS               );
+    convert( MQAT_AIX               );
+    convert( MQAT_UNIX              );
+    convert( MQAT_QMGR              );
+    convert( MQAT_OS400             );
+    convert( MQAT_WINDOWS           );
+    convert( MQAT_CICS_VSE          );
+    convert( MQAT_WINDOWS_NT        );
+    convert( MQAT_VMS               );
+    convert( MQAT_GUARDIAN          );
+    convert( MQAT_NSK               );
+    convert( MQAT_VOS               );
+    convert( MQAT_OPEN_TP1          );
+    convert( MQAT_VM                );
+    convert( MQAT_IMS_BRIDGE        );
+    convert( MQAT_XCF               );
+    convert( MQAT_CICS_BRIDGE       );
+    convert( MQAT_NOTES_AGENT       );
+    convert( MQAT_TPF               );
+    convert( MQAT_USER              );
+    convert( MQAT_BROKER            );
+    convert( MQAT_QMGR_PUBLISH      );
+    convert( MQAT_JAVA              );
+    convert( MQAT_DQM               );
+    convert( MQAT_CHANNEL_INITIATOR );
+    convert( MQAT_WLM               );
+    convert( MQAT_BATCH             );
+    convert( MQAT_RRS_BATCH         );
+    convert( MQAT_SIB               );
+    convert( MQAT_SYSTEM_EXTENSION  );
+    convert( MQAT_DEFAULT           );
+    convert( MQAT_USER_FIRST        );
+    convert( MQAT_USER_LAST         );
+  }
+
+  return "UNKNOWN MQ PUT APPL TYPE" ;
 }
