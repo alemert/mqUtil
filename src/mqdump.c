@@ -58,6 +58,7 @@ int  _gDmpMsgIx ;                // index for line in dump buffer
 #define F_MQCHAR48  "%-48.48s"    // dump format for MQCHAR48
 #define F_MQCHARV   "%-48.20s"    // dump format for MQCHARV dummy
 #define F_MQLONG    "%.10d"       // dump format for MQLONG
+#define F_MQHMSG    "%.10d"       // dump format for MQHMSG
 #define F_MQBYTE24     24         // length of hex string
 #define F_MQBYTE32     32         // length of hex string
 #define F_MQBYTE40     40         // length of hex string
@@ -101,7 +102,7 @@ void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
 
   if( memcmp( _type, MQPMO_STRUC_ID, 4 ) == 0 )
   {
-    mqPutMsgOpt2str( (PMQPMO) _pStruct ) ;
+    dumpMqPutMsgOpt( (PMQPMO) _pStruct ) ;
     goto _output ; 
   }
 
@@ -464,7 +465,7 @@ void dumpMqMsgDscr(  const PMQMD md )
   // -------------------------------------------------------
   // msg dscr version 2 or higher
   // -------------------------------------------------------
-  if( md->Version > MQMD_VERSION_1 ) goto _door ;
+  if( md->Version < MQMD_VERSION_2 ) goto _door ;
 
   setDumpItemByte(  F_MQBYTE24        , 
                    "Group identifier" , 
@@ -508,42 +509,87 @@ void dumpMqPutMsgOpt(  const PMQPMO pmo )
                   "Structure version"    ,
                   (char*) mqpmoVer2str(pmo->Version) );
 
-  setDumpItemStr(  F_STR          ,
-                  "MQPUT Options" ,
-                  (char*) mqPutMsgOpt2str(pmo->Options) );
+  setDumpItemInt(  F_MQLONG          ,
+                  "MQPUT Options"  ,
+                   pmo->Options    );
 
-#if(0)
-   MQLONG    Timeout;            /* Reserved */
-   MQHOBJ    Context;            /* Object handle of input queue */
-   MQLONG    KnownDestCount;     /* Number of messages sent
-                                    successfully to local queues */
-   MQLONG    UnknownDestCount;   /* Number of messages sent
-                                    successfully to remote queues */
-   MQLONG    InvalidDestCount;   /* Number of messages that could not
-                                    be sent */
-   MQCHAR48  ResolvedQName;      /* Resolved name of destination
-                                    queue */
-   MQCHAR48  ResolvedQMgrName;   /* Resolved name of destination queue
-                                    manager */
-   /* Ver:1 */
-   MQLONG    RecsPresent;        /* Number of put message records or
-                                    response records present */
-   MQLONG    PutMsgRecFields;    /* Flags indicating which MQPMR fields
-                                    are present */
-   MQLONG    PutMsgRecOffset;    /* Offset of first put message record
-                                    from start of MQPMO */
-   MQLONG    ResponseRecOffset;  /* Offset of first response record
-                                    from start of MQPMO */
-   MQPTR     PutMsgRecPtr;       /* Address of first put message
-                                    record */
-   MQPTR     ResponseRecPtr;     /* Address of first response record */
-   /* Ver:2 */
-   MQHMSG    OriginalMsgHandle;  /* Original message handle */
-   MQHMSG    NewMsgHandle;       /* New message handle */
-   MQLONG    Action;             /* The action being performed */
-   MQLONG    PubLevel;           /* Publication level */
-   /* Ver:3 */
-#endif
+  setDumpItemInt(  F_MQLONG           ,
+                  "Timout Reserved" ,
+                   pmo->Timeout     );
+
+  setDumpItemInt(  F_MQLONG     ,
+                  "Obj handle"  ,
+                   pmo->Context );      
+
+  setDumpItemInt(  F_MQLONG         ,
+                  "Nr of msgs put on qlocal" ,
+                   pmo->KnownDestCount );
+
+  setDumpItemInt(  F_MQLONG                   ,
+                  "Nr of msgs put on qremote" ,
+                   pmo->UnknownDestCount      );
+
+  setDumpItemInt(  F_MQLONG              ,
+                  "Nr of puts failed"    ,
+                   pmo->InvalidDestCount );
+                                   
+ 
+   setDumpItemStr(  F_MQCHAR48           ,
+                   "Resolved queue name" ,
+                    pmo->ResolvedQName   ) ;
+
+   setDumpItemStr(  F_MQCHAR48            ,
+                   "Resolved qmgr name"   ,
+                    pmo->ResolvedQMgrName ) ;
+
+  // -------------------------------------------------------
+  // msg dscr version 2 or higher
+  // -------------------------------------------------------
+  if( pmo->Version < MQPMO_VERSION_2 ) goto _door ;
+
+  setDumpItemInt(  F_MQLONG                    ,
+                  "Nr of put or response records present" ,
+                   pmo->RecsPresent ); 
+
+  setDumpItemInt(  F_MQLONG             ,
+                  "MQPMR flags"         ,
+                   pmo->PutMsgRecFields );
+   
+  setDumpItemInt(  F_MQLONG                   ,
+                  "Offset of 1st put record from MQPMO" ,
+                   pmo->PutMsgRecOffset );    
+
+  setDumpItemInt(  F_MQLONG                   ,
+                  "Offset of 1st response record from MQPMO" ,
+                   pmo->ResponseRecOffset );  
+
+  setDumpItemPtr(  F_MQPTR,     
+                  "Address of first put message"  ,
+                   pmo->PutMsgRecPtr );       
+                   
+  setDumpItemPtr(  F_MQPTR,     
+                  "Address of first response record"  ,
+                   pmo->ResponseRecPtr  );     
+  
+  // -------------------------------------------------------
+  // msg dscr version 3 or higher
+  // -------------------------------------------------------
+  if( pmo->Version < MQPMO_VERSION_3 ) goto _door ;
+    
+   setDumpItemInt( F_MQHMSG  ,
+                  "Original message handle" ,
+                   pmo->OriginalMsgHandle );
+   setDumpItemInt( F_MQHMSG             ,
+                  "New message handle"  ,
+                   pmo->NewMsgHandle    );  
+
+  setDumpItemInt(  F_MQLONG                    ,
+                  "The action being performed" ,
+                   pmo->Action                 );             
+
+  setDumpItemInt(  F_MQLONG           ,
+                  "Publication level" ,
+                   pmo->PubLevel      );
 
   _door :
 

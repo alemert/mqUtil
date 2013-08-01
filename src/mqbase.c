@@ -4,9 +4,10 @@
 /*                                                                            */
 /*  funstions:                                                                */
 /*    - mqConn                                                                */
-/*    - mqDisc                                                  */
-/*    - mqOpenObject                                    */
-/*    - mqPut                              */
+/*    - mqDisc                                                                */
+/*    - mqOpenObject                                              */
+/*    - mqCloseObject                    */
+/*    - mqPut                                                      */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -302,19 +303,19 @@ int mqPut( MQHCONN _hConn      ,         // connection handle
          &compCode   ,                        // completion code
          &reason     );                       // reason code
                                               //
-//dumpMqStruct( "MQPMO", _pPutMsgOpt, NULL ); //
+  dumpMqStruct( "PMO  ", _pPutMsgOpt, NULL ); //
   dumpMqStruct( "MD   ", _msgDscr   , NULL ); //
                                               //
   if( compCode == MQCC_FAILED )               //
   {                                           //
     logMQCall( ERR, "MQPUT", reason ) ;       //
-    goto _door ;                      //
-  }                                   //
-                                    //
-  logMQCall( INF, "MQPUT", reason ) ;      //
-                                      //
-  _door :                                    //
-                                             //
+    goto _door ;                              //
+  }                                           //
+                                              //
+  logMQCall( INF, "MQPUT", reason ) ;         //
+                                              //
+  _door :                                     //
+                                              //
   logFuncExit() ;
 
   return reason ;
