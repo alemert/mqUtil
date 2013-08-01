@@ -7,12 +7,13 @@
 /*   - mqodVer2str                                                            */
 /*   - mqReportOption2str                                                     */
 /*   - mqMsgTypeId2Str                                                        */
-/*   - mqFeedback2str                                                  */
-/*   - mqEncondig2str                            */
-/*   - mqCCSID2str                          */
-/*   - mqPriority2str                      */ 
-/*   - mqPersistence2str                  */
-/*   - mqPutApplType2str                        */
+/*   - mqFeedback2str                                                         */
+/*   - mqEncondig2str                                    */
+/*   - mqCCSID2str                                  */
+/*   - mqPriority2str                              */ 
+/*   - mqPersistence2str                      */
+/*   - mqPutApplType2str                            */
+/*   - mqMsgFlag2str                        */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -265,7 +266,7 @@ const char* mqEncondig2str( int id )
 }
 
 /******************************************************************************/
-/* mq CCSID to string                                          */
+/* mq CCSID to string                                                         */
 /******************************************************************************/
 const char* mqCCSID2str( int id )
 {
@@ -282,7 +283,7 @@ const char* mqCCSID2str( int id )
 }
 
 /******************************************************************************/
-/* mq priority to string                                  */
+/* mq priority to string                                              */
 /******************************************************************************/
 const char* mqPriority2str( int id )
 {
@@ -308,7 +309,7 @@ const char* mqPriority2str( int id )
 }
 
 /******************************************************************************/
-/* mq persitance to string                      */
+/* mq persitance to string                                  */
 /******************************************************************************/
 const char* mqPersistence2str( int id )
 {
@@ -325,7 +326,7 @@ const char* mqPersistence2str( int id )
 }
 
 /******************************************************************************/
-/* mq put application type to string                  */
+/* mq put application type to string                                          */
 /******************************************************************************/
 const char* mqPutApplType2str( int id )
 {
@@ -334,13 +335,13 @@ const char* mqPutApplType2str( int id )
     convert( MQAT_UNKNOWN           );
     convert( MQAT_NO_CONTEXT        );
     convert( MQAT_CICS              );
-    convert( MQAT_MVS               );
-    convert( MQAT_OS390             );
+  //convert( MQAT_MVS               );
+  //convert( MQAT_OS390             );
     convert( MQAT_ZOS               );
     convert( MQAT_IMS               );
     convert( MQAT_OS2               );
     convert( MQAT_DOS               );
-    convert( MQAT_AIX               );
+   //onvert( MQAT_AIX               );
     convert( MQAT_UNIX              );
     convert( MQAT_QMGR              );
     convert( MQAT_OS400             );
@@ -349,7 +350,7 @@ const char* mqPutApplType2str( int id )
     convert( MQAT_WINDOWS_NT        );
     convert( MQAT_VMS               );
     convert( MQAT_GUARDIAN          );
-    convert( MQAT_NSK               );
+  //convert( MQAT_NSK               );
     convert( MQAT_VOS               );
     convert( MQAT_OPEN_TP1          );
     convert( MQAT_VM                );
@@ -360,7 +361,7 @@ const char* mqPutApplType2str( int id )
     convert( MQAT_TPF               );
     convert( MQAT_USER              );
     convert( MQAT_BROKER            );
-    convert( MQAT_QMGR_PUBLISH      );
+  //convert( MQAT_QMGR_PUBLISH      );
     convert( MQAT_JAVA              );
     convert( MQAT_DQM               );
     convert( MQAT_CHANNEL_INITIATOR );
@@ -369,10 +370,32 @@ const char* mqPutApplType2str( int id )
     convert( MQAT_RRS_BATCH         );
     convert( MQAT_SIB               );
     convert( MQAT_SYSTEM_EXTENSION  );
-    convert( MQAT_DEFAULT           );
+  //convert( MQAT_DEFAULT           );
     convert( MQAT_USER_FIRST        );
     convert( MQAT_USER_LAST         );
   }
 
   return "UNKNOWN MQ PUT APPL TYPE" ;
+}
+
+/******************************************************************************/
+/* mq message flag to string                  */
+/******************************************************************************/
+const char* mqMsgFlag2str( int id )
+{
+  switch( id )
+  {
+  //convert( MQMF_SEGMENTATION_INHIBITED    );
+    convert( MQMF_SEGMENTATION_ALLOWED      );
+    convert( MQMF_MSG_IN_GROUP              );
+    convert( MQMF_LAST_MSG_IN_GROUP         );
+    convert( MQMF_SEGMENT                   );
+    convert( MQMF_LAST_SEGMENT              );
+    convert( MQMF_NONE                      );
+    convert( MQMF_REJECT_UNSUP_MASK         );
+    convert( MQMF_ACCEPT_UNSUP_MASK         );
+    convert( MQMF_ACCEPT_UNSUP_IF_XMIT_MASK );
+  }
+
+  return "UNKNOWN MQ MESSAGE FLAG" ;
 }

@@ -39,3 +39,4 @@ const char* mqCCSID2str(        int id );
 const char* mqPriority2str(     int id );
 const char* mqPersistence2str(  int id );
 const char* mqPutApplType2str(  int id );
+const char* mqMsgFlag2str(      int id );

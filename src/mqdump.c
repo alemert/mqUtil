@@ -52,6 +52,7 @@ int  _gDmpMsgIx ;                // index for line in dump buffer
 #define F_MQCHAR4   "%-48.4s"     // dump format for MQCHAR4
 #define F_MQCHAR8   "%-48.8s"     // dump format for MQCHAR8
 #define F_MQCHAR12  "%-48.12"     // dump format for MQCHAR12
+#define F_MQCHAR28  "%-48.28s"    // dump format for MQCHAR28
 #define F_MQCHAR32  "%-48.32s"    // dump format for MQCHAR32
 #define F_MQCHAR48  "%-48.48s"    // dump format for MQCHAR48
 #define F_MQCHARV   "%-48.20s"    // dump format for MQCHARV dummy
@@ -356,125 +357,119 @@ void dumpMqObjDscr(  const PMQOD od )
 void dumpMqMsgDscr(  const PMQMD md )
 {
   _gDmpMsgIx = 0 ;  
-
-  setDumpItemStr(  F_MQCHAR4                                     ,
-                  "Structure identifier"                         ,
-                   md->StrucId                                   );           
-
-   setDumpItemStr(  F_STR                                        ,
-                   "Structure version"                           ,
-                   (char*) mqmdVer2str(md->Version)              );
-
-   setDumpItemStr(  F_STR                                        ,
-                   "Report msgs options"                         ,
-                   (char*) mqReportOption2str(md->Report)        );
-
-   setDumpItemStr(  F_STR                                        ,
-                   "Msg type"                                    ,
-                   (char*) mqMsgType2str(md->MsgType)            );           
-
-   setDumpItemInt(  F_MQLONG                                     ,
-                   "Msg lifetime"                                ,
-                    md->Expiry                                   );
-
-   setDumpItemStr(  F_STR                                        ,
-                   "Feedback code"                               ,
-                   (char*) mqFeedback2str( md->Feedback)         );
-
-   setDumpItemStr(  F_STR                                        ,
-                   "Msg data numeric encoding"                   ,
-                   (char*) mqEncondig2str( md->Encoding )        );
-
-   setDumpItemStr(  F_STR                                        ,
-                   "Msg data CCSID"                              ,
-                   (char*) mqCCSID2str( md->CodedCharSetId)      );
   
-   setDumpItemStr(  F_MQCHAR8                                    ,
-                   "Msg data Format name"                        ,
-                    md->Format                                   );            
+  setDumpItemStr(  F_MQCHAR4                              ,
+                  "Structure identifier"                  ,
+                   md->StrucId                            );           
+
+  setDumpItemStr(  F_STR                                 ,
+                  "Structure version"                    ,
+                  (char*) mqmdVer2str(md->Version)       );
+
+  setDumpItemStr(  F_STR                                 ,
+                  "Report msgs options"                  ,
+                   (char*) mqReportOption2str(md->Report) );
+
+  setDumpItemStr(  F_STR                                 ,
+                   "Msg type"                             ,
+                   (char*) mqMsgType2str(md->MsgType)     );           
+
+  setDumpItemInt(  F_MQLONG                              ,
+                  "Msg lifetime"                         ,
+                   md->Expiry                            );
+
+  setDumpItemStr(  F_STR                                 ,
+                  "Feedback code"                        ,
+                  (char*) mqFeedback2str( md->Feedback)  );
+
+  setDumpItemStr(  F_STR                                 ,
+                  "Msg data numeric encoding"            ,
+                  (char*) mqEncondig2str( md->Encoding ) );
+
+  setDumpItemStr(  F_STR                                   ,
+                  "Msg data CCSID"                         ,
+                  (char*) mqCCSID2str( md->CodedCharSetId) );
+  
+  setDumpItemStr(  F_MQCHAR8                               ,
+                  "Msg data Format name"                   ,
+                   md->Format                              );            
     
-   setDumpItemStr(  F_STR                                        ,
-                   "Message priority"                            ,
-                   (char*)mqPriority2str(md->Priority)           );          
+  setDumpItemStr(  F_STR                                   ,
+                  "Message priority"                       ,
+                  (char*)mqPriority2str(md->Priority)      );          
       
-   setDumpItemStr(  F_STR                                        ,
-                   "Message persistence"                         ,
-                   (char*)mqPersistence2str(md->Persistence)     );
+  setDumpItemStr(  F_STR                                    ,
+                  "Message persistence"                     ,
+                  (char*)mqPersistence2str(md->Persistence) );
       
-  setDumpItemByte(  F_MQBYTE24                                   ,
-                   "Message identifier"                          ,
-                    md->MsgId                                    );
+  setDumpItemByte(  F_MQBYTE24                               ,
+                   "Message identifier"                      ,
+                    md->MsgId                                );
       
-  setDumpItemByte(  F_MQBYTE24                                   ,
-                   "Correlation identifier"                      ,
-                    md->CorrelId                                 );
+  setDumpItemByte(  F_MQBYTE24                               ,
+                   "Correlation identifier"                  ,
+                    md->CorrelId                             );
       
-   setDumpItemInt(  F_MQLONG                                     ,
-                   "Backout counter"                             ,
-                    md->BackoutCount                             );
+  setDumpItemInt(  F_MQLONG                                 ,
+                  "Backout counter"                         ,
+                   md->BackoutCount                         );
     
-   setDumpItemStr(  F_MQCHAR48                                   ,
-                   "Name of reply queue"                         ,
-                    md->ReplyToQ                                 );
+  setDumpItemStr(  F_MQCHAR48                               ,
+                  "Name of reply queue"                     ,
+                   md->ReplyToQ                             );
     
-   setDumpItemStr(  F_MQCHAR48                                   ,
-                   "Name of reply qmgr"                          ,
-                    md->ReplyToQMgr                              );
+  setDumpItemStr(  F_MQCHAR48                               ,
+                  "Name of reply qmgr"                      ,
+                   md->ReplyToQMgr                          );
      
-   setDumpItemStr(  F_MQCHAR12                                   ,
-                   "User identifier"                             ,
-                    md->UserIdentifier                           );
+  setDumpItemStr(  F_MQCHAR12                               ,
+                  "User identifier"                         ,
+                   md->UserIdentifier                       );
     
-  setDumpItemByte(  F_MQBYTE32                                   ,
-                   "Accounting token"                            ,
-                    md->AccountingToken                          );
+  setDumpItemByte(  F_MQBYTE32                               ,
+                   "Accounting token"                        ,
+                    md->AccountingToken                      );
     
-   setDumpItemStr(  F_MQCHAR32                                   ,
-                   "Appl data relating identity"                 ,
-                    md->ApplIdentityData                         );
+  setDumpItemStr(  F_MQCHAR32                               ,
+                  "Appl data relating identity"             ,
+                   md->ApplIdentityData                     );
   
-   setDumpItemStr(  F_STR                                        ,
-                   "Appl Put Type"                               ,
-                   (char*) mqPutApplType2str( md->PutApplType ) );
+  setDumpItemStr(  F_STR                                     ,
+                  "Appl Put Type"                            ,
+                  (char*) mqPutApplType2str( md->PutApplType ) );
+
+  setDumpItemStr(  F_MQCHAR28            ,
+                  "Putting appl name"    ,
+                   md->PutApplName           );       
+
+  setDumpItemStr(  F_MQCHAR8             ,
+                  "Put Date"             ,
+                   md->PutDate             );
+    
+  setDumpItemStr(  F_MQCHAR8             ,
+                  "Put time"             ,
+                   md->PutTime           );
+
+  setDumpItemStr(  F_MQCHAR4,
+                  "Appl data relating to origin" ,
+                   md->ApplOriginData            );
+
+     
+// if( md->Version > MQMD_VERSION_1) goto _door ;
+
+   setDumpItemByte( F_MQBYTE24, "Group identifier", md->GroupId );
+
+   setDumpItemInt(  F_MQLONG                       , 
+                   "SeqNr of logical msg in group" , 
+                    md->MsgSeqNumber               );
+
+   setDumpItemInt( F_MQLONG, "PhysMsg Offset from logic start", md->Offset );
+
+   setDumpItemStr( F_STR, "Message flags", (char*)mqMsgFlag2str(md->MsgFlags) );
+
+   setDumpItemInt( F_MQLONG, "Length of original message", md->OriginalLength );
 
 #if(0)
-  F_MQCHAR28  
-PutApplName;       
-"Name of application that put the message"
-
-  F_MQCHAR8   
-PutDate;           
-"Date when message was put"
-
-  F_MQCHAR8   
-PutTime;           
-"Time when message was put"
-
-  F_MQCHAR4   
-ApplOriginData;    
-"Application data relating to origin"
-
-   /* Ver:1 */
-  F_MQBYTE24  
-GroupId;           
-"Group identifier"
-
-  F_MQLONG    
-MsgSeqNumber;      
-"Sequence number of logical message within group"
-
-  F_MQLONG    
-Offset;            
-"Offset of data in physical message from start of logical message"
-
-  F_MQLONG    
-MsgFlags;          
-"Message flags"
-
-  F_MQLONG    
-OriginalLength;    
-"Length of original message"
-
    /* Ver:2 */
 #endif
 
