@@ -5,15 +5,16 @@
 /*   - mqObjType2str                                                          */
 /*   - mqmdVer2str                                                            */
 /*   - mqodVer2str                                                            */
+/*   - mqpmoVer2str                        */
 /*   - mqReportOption2str                                                     */
 /*   - mqMsgTypeId2Str                                                        */
 /*   - mqFeedback2str                                                         */
-/*   - mqEncondig2str                                    */
-/*   - mqCCSID2str                                  */
-/*   - mqPriority2str                              */ 
-/*   - mqPersistence2str                      */
-/*   - mqPutApplType2str                            */
-/*   - mqMsgFlag2str                        */
+/*   - mqEncondig2str                                              */
+/*   - mqCCSID2str                                          */
+/*   - mqPriority2str                                      */ 
+/*   - mqPersistence2str                            */
+/*   - mqPutApplType2str                                  */
+/*   - mqMsgFlag2str                                  */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -83,6 +84,20 @@ const char* mqmdVer2str( int id )
     convert( MQMD_VERSION_2 ) ;
   }
   return "UNKNOWN MQMD VERSION" ;
+}
+
+/******************************************************************************/
+/* mq message put message options to string                                   */
+/******************************************************************************/
+const char* mqpmoVer2str( int id )
+{
+  switch( id )
+  {
+    convert( MQPMO_VERSION_1 ) ;
+    convert( MQPMO_VERSION_2 ) ;
+    convert( MQPMO_VERSION_3 ) ;
+  }
+  return "UNKNOWN MQPMO VERSION" ;
 }
 
 /******************************************************************************/
@@ -283,7 +298,7 @@ const char* mqCCSID2str( int id )
 }
 
 /******************************************************************************/
-/* mq priority to string                                              */
+/* mq priority to string                                                      */
 /******************************************************************************/
 const char* mqPriority2str( int id )
 {
@@ -309,7 +324,7 @@ const char* mqPriority2str( int id )
 }
 
 /******************************************************************************/
-/* mq persitance to string                                  */
+/* mq persitance to string                                                    */
 /******************************************************************************/
 const char* mqPersistence2str( int id )
 {
@@ -379,7 +394,7 @@ const char* mqPutApplType2str( int id )
 }
 
 /******************************************************************************/
-/* mq message flag to string                  */
+/* mq message flag to string                                    */
 /******************************************************************************/
 const char* mqMsgFlag2str( int id )
 {
@@ -395,6 +410,44 @@ const char* mqMsgFlag2str( int id )
     convert( MQMF_REJECT_UNSUP_MASK         );
     convert( MQMF_ACCEPT_UNSUP_MASK         );
     convert( MQMF_ACCEPT_UNSUP_IF_XMIT_MASK );
+  }
+
+  return "UNKNOWN MQ MESSAGE FLAG" ;
+}
+
+/******************************************************************************/
+/* mq put msg options to string              */
+/******************************************************************************/
+const char* mqPutMsgOpt2str( int id )
+{
+  switch( id )
+  {
+    convert( MQPMO_SYNCPOINT                );
+    convert( MQPMO_NO_SYNCPOINT             );
+    convert( MQPMO_DEFAULT_CONTEXT          );
+    convert( MQPMO_NEW_MSG_ID               );
+    convert( MQPMO_NEW_CORREL_ID            );
+    convert( MQPMO_PASS_IDENTITY_CONTEXT    );
+    convert( MQPMO_PASS_ALL_CONTEXT         );
+    convert( MQPMO_SET_IDENTITY_CONTEXT     );
+    convert( MQPMO_SET_ALL_CONTEXT          );
+    convert( MQPMO_ALTERNATE_USER_AUTHORITY );
+    convert( MQPMO_FAIL_IF_QUIESCING        );
+    convert( MQPMO_NO_CONTEXT               );
+    convert( MQPMO_LOGICAL_ORDER            );
+    convert( MQPMO_ASYNC_RESPONSE           );
+    convert( MQPMO_SYNC_RESPONSE            );
+    convert( MQPMO_RESOLVE_LOCAL_Q          );
+    convert( MQPMO_WARN_IF_NO_SUBS_MATCHED  );
+    convert( MQPMO_RETAIN                   );
+    convert( MQPMO_MD_FOR_OUTPUT_ONLY       );
+    convert( MQPMO_SCOPE_QMGR               );
+    convert( MQPMO_SUPPRESS_REPLYTO         );
+    convert( MQPMO_NOT_OWN_SUBS             );
+  //convert( MQPMO_RESPONSE_AS_Q_DEF        );
+  //convert( MQPMO_RESPONSE_AS_TOPIC_DEF    );
+    convert( MQPMO_NONE                     );
+  //convert( MQPMO_PUB_OPTIONS_MASK         );
   }
 
   return "UNKNOWN MQ MESSAGE FLAG" ;

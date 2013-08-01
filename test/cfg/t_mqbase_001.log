@@ -1,7 +1,7 @@
-2013-07-31 11:08:00  30754 01104 INF logging mq call MQCONN with: MQRC_NONE
+2013-08-01 08:50:08  18043 01104 INF logging mq call MQCONN with: MQRC_NONE
                                      mqConn() in src/mqbase.c (line: 00080)
-2013-07-31 11:08:00  30754 00005 DBG Memory dump start for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00106)
+2013-08-01 08:50:08  18043 00005 DBG Memory dump start for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00110)
   ==============================:==============================
   Structure identifier          :OD                            
   Structure version             :MQOD_VERSION_1                
@@ -11,9 +11,9 @@
   Dynamic queue name            :AMQ.*                         
   Alternate user id             :                              
   ==============================:==============================
-2013-07-31 11:08:00  30754 00005 DBG Memory dump start for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00106)
-2013-07-31 11:08:00  30754 01104 INF logging mq call MQOPEN with: MQRC_NONE
+2013-08-01 08:50:08  18043 00005 DBG Memory dump start for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00110)
+2013-08-01 08:50:08  18043 01104 INF logging mq call MQOPEN with: MQRC_NONE
                                      mqOpenObject() in src/mqbase.c (line: 00193)
-2013-07-31 11:08:00  30754 01104 INF logging mq call MQCONN with: MQRC_NONE
+2013-08-01 08:50:08  18043 01104 INF logging mq call MQDISC with: MQRC_NONE
                                      mqDisc() in src/mqbase.c (line: 00114)

@@ -3,5 +3,8 @@
 # TEST START mqOpenObject >>open queue          << test/src/t_mqbase_002.c(0066)
 # TEST OK    mqOpenObject >>open queue          << test/src/t_mqbase_002.c(0066)
 # TEST START mqPut      >>put message err     << test/src/t_mqbase_002.c(0076)
-# TEST ERR   mqPut      >>put message err     << test/src/t_mqbase_002.c(0076)
-              rcReal:  2173 rcGoal: 000
+# TEST OK    mqPut      >>put message err     << test/src/t_mqbase_002.c(0076)
+# TEST START mqCloseObject >>close queue         << test/src/t_mqbase_002.c(0082)
+# TEST OK    mqCloseObject >>close queue         << test/src/t_mqbase_002.c(0082)
+# TEST START mqDisc     >>disconnect qmgr     << test/src/t_mqbase_002.c(0087)
+# TEST OK    mqDisc     >>disconnect qmgr     << test/src/t_mqbase_002.c(0087)

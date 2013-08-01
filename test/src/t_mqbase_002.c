@@ -43,7 +43,7 @@ int main( int argc, const char** argv )
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
-  // some test
+  // put test
   // -------------------------------------------------------
 #if(1)
   doIntTest( "connect qmgr"       , \
@@ -51,7 +51,6 @@ int main( int argc, const char** argv )
               mqConn              , \
              "TEST"               , \
               &hConn              ) ;
-
 
   memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
   memcpy( odQueue.ObjectName, "TEST.MQBASE", MQ_Q_NAME_LENGTH ) ;
@@ -61,19 +60,71 @@ int main( int argc, const char** argv )
               mqOpenObject        , \
               hConn               , \
               &odQueue            , \
+              MQOO_OUTPUT           |
               MQOO_INPUT_AS_Q_DEF   |
               MQOO_FAIL_IF_QUIESCING,
               &ohQueue            ) ;
 
   doIntTest( "put message err" ,
-              0      ,
-              mqPut  ,
+              0       ,
+              mqPut   ,
               hConn   ,
               ohQueue ,
-              &md  ,
-              NULL  ,
+              &md     ,
+              NULL     ,
               "hello world",
               0 ) ;
+
+  doIntTest( "close queue"  ,
+              0             ,
+              mqCloseObject ,
+              hConn         ,
+              &ohQueue      ) ;
+
+  doIntTest( "disconnect qmgr"    , \
+              0                   , \
+              mqDisc              , \
+              &hConn              ) ;
+#endif
+
+  // -------------------------------------------------------
+  // get test
+  // -------------------------------------------------------
+#if(0)
+  doIntTest( "connect qmgr"       , \
+              0                   , \
+              mqConn              , \
+             "TEST"               , \
+              &hConn              ) ;
+
+  memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
+  memcpy( odQueue.ObjectName, "TEST.MQBASE", MQ_Q_NAME_LENGTH ) ;
+
+  doIntTest( "open queue"         , \
+              0                   , \
+              mqOpenObject        , \
+              hConn               , \
+              &odQueue            , \
+              MQOO_OUTPUT           |
+              MQOO_INPUT_AS_Q_DEF   |
+              MQOO_FAIL_IF_QUIESCING,
+              &ohQueue            ) ;
+
+  doIntTest( "get message err" ,
+              0       ,
+              mqGet   ,
+              hConn   ,
+              ohQueue ,
+              &md     ,
+              NULL     ,
+              "hello world",
+              0 ) ;
+
+  doIntTest( "close queue"  ,
+              0             ,
+              mqCloseObject ,
+              hConn         ,
+              &ohQueue      ) ;
 
   doIntTest( "disconnect qmgr"    , \
               0                   , \

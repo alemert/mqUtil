@@ -1,6 +1,6 @@
-2013-07-09 22:09:41   7404 01104 INF logging mq call MQCONN with: MQRC_NONE
-                                     mqConn() in src/mqbase.c (line: 00078)
-2013-07-09 22:09:41   7404 01104 INF logging mq call MQCONN with: MQRC_NONE
-                                     mqDisc() in src/mqbase.c (line: 00112)
-2013-07-09 22:09:41   7404 01101 ERR mq call MQCONN failed with: MQRC_HCONN_ERROR
-                                     mqDisc() in src/mqbase.c (line: 00107)
+2013-08-01 08:49:53  17863 01104 INF logging mq call MQCONN with: MQRC_NONE
+                                     mqConn() in src/mqbase.c (line: 00080)
+2013-08-01 08:49:53  17863 01104 INF logging mq call MQDISC with: MQRC_NONE
+                                     mqDisc() in src/mqbase.c (line: 00114)
+2013-08-01 08:49:53  17863 01101 ERR mq call MQCONN failed with: MQRC_HCONN_ERROR
+                                     mqDisc() in src/mqbase.c (line: 00109)

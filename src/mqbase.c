@@ -100,9 +100,9 @@ int mqDisc( PMQHCONN pHconn )
   // -------------------------------------------------------
   // connect to queue manager
   // -------------------------------------------------------
-  MQDISC( (PMQHCONN) pHconn    ,  // pointer to connection handle
-                    &compCode ,  // completion code
-                    &reason  );  // reason code
+  MQDISC( (PMQHCONN) pHconn   ,    // pointer to connection handle
+                    &compCode ,    // completion code
+                    &reason  );    // reason code
 
   if( compCode == MQCC_FAILED )
   {
@@ -111,7 +111,7 @@ int mqDisc( PMQHCONN pHconn )
     goto _door ;
   }
 
- logMQCall( INF, "MQCONN", reason ) ;
+ logMQCall( INF, "MQDISC", reason ) ;
 
   _door :
   logFuncExit( ) ;
@@ -182,7 +182,6 @@ int mqOpenObject( MQHCONN hConn   , // connection handle
 
 
   dumpMqStruct( "OD  ", pObjDesc, NULL  ) ;
-//dumpMqObjDscr( pObjDesc ) ;
 
   if( compCode == MQCC_FAILED )
   {
@@ -200,7 +199,46 @@ int mqOpenObject( MQHCONN hConn   , // connection handle
 }
 
 /******************************************************************************/
-/*   M Q    P U T                                */
+/*   M Q   C L O S E   Q U E U E                                              */
+/* -------------------------------------------------------------------------- */
+/*   Dscr: close queue given by pHobj                                         */
+/******************************************************************************/
+int mqCloseObject( MQHCONN hConn   ,   // connection handle
+                   PMQHOBJ pHobj   )   // pointer to object handle
+{
+  logFuncCall() ;
+
+  MQLONG compCode ;                     // Completion code
+  MQLONG reason   ;                     // Reason code qualifying CompCode
+
+  // -------------------------------------------------------
+  // open mq object
+  // -------------------------------------------------------
+   MQCLOSE( hConn    ,        // connection handle
+            pHobj    ,        // object handle
+            MQCO_NONE ,       // options
+            &compCode,        // completion code
+            &reason );        // reason code
+
+  // -------------------------------------------------------
+  // check Return Code and log it into log file
+  // -------------------------------------------------------
+
+  if( compCode == MQCC_FAILED )
+  {
+    logMQCall( ERR, "MQCLOSE", reason ) ;
+    goto _door ;
+  }
+
+  logMQCall( INF, "MQCLOSE", reason ) ;
+
+  _door :
+
+  return (int) reason ;
+}
+
+/******************************************************************************/
+/*   M Q    P U T                                                             */
 /* -------------------------------------------------------------------------- */
 /*                                                                            */
 /*   Descrip: write messages to a queue                                       */
@@ -215,8 +253,7 @@ int mqPut( MQHCONN _hConn      ,         // connection handle
 {                                        //
   logFuncCall( ) ;
 
-  const MQPMO defPutMsgOpt ;            // Default Options controling MQPUT
-  MQPMO  putMsgOpt ;                    // Options controling MQPUT
+  MQPMO  putMsgOpt = {MQPMO_DEFAULT} ;  // Options controling MQPUT
                                         //
   MQLONG compCode ;                     // Completion code
   MQLONG reason   ;                     // Reason code qualifying CompCode
@@ -226,9 +263,7 @@ int mqPut( MQHCONN _hConn      ,         // connection handle
   // -------------------------------------------------------
   if( _pPutMsgOpt == NULL )                   //
   {                                           //
-    memcpy( &putMsgOpt     ,                  //
-            &defPutMsgOpt  ,                  //
-            sizeof(MQPMO) );                  // Options controling MQPUT
+    putMsgOpt.Options = MQPMO_NO_SYNCPOINT | MQPMO_FAIL_IF_QUIESCING ;
     _pPutMsgOpt = &putMsgOpt ;                //
                                               //
     memcpy( _msgDscr->MsgId          ,        // reset message id
@@ -255,8 +290,8 @@ int mqPut( MQHCONN _hConn      ,         // connection handle
   // -------------------------------------------------------
   // put a message to a queue
   // -------------------------------------------------------
-//dumpMqStruct( "MQPMO", _pPutMsgOpt, NULL ); //
-  dumpMqStruct( "MD  ", _msgDscr   , NULL ); //
+  dumpMqStruct( "PMO  ", _pPutMsgOpt, NULL ); //
+  dumpMqStruct( "MD   ", _msgDscr   , NULL ); //
                                               //
   MQPUT( _hConn      ,                        // connection handle
          _hQueue     ,                        // object handle
@@ -267,17 +302,17 @@ int mqPut( MQHCONN _hConn      ,         // connection handle
          &compCode   ,                        // completion code
          &reason     );                       // reason code
                                               //
-  dumpMqStruct( "MQPMO", _pPutMsgOpt, NULL ); //
-  dumpMqStruct( "MQMD ", _msgDscr   , NULL ); //
+//dumpMqStruct( "MQPMO", _pPutMsgOpt, NULL ); //
+  dumpMqStruct( "MD   ", _msgDscr   , NULL ); //
                                               //
   if( compCode == MQCC_FAILED )               //
-  {                                     //
-    logMQCall( ERR, "MQOPEN", reason ) ;     //
-    goto _door ;        //
-  }                         //
-                    //
-  logMQCall( INF, "MQOPEN", reason ) ;
-                        //
+  {                                           //
+    logMQCall( ERR, "MQPUT", reason ) ;       //
+    goto _door ;                      //
+  }                                   //
+                                    //
+  logMQCall( INF, "MQPUT", reason ) ;      //
+                                      //
   _door :                                    //
                                              //
   logFuncExit() ;
