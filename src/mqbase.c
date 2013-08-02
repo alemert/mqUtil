@@ -5,14 +5,16 @@
 /*  funstions:                                                                */
 /*    - mqConn                                                                */
 /*    - mqDisc                                                                */
-/*    - mqOpenObject                                              */
-/*    - mqCloseObject                    */
-/*    - mqPut                                                      */
+/*    - mqOpenObject                                                          */
+/*    - mqCloseObject                          */
+/*    - mqPut                                                              */
+/*    - mqGet                          */
 /******************************************************************************/
 
 /******************************************************************************/
 /*   I N C L U D E S                                                          */
 /******************************************************************************/
+#define C_MODULE_MQ_BASE
 
 // ---------------------------------------------------------
 // system
@@ -262,61 +264,157 @@ int mqPut( MQHCONN _hConn      ,         // connection handle
   // -------------------------------------------------------
   // set put messages options
   // -------------------------------------------------------
-  if( _pPutMsgOpt == NULL )                   //
-  {                                           //
-    putMsgOpt.Options = MQPMO_NO_SYNCPOINT | MQPMO_FAIL_IF_QUIESCING ;
-    _pPutMsgOpt = &putMsgOpt ;                //
-                                              //
-    memcpy( _msgDscr->MsgId          ,        // reset message id
-            MQMI_NONE                ,        //
-            sizeof(_msgDscr->MsgId) );        //
-                                              //
-    memcpy( _msgDscr->CorrelId          ,     // reset correlation id
-            MQCI_NONE                   ,     //
-            sizeof(_msgDscr->CorrelId) );     //
-                                              //
-    memcpy( _msgDscr->Format          ,       // character string format
-            MQFMT_STRING              ,       //
-            (size_t)MQ_FORMAT_LENGTH );       //
-  }                                           //
-                                              //
+  if( _pPutMsgOpt == NULL )                       //
+  {                                               //
+    putMsgOpt.Options = MQPMO_NO_SYNCPOINT      | //
+                        MQPMO_FAIL_IF_QUIESCING ; //
+    _pPutMsgOpt = &putMsgOpt ;                    //
+                                                  //
+    memcpy( _msgDscr->MsgId          ,            // reset message id
+            MQMI_NONE                ,            //
+            sizeof(_msgDscr->MsgId) );            //
+                                                  //
+    memcpy( _msgDscr->CorrelId          ,         // reset correlation id
+            MQCI_NONE                   ,         //
+            sizeof(_msgDscr->CorrelId) );         //
+                                                  //
+    memcpy( _msgDscr->Format          ,           // character string format
+            MQFMT_STRING              ,           //
+            (size_t)MQ_FORMAT_LENGTH );           //
+  }                                               //
+                                                  //
   // -------------------------------------------------------
   // set buffer length if neccesary
   // -------------------------------------------------------
-  if( _msgLng == 0 )                          //
-  {                                           //
-    _msgLng = (MQLONG) strlen( _buffer );     //
-  }                                           //
-                                              //
+  if( _msgLng == 0 )                              //
+  {                                               //
+    _msgLng = (MQLONG) strlen( _buffer );         //
+  }                                               //
+                                                  //
   // -------------------------------------------------------
   // put a message to a queue
   // -------------------------------------------------------
-  dumpMqStruct( "PMO  ", _pPutMsgOpt, NULL ); //
-  dumpMqStruct( "MD   ", _msgDscr   , NULL ); //
-                                              //
-  MQPUT( _hConn      ,                        // connection handle
-         _hQueue     ,                        // object handle
-         _msgDscr    ,                        // message descriptor
-         _pPutMsgOpt ,                        // default options (datagram)
-         _msgLng     ,                        // message length
-         _buffer     ,                        // message buffer
-         &compCode   ,                        // completion code
-         &reason     );                       // reason code
-                                              //
-  dumpMqStruct( "PMO  ", _pPutMsgOpt, NULL ); //
-  dumpMqStruct( "MD   ", _msgDscr   , NULL ); //
-                                              //
-  if( compCode == MQCC_FAILED )               //
-  {                                           //
-    logMQCall( ERR, "MQPUT", reason ) ;       //
-    goto _door ;                              //
-  }                                           //
-                                              //
-  logMQCall( INF, "MQPUT", reason ) ;         //
-                                              //
-  _door :                                     //
-                                              //
+  dumpMqStruct( "PMO  ", _pPutMsgOpt, NULL );     //
+  dumpMqStruct( "MD   ", _msgDscr   , NULL );     //
+                                                  //
+  MQPUT( _hConn      ,                            // connection handle
+         _hQueue     ,                            // object handle
+         _msgDscr    ,                            // message descriptor
+         _pPutMsgOpt ,                            // default options (datagram)
+         _msgLng     ,                            // message length
+         _buffer     ,                            // message buffer
+         &compCode   ,                            // completion code
+         &reason     );                           // reason code
+                                                  //
+  dumpMqStruct( "PMO  ", _pPutMsgOpt, NULL );     //
+  dumpMqStruct( "MD   ", _msgDscr   , NULL );     //
+                                                  //
+  // -------------------------------------------------------
+  // check Return Code and log it into log file
+  // -------------------------------------------------------
+  if( compCode == MQCC_FAILED )                   //
+  {                                               //
+    logMQCall( ERR, "MQPUT", reason ) ;           //
+    goto _door ;                                  //
+  }                                               //
+                                                  //
+  logMQCall( INF, "MQPUT", reason ) ;             //
+                                                  //
+  _door :                                         //
+                                                  //
   logFuncExit() ;
 
   return reason ;
 }
+
+/******************************************************************************/
+/*   M Q    G E T                                                             */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*   Descrip: read messages from the queue,                                   */
+/*            read options were set by calling mqOpen                         */
+/*                                                                            */
+/*   Comment:                                                                 */
+/*                                                                            */
+/******************************************************************************/
+int mqGet( MQHCONN _hConn     ,      // connection handle
+           MQHOBJ  _hQueue    ,      // pointer to queue handle
+           PMQVOID _buffer    ,      // message buffer
+           int     _bufLng    ,      // buffer length
+           PMQMD   _msgDscr   ,      // msg Desriptor
+           MQGMO   _getMsgOpt ,      // get message option 
+           MQLONG  _wait      )      // wait interval
+{                                    //
+  logFuncCall() ;
+
+  MQLONG compCode ;                    // Completion code
+  MQLONG reason   ;                    // Reason code qualifying CompCode
+
+//MQGMO   getMsgOpt = {MQGMO_DEFAULT}; // Options controling MQGET
+  MQLONG  msgLng    ;                  // Length of the message
+
+  // -------------------------------------------------------
+  // set get messages options
+  // -------------------------------------------------------
+  _getMsgOpt.Options = MQGMO_WAIT              // wait for new messages
+                     + MQGMO_FAIL_IF_QUIESCING // fail if quiesching
+                     + MQGMO_CONVERT;          // convert if necessary
+                                               //
+  // -------------------------------------------------------
+  // set msgDscr
+  // -------------------------------------------------------
+#if(0)
+  memcpy(msgDscr->MsgId   , MQMI_NONE, sizeof(msgDscr->MsgId)    );
+  memcpy(msgDscr->CorrelId, MQCI_NONE, sizeof(msgDscr->CorrelId) );
+#endif
+  _msgDscr->Encoding       = MQENC_NATIVE;     //
+  _msgDscr->CodedCharSetId = MQCCSI_Q_MGR;     //
+                                               //
+  memset( _buffer, ' ', _bufLng-1 );           //
+                                               //
+  dumpMqStruct( "GMO  ", &_getMsgOpt, NULL );  //
+  dumpMqStruct( "MD   ", _msgDscr   , NULL );  //
+                                               //
+  MQGET( _hConn      ,                         // connection handle
+         _hQueue     ,                         // object handle
+         _msgDscr    ,                         // message descriptor
+         &_getMsgOpt ,                         // get message options
+         _bufLng     ,                         // buffer length
+         _buffer     ,                         // message buffer
+         &msgLng     ,                         // message length
+         &compCode   ,                         // completion code
+         &reason    );                         // reason code
+                                               //
+  dumpMqStruct( "GMO  ", &_getMsgOpt, NULL );  //
+  dumpMqStruct( "MD   ", _msgDscr   , NULL );  //
+                                               //
+  // -------------------------------------------------------
+  // check Return Code and log it into log file
+  // -------------------------------------------------------
+  if( compCode == MQCC_FAILED )                //
+  {                                            //
+    switch( reason )                           //
+    {                                          //
+      case MQRC_NO_MSG_AVAILABLE:              // not finding a message is not
+      {                                        //  an error per default
+        logMQCall( DBG, "MQPUT", reason );     //
+        break ;                                //
+      }                                        //
+      default :                                // error
+      {                                        //
+        logMQCall( ERR, "MQPUT", reason );     //
+        goto _door ;                           //
+      }                                        //
+    }                                          //
+    return (int) reason ;                      //
+  }                                            //
+                                               //
+  logMQCall( INF, "MQPUT", reason );           //
+                                               //
+  _door :                                      //  
+                                               //
+  logFuncExit() ;                              //
+                                               //
+  return reason ;                              //
+}
+

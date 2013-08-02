@@ -68,7 +68,7 @@ cleanlocal :
 # ------------------------------------------------------------------------------
 # tests
 # ------------------------------------------------------------------------------
-TEST = t_mqbase_000 t_mqbase_001 t_mqbase_002 
+TEST = t_mqbase_000 t_mqbase_001 t_mqbase_002 t_mqbase_003 
 
 include $(MAKE_INCLUDE_PATH)/test.mk
 

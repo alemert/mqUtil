@@ -23,7 +23,6 @@
 #include <mqreason.h>
 #include <mqdump.h>
 
-
 /******************************************************************************/
 /*   D E F I N E S                                                            */
 /******************************************************************************/
@@ -31,6 +30,11 @@
 /******************************************************************************/
 /*   G L O B A L E S                                                          */
 /******************************************************************************/
+#ifdef C_MODULE_MQ_BASE
+  MQGMO _gDefGMO = {MQGMO_DEFAULT} ;
+#else
+  extern MQGMO _gDefGMO ;
+#endif
 
 /******************************************************************************/
 /*   M A C R O S                                                              */
@@ -38,6 +42,7 @@
 #define logMQCall( lev, call, reason ) logger( LMQM_ ##lev ##_CALL       , \
                                                 call                     , \
                                                 (char*) mqrc2str( reason ) )
+
 #if(0)
 #define mqOpenQueue( queue, hConn, ObjDesc, opt, pHobj )           \
         {                          \
@@ -66,4 +71,11 @@ int mqPut( MQHCONN _hConn      ,     // connection handle
            PMQPMO  _pPutMsgOpt ,     // Options controling MQPUT
            PMQVOID _buffer     ,     // message buffer
            MQLONG  _msgLng    );     // message length (buffer length)
+
+int mqGet( MQHCONN _hConn      ,     // connection handle
+           MQHOBJ  _hQueue     ,     // pointer to queue handle
+           PMQVOID _buffer     ,     // message buffer
+           int     _bufLng     ,     // buffer length
+           PMQMD   _msgDscr    ,     // msg Desriptor
+           MQGMO   _getMsgOpt );     // get message option
 
