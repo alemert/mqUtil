@@ -360,6 +360,8 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
                      + MQGMO_FAIL_IF_QUIESCING // fail if quiesching
                      + MQGMO_CONVERT;          // convert if necessary
                                                //
+   _getMsgOpt.WaitInterval = _wait ;           //
+                                               //
   // -------------------------------------------------------
   // set msgDscr
   // -------------------------------------------------------

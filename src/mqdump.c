@@ -10,8 +10,9 @@
 /*   - setDumpItemByte                                                        */
 /*   - setDumpItemCharV                                                       */
 /*   - dumpMqObjDscr                                                          */
-/*   - dumpMqMsgDscr                                      */
-/*   - dumpMqPutMsgOpt                */
+/*   - dumpMqMsgDscr                                                          */
+/*   - dumpMqPutMsgOpt                                        */
+/*   - dumpMqGetMsgOpt                                    */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -115,6 +116,18 @@ void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
     goto _output ; 
   }
 
+  // -------------------------------------------------------
+  // Put message option dump
+  // -------------------------------------------------------
+  if( memcmp( _type, MQGMO_STRUC_ID, 4 ) == 0 )
+  {
+    dumpMqGetMsgOpt( (PMQGMO) _pStruct ) ;
+    goto _output ; 
+  }
+
+  // -------------------------------------------------------
+  // if you get that far, then it has to be unkonwn struct
+  // -------------------------------------------------------
   logger( LMQM_UNKNOWN_DMP_STRUCT, _type ) ;
   goto _door ;
 
@@ -502,9 +515,9 @@ void dumpMqMsgDscr(  const PMQMD md )
 }
 
 /******************************************************************************/
-/* dump mq message description                                                */
+/* dump mq put message options                                                */
 /*                                                                            */
-/* dump MQMD                                                                  */
+/* dump MQPMO                                                                 */
 /******************************************************************************/
 void dumpMqPutMsgOpt(  const PMQPMO pmo )
 {
@@ -601,6 +614,140 @@ void dumpMqPutMsgOpt(  const PMQPMO pmo )
                    pmo->PubLevel      );
 
   _door :
+
+  return ;
+}
+
+/******************************************************************************/
+/* dump mq get message options                                                */
+/*                                                                            */
+/* dump MQGMO                                                                 */
+/******************************************************************************/
+void dumpMqGetMsgOpt(  const PMQGMO gmo )
+{
+  _gDmpMsgIx = 0 ;  
+
+  setDumpItemStr(  F_MQCHAR4             ,
+                  "Structure identifier" ,
+                   gmo->StrucId          );           
+
+  setDumpItemStr(  F_STR                 ,
+                  "Structure version"    ,
+                  (char*) mqgmoVer2str(gmo->Version) );
+
+  setDumpItemInt(  F_MQLONG          ,
+                  "MQGET Options"  ,
+                   gmo->Options    );
+
+  setDumpItemInt(  F_MQLONG           ,
+                  "Wait interval"     ,
+                   gmo->WaitInterval  );
+
+#if(0)
+   MQLONG    Signal1;         /* Signal */
+   MQLONG    Signal2;         /* Signal identifier */
+   MQCHAR48  ResolvedQName;   /* Resolved name of destination queue */
+   /* Ver:1 */
+   MQLONG    MatchOptions;    /* Options controlling selection criteria
+                                 used for MQGET */
+   MQCHAR    GroupStatus;     /* Flag indicating whether message
+                                 retrieved is in a group */
+   MQCHAR    SegmentStatus;   /* Flag indicating whether message
+                                 retrieved is a segment of a logical
+                                 message */
+   MQCHAR    Segmentation;    /* Flag indicating whether further
+                                 segmentation is allowed for the
+                                 message retrieved */
+   MQCHAR    Reserved1;       /* Reserved */
+   /* Ver:2 */
+   MQBYTE16  MsgToken;        /* Message token */
+   MQLONG    ReturnedLength;  /* Length of message data returned
+                                 (bytes) */
+   /* Ver:3 */
+   MQLONG    Reserved2;       /* Reserved */
+   MQHMSG    MsgHandle;       /* Message handle */
+   /* Ver:4 */
+#endif
+
+
+#if(0)
+
+  setDumpItemInt(  F_MQLONG     ,
+                  "Obj handle"  ,
+                   pmo->Context );      
+
+  setDumpItemInt(  F_MQLONG         ,
+                  "Nr of msgs put on qlocal" ,
+                   pmo->KnownDestCount );
+
+  setDumpItemInt(  F_MQLONG                   ,
+                  "Nr of msgs put on qremote" ,
+                   pmo->UnknownDestCount      );
+
+  setDumpItemInt(  F_MQLONG              ,
+                  "Nr of puts failed"    ,
+                   pmo->InvalidDestCount );
+                                   
+ 
+   setDumpItemStr(  F_MQCHAR48           ,
+                   "Resolved queue name" ,
+                    pmo->ResolvedQName   ) ;
+
+   setDumpItemStr(  F_MQCHAR48            ,
+                   "Resolved qmgr name"   ,
+                    pmo->ResolvedQMgrName ) ;
+
+  // -------------------------------------------------------
+  // msg dscr version 2 or higher
+  // -------------------------------------------------------
+  if( pmo->Version < MQPMO_VERSION_2 ) goto _door ;
+
+  setDumpItemInt(  F_MQLONG                    ,
+                  "Nr of put or response records present" ,
+                   pmo->RecsPresent ); 
+
+  setDumpItemInt(  F_MQLONG             ,
+                  "MQPMR flags"         ,
+                   pmo->PutMsgRecFields );
+   
+  setDumpItemInt(  F_MQLONG                   ,
+                  "Offset of 1st put record from MQPMO" ,
+                   pmo->PutMsgRecOffset );    
+
+  setDumpItemInt(  F_MQLONG                   ,
+                  "Offset of 1st response record from MQPMO" ,
+                   pmo->ResponseRecOffset );  
+
+  setDumpItemPtr(  F_MQPTR,     
+                  "Address of first put message"  ,
+                   pmo->PutMsgRecPtr );       
+                   
+  setDumpItemPtr(  F_MQPTR,     
+                  "Address of first response record"  ,
+                   pmo->ResponseRecPtr  );     
+  
+  // -------------------------------------------------------
+  // msg dscr version 3 or higher
+  // -------------------------------------------------------
+  if( pmo->Version < MQPMO_VERSION_3 ) goto _door ;
+    
+   setDumpItemInt( F_MQHMSG  ,
+                  "Original message handle" ,
+                   pmo->OriginalMsgHandle );
+   setDumpItemInt( F_MQHMSG             ,
+                  "New message handle"  ,
+                   pmo->NewMsgHandle    );  
+
+  setDumpItemInt(  F_MQLONG                    ,
+                  "The action being performed" ,
+                   pmo->Action                 );             
+
+  setDumpItemInt(  F_MQLONG           ,
+                  "Publication level" ,
+                   pmo->PubLevel      );
+
+  _door :
+#endif
 
   return ;
 }

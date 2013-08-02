@@ -113,14 +113,15 @@ int main( int argc, const char** argv )
   char buffer[100] ;
 
   doIntTest( "get message err" ,
-              0       ,
-              mqGet   ,
-              hConn   ,
-              ohQueue ,
-              buffer  ,
-              100     ,
-              &md     ,
-              _gDefGMO );
+              0        ,
+              mqGet    ,
+              hConn    ,
+              ohQueue  ,
+              buffer   ,
+              100      ,
+              &md      ,
+              _gDefGMO ,
+              0        );
 
   printf( "%s\n", buffer ) ;
 

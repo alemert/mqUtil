@@ -5,16 +5,17 @@
 /*   - mqObjType2str                                                          */
 /*   - mqmdVer2str                                                            */
 /*   - mqodVer2str                                                            */
-/*   - mqpmoVer2str                        */
+/*   - mqpmoVer2str                                                */
+/*   - mqgmoVer2str                                          */
 /*   - mqReportOption2str                                                     */
 /*   - mqMsgTypeId2Str                                                        */
 /*   - mqFeedback2str                                                         */
-/*   - mqEncondig2str                                              */
-/*   - mqCCSID2str                                          */
-/*   - mqPriority2str                                      */ 
-/*   - mqPersistence2str                            */
-/*   - mqPutApplType2str                                  */
-/*   - mqMsgFlag2str                                  */
+/*   - mqEncondig2str                                                         */
+/*   - mqCCSID2str                                                          */
+/*   - mqPriority2str                                                      */ 
+/*   - mqPersistence2str                                              */
+/*   - mqPutApplType2str                                            */
+/*   - mqMsgFlag2str                                                */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -98,6 +99,21 @@ const char* mqpmoVer2str( int id )
     convert( MQPMO_VERSION_3 ) ;
   }
   return "UNKNOWN MQPMO VERSION" ;
+}
+
+/******************************************************************************/
+/* mq message get message options to string                                   */
+/******************************************************************************/
+const char* mqgmoVer2str( int id )
+{
+  switch( id )
+  {
+    convert( MQGMO_VERSION_1 ) ;
+    convert( MQGMO_VERSION_2 ) ;
+    convert( MQGMO_VERSION_3 ) ;
+    convert( MQGMO_VERSION_4 ) ;
+  }
+  return "UNKNOWN MQGMO VERSION" ;
 }
 
 /******************************************************************************/
@@ -394,7 +410,7 @@ const char* mqPutApplType2str( int id )
 }
 
 /******************************************************************************/
-/* mq message flag to string                                    */
+/* mq message flag to string                                      */
 /******************************************************************************/
 const char* mqMsgFlag2str( int id )
 {
@@ -416,7 +432,7 @@ const char* mqMsgFlag2str( int id )
 }
 
 /******************************************************************************/
-/* mq put msg options to string              */
+/* mq put msg options to string                    */
 /******************************************************************************/
 const char* mqPutMsgOpt2str( int id )
 {

@@ -37,7 +37,7 @@
 /******************************************************************************/
 void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  ) ;
 void mqDumper( ) ;
-void dumpMqObjDscr(   const PMQOD  od  ) ;
-void dumpMqMsgDscr(   const PMQMD  md  ) ;
-void dumpMqPutMsgOpt( const PMQPMO pmo ) ;
-
+void dumpMqObjDscr(   const PMQOD  od  );
+void dumpMqMsgDscr(   const PMQMD  md  );
+void dumpMqPutMsgOpt( const PMQPMO pmo );
+void dumpMqGetMsgOpt( const PMQGMO gmo );

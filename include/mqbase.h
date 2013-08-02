@@ -77,5 +77,6 @@ int mqGet( MQHCONN _hConn      ,     // connection handle
            PMQVOID _buffer     ,     // message buffer
            int     _bufLng     ,     // buffer length
            PMQMD   _msgDscr    ,     // msg Desriptor
-           MQGMO   _getMsgOpt );     // get message option
+           MQGMO   _getMsgOpt  ,     // wait interval
+           MQLONG  _wait      );     // get message option
 
