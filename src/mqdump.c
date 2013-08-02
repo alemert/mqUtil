@@ -10,8 +10,8 @@
 /*   - setDumpItemByte                                                        */
 /*   - setDumpItemCharV                                                       */
 /*   - dumpMqObjDscr                                                          */
-/*   - dumpMqMsgDscr                                */
-/*   - dumpMqPutMsgOpt              */
+/*   - dumpMqMsgDscr                                      */
+/*   - dumpMqPutMsgOpt                */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -38,11 +38,11 @@
 /*   G L O B A L S                                                            */
 /******************************************************************************/
 #define DUMP_ITEM_CNT  48
-#define DUMP_ITEM_SIZE DMP_ITEM_LEN   // DMP_ITEM_LEN defined in "ctl.h"
+#define DUMP_ITEM_SIZE DMP_ITEM_LEN  // DMP_ITEM_LEN defined in "ctl.h"
 
 char _gDmpMsg[DUMP_ITEM_CNT*2]
-             [DUMP_ITEM_SIZE] ;  // buffer for dump
-int  _gDmpMsgIx ;                // index for line in dump buffer 
+             [DUMP_ITEM_SIZE] ;      // buffer for dump
+int  _gDmpMsgIx ;                    // index for line in dump buffer 
 
 /******************************************************************************/
 /*   D E F I N E S                                                            */
@@ -88,18 +88,27 @@ void setDumpItemByte(         int frmt, const char* key, PMQBYTE value ) ;
 void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
 {
 
+  // -------------------------------------------------------
+  // Object description dump
+  // -------------------------------------------------------
   if( memcmp( _type, MQOD_STRUC_ID, 4 ) == 0 )
   {
     dumpMqObjDscr(  (PMQOD) _pStruct ) ;
     goto _output ; 
   }
 
+  // -------------------------------------------------------
+  // Message description dump
+  // -------------------------------------------------------
   if( memcmp( _type, MQMD_STRUC_ID, 4 ) == 0 )
   {
     dumpMqMsgDscr(  (PMQMD) _pStruct ) ;
     goto _output ; 
   }
 
+  // -------------------------------------------------------
+  // Put message option dump
+  // -------------------------------------------------------
   if( memcmp( _type, MQPMO_STRUC_ID, 4 ) == 0 )
   {
     dumpMqPutMsgOpt( (PMQPMO) _pStruct ) ;
@@ -115,7 +124,7 @@ void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
   {
     if( getLogFP() != NULL ) 
     {
-      dumper( "  ", _type, _gDmpMsg ) ;
+      dumper( "| ", _type, _gDmpMsg ) ;
     }
     else
     {
