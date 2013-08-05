@@ -643,10 +643,23 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
                   "Wait interval"     ,
                    gmo->WaitInterval  );
 
+  setDumpItemInt(  F_MQLONG      ,
+                  "Signal1"      ,
+                   gmo->Signal1  );
+
+  setDumpItemInt(  F_MQLONG      ,
+                  "Signal1"      ,
+                   gmo->Signal2  );
+
+   setDumpItemStr(  F_MQCHAR48           ,
+                   "Resolved destination q name" ,
+                    gmo->ResolvedQName   ) ;
+
+  // -------------------------------------------------------
+  // get message option version 2 or higher
+  // -------------------------------------------------------
+  if( gmo->Version < MQPMO_VERSION_2 ) goto _door ;
 #if(0)
-   MQLONG    Signal1;         /* Signal */
-   MQLONG    Signal2;         /* Signal identifier */
-   MQCHAR48  ResolvedQName;   /* Resolved name of destination queue */
    /* Ver:1 */
    MQLONG    MatchOptions;    /* Options controlling selection criteria
                                  used for MQGET */
@@ -671,31 +684,6 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
 
 
 #if(0)
-
-  setDumpItemInt(  F_MQLONG     ,
-                  "Obj handle"  ,
-                   pmo->Context );      
-
-  setDumpItemInt(  F_MQLONG         ,
-                  "Nr of msgs put on qlocal" ,
-                   pmo->KnownDestCount );
-
-  setDumpItemInt(  F_MQLONG                   ,
-                  "Nr of msgs put on qremote" ,
-                   pmo->UnknownDestCount      );
-
-  setDumpItemInt(  F_MQLONG              ,
-                  "Nr of puts failed"    ,
-                   pmo->InvalidDestCount );
-                                   
- 
-   setDumpItemStr(  F_MQCHAR48           ,
-                   "Resolved queue name" ,
-                    pmo->ResolvedQName   ) ;
-
-   setDumpItemStr(  F_MQCHAR48            ,
-                   "Resolved qmgr name"   ,
-                    pmo->ResolvedQMgrName ) ;
 
   // -------------------------------------------------------
   // msg dscr version 2 or higher
@@ -746,9 +734,9 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
                   "Publication level" ,
                    pmo->PubLevel      );
 
-  _door :
 #endif
 
+  _door :
   return ;
 }
 
