@@ -31,6 +31,7 @@
 // ---------------------------------------------------------
 #include <mqbase.h>
 #include <ctl.h>
+#include <msgcat/lgstd.h>
 
 /******************************************************************************/
 /*   G L O B A L S                                                            */
@@ -423,7 +424,7 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
         logger( LMQM_INCR_MSG_BUFF, *_bufLng );    //
         if( _buffer == NULL )                   //
         {                              //
-          logger( LSTD_MEM_ALLOC_ERROR  ;      //
+          logger( LSTD_MEM_ALLOC_ERROR ) ;      //
           goto _door ;                    //
         }                        //
         break ;                                    //
