@@ -45,7 +45,7 @@
 
 #if(0)
 #define mqOpenQueue( queue, hConn, ObjDesc, opt, pHobj )           \
-        {                          \
+        {                                            \
           memcpy( ObjDesc.ObjectName, queue, MQ_Q_NAME_LENGTH ) ; \
           mqOpenObject( hConn, &ObjDesc, opt, pHobj ) ;           \
         }
@@ -61,21 +61,21 @@ int mqOpenObject( MQHCONN hConn    , // connection handle
                   PMQOD   pObjDesc , // pointer to object descriptor
                   MQLONG  options  , // options for MQOPEN
                   PMQHOBJ pHobj  ) ; // pointer to object handle
-
+                                  //
 int mqCloseObject( MQHCONN hConn   , // connection handle
                    PMQHOBJ pHobj ) ; // pointer to object handle
-
+                                     //
 int mqPut( MQHCONN _hConn      ,     // connection handle
            MQHOBJ  _hQueue     ,     // pointer to queue handle
            PMQMD   _msgDscr    ,     // msg Desriptor
            PMQPMO  _pPutMsgOpt ,     // Options controling MQPUT
            PMQVOID _buffer     ,     // message buffer
            MQLONG  _msgLng    );     // message length (buffer length)
-
+                                     //
 int mqGet( MQHCONN _hConn      ,     // connection handle
            MQHOBJ  _hQueue     ,     // pointer to queue handle
            PMQVOID _buffer     ,     // message buffer
-           int     _bufLng     ,     // buffer length
+           PMQLONG _bufLng     ,     // buffer length
            PMQMD   _msgDscr    ,     // msg Desriptor
            MQGMO   _getMsgOpt  ,     // wait interval
            MQLONG  _wait      );     // get message option

@@ -27,6 +27,8 @@
 
 #include <cmqc.h>
 
+#include <stdlib.h>
+
 /******************************************************************************/
 /*   M A I N                                                                  */
 /******************************************************************************/
@@ -55,7 +57,7 @@ int main( int argc, const char** argv )
                                  MQOO_INPUT_AS_Q_DEF   |
                                  MQOO_FAIL_IF_QUIESCING, &ohQueue ) ;
 
-  mqPut( hConn, ohQueue, &md, NULL, "hello world", 0 ) ;
+  mqPut( hConn, ohQueue, &md, NULL, "a long hello world to evrybody", 0 ) ;
 
   mqCloseObject( hConn, &ohQueue ) ;
 #endif
@@ -74,7 +76,8 @@ int main( int argc, const char** argv )
               MQOO_FAIL_IF_QUIESCING,
               &ohQueue            ) ;
 
-  char *buffer ;
+  char *buffer = (char*) malloc( 10 ) ;
+  int bufLen = 10 ;
 
   doIntTest( "get message err" ,
               0        ,
@@ -82,7 +85,7 @@ int main( int argc, const char** argv )
               hConn    ,
               ohQueue  ,
               buffer   ,
-              0        ,
+              &bufLen  ,
               &md      ,
               _gDefGMO ,
               0        );

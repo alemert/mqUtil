@@ -111,6 +111,7 @@ int main( int argc, const char** argv )
               &ohQueue            ) ;
 
   char buffer[100] ;
+  int bufLen = 100 ;
 
   doIntTest( "get message err" ,
               0        ,
@@ -118,7 +119,7 @@ int main( int argc, const char** argv )
               hConn    ,
               ohQueue  ,
               buffer   ,
-              100      ,
+              &bufLen  ,
               &md      ,
               _gDefGMO ,
               0        );
