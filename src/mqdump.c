@@ -51,6 +51,7 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 #define F_KEY       "%-35.35s"    // dump format for key
 #define F_STR       "%-48.25s"    // dump format for general string
 #define F_MQPTR     "%-48.8s"     // dump format for general pointer
+#define F_MQCHAR    "%c"          // dump format for MQCHAR4
 #define F_MQCHAR4   "%-48.4s"     // dump format for MQCHAR4
 #define F_MQCHAR8   "%-48.8s"     // dump format for MQCHAR8
 #define F_MQCHAR12  "%-48.12"     // dump format for MQCHAR12
@@ -658,21 +659,32 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
   // -------------------------------------------------------
   // get message option version 2 or higher
   // -------------------------------------------------------
-  if( gmo->Version < MQPMO_VERSION_2 ) goto _door ;
+//if( gmo->Version < MQPMO_VERSION_2 ) goto _door ;
+
+  setDumpItemInt(  F_MQLONG                  ,
+                  "Selection MQGET criteria" ,
+                   gmo->MatchOptions         );
+
+  setDumpItemInt(  F_MQCHAR                  ,
+                  "Flag if msg in group" ,
+                   gmo->GroupStatus         );
+
+  setDumpItemInt(  F_MQCHAR                  ,
+                  "msg logical or physical flag" ,
+                   gmo->SegmentStatus        );
+
+  setDumpItemInt(  F_MQCHAR                  ,
+                  "flag for further segmentation" ,
+                   gmo->Segmentation        );
+
 #if(0)
-   /* Ver:1 */
-   MQLONG    MatchOptions;    /* Options controlling selection criteria
-                                 used for MQGET */
-   MQCHAR    GroupStatus;     /* Flag indicating whether message
-                                 retrieved is in a group */
-   MQCHAR    SegmentStatus;   /* Flag indicating whether message
-                                 retrieved is a segment of a logical
-                                 message */
-   MQCHAR    Segmentation;    /* Flag indicating whether further
-                                 segmentation is allowed for the
-                                 message retrieved */
    MQCHAR    Reserved1;       /* Reserved */
-   /* Ver:2 */
+#endif
+  // -------------------------------------------------------
+  // get message option version 2 or higher
+  // -------------------------------------------------------
+//if( gmo->Version < MQPMO_VERSION_3 ) goto _door ;
+#if(0)
    MQBYTE16  MsgToken;        /* Message token */
    MQLONG    ReturnedLength;  /* Length of message data returned
                                  (bytes) */

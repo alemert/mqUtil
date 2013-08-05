@@ -340,18 +340,19 @@ int mqPut( MQHCONN _hConn      ,         // connection handle
 int mqGet( MQHCONN _hConn     ,      // connection handle
            MQHOBJ  _hQueue    ,      // pointer to queue handle
            PMQVOID _buffer    ,      // message buffer
-           int     _bufLng    ,      // buffer length
+           PMQLONG  _bufLng    ,      // buffer length
            PMQMD   _msgDscr   ,      // msg Desriptor
            MQGMO   _getMsgOpt ,      // get message option 
            MQLONG  _wait      )      // wait interval
 {                                    //
   logFuncCall() ;
 
-  MQLONG compCode ;                    // Completion code
-  MQLONG reason   ;                    // Reason code qualifying CompCode
-
-//MQGMO   getMsgOpt = {MQGMO_DEFAULT}; // Options controling MQGET
-  MQLONG  msgLng    ;                  // Length of the message
+  MQLONG compCode ;                  // Completion code
+  MQLONG reason   ;                  // Reason code qualifying CompCode
+                              //
+  MQLONG  msgLng    ;                // Length of the message
+                              //
+  int loop = 0 ;                  // flag breaking loop
 
   // -------------------------------------------------------
   // set get messages options
@@ -372,46 +373,60 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
   _msgDscr->Encoding       = MQENC_NATIVE;     //
   _msgDscr->CodedCharSetId = MQCCSI_Q_MGR;     //
                                                //
-  memset( _buffer, ' ', _bufLng-1 );           //
+  memset( _buffer, ' ', (*_bufLng) - 1 );      //
                                                //
   dumpMqStruct( "GMO  ", &_getMsgOpt, NULL );  //
   dumpMqStruct( "MD   ", _msgDscr   , NULL );  //
                                                //
-  MQGET( _hConn      ,                         // connection handle
-         _hQueue     ,                         // object handle
-         _msgDscr    ,                         // message descriptor
-         &_getMsgOpt ,                         // get message options
-         _bufLng     ,                         // buffer length
-         _buffer     ,                         // message buffer
-         &msgLng     ,                         // message length
-         &compCode   ,                         // completion code
-         &reason    );                         // reason code
-                                               //
-  dumpMqStruct( "GMO  ", &_getMsgOpt, NULL );  //
-  dumpMqStruct( "MD   ", _msgDscr   , NULL );  //
-                                               //
-  // -------------------------------------------------------
-  // check Return Code and log it into log file
-  // -------------------------------------------------------
-  if( compCode == MQCC_FAILED )                //
+  loop = 1 ;                                   //
+  while( loop )                                //
   {                                            //
+    MQGET( _hConn      ,                       // connection handle
+           _hQueue     ,                       // object handle
+           _msgDscr    ,                       // message descriptor
+           &_getMsgOpt ,                       // get message options
+           *_bufLng    ,                       // buffer length
+           _buffer     ,                       // message buffer
+           &msgLng     ,                       // message length
+           &compCode   ,                       // completion code
+           &reason    );                       // reason code
+                                               //
+    dumpMqStruct( "GMO  ", &_getMsgOpt, NULL );//
+    dumpMqStruct( "MD   ", _msgDscr   , NULL );//
+                                               //
+    // -----------------------------------------------------
+    // check Return Code and log it into log file
+    // -----------------------------------------------------
     switch( reason )                           //
     {                                          //
+      case MQRC_NONE :                         // message found,
+      {                                        //  break out of loop
+        loop = 0 ;                          //
+        break ;                            //
+      }                                        //
+                                    //
       case MQRC_NO_MSG_AVAILABLE:              // not finding a message is not
       {                                        //  an error per default
-        logMQCall( DBG, "MQPUT", reason );     //
+        logMQCall( DBG, "MQGET", reason );     //
+        loop = 0 ;                             //
         break ;                                //
       }                                        //
+                              //
+      case MQRC_TRUNCATED_MSG_FAILED :      //
+      {                            //
+        // resize and continue 
+        break ;                        //
+      }                              //
+                                               //
       default :                                // error
       {                                        //
-        logMQCall( ERR, "MQPUT", reason );     //
+        logMQCall( ERR, "MQGET", reason );     //
         goto _door ;                           //
       }                                        //
     }                                          //
-    return (int) reason ;                      //
   }                                            //
                                                //
-  logMQCall( INF, "MQPUT", reason );           //
+  logMQCall( INF, "MQGET", reason );           //
                                                //
   _door :                                      //  
                                                //
