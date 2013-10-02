@@ -77,7 +77,7 @@ int main( int argc, const char** argv )
               &ohQueue            ) ;
 
   char *buffer = (char*) malloc( 10 ) ;
-  int bufLen = 10 ;
+  MQLONG bufLen = 10 ;
 
   doIntTest( "get message err" ,
               0        ,

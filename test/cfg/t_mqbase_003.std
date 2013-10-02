@@ -12,10 +12,10 @@
 # TEST OK    mqConn     >>connect qmgr        << test/src/t_mqbase_003.c(0098)
 # TEST START mqOpenObject >>open queue          << test/src/t_mqbase_003.c(0111)
 # TEST OK    mqOpenObject >>open queue          << test/src/t_mqbase_003.c(0111)
-# TEST START mqGet      >>get message err     << test/src/t_mqbase_003.c(0125)
-# TEST OK    mqGet      >>get message err     << test/src/t_mqbase_003.c(0125)
-hello world                                                                                        ±
-# TEST START mqCloseObject >>close queue         << test/src/t_mqbase_003.c(0133)
-# TEST OK    mqCloseObject >>close queue         << test/src/t_mqbase_003.c(0133)
-# TEST START mqDisc     >>disconnect qmgr     << test/src/t_mqbase_003.c(0138)
-# TEST OK    mqDisc     >>disconnect qmgr     << test/src/t_mqbase_003.c(0138)
+# TEST START mqGet      >>get message err     << test/src/t_mqbase_003.c(0126)
+# TEST OK    mqGet      >>get message err     << test/src/t_mqbase_003.c(0126)
+100 hello world                                                                                        
+# TEST START mqCloseObject >>close queue         << test/src/t_mqbase_003.c(0134)
+# TEST OK    mqCloseObject >>close queue         << test/src/t_mqbase_003.c(0134)
+# TEST START mqDisc     >>disconnect qmgr     << test/src/t_mqbase_003.c(0139)
+# TEST OK    mqDisc     >>disconnect qmgr     << test/src/t_mqbase_003.c(0139)

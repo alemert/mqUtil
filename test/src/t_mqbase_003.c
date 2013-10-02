@@ -111,7 +111,8 @@ int main( int argc, const char** argv )
               &ohQueue            ) ;
 
   char buffer[100] ;
-  int bufLen = 100 ;
+  memset( buffer, 100, '\0');
+  MQLONG bufLen = 100 ;
 
   doIntTest( "get message err" ,
               0        ,
@@ -124,7 +125,7 @@ int main( int argc, const char** argv )
               _gDefGMO ,
               0        );
 
-  printf( "%s\n", buffer ) ;
+  printf( "%d %99.99s\n", (int) bufLen, buffer ) ;
 
   doIntTest( "close queue"  ,
               0             ,

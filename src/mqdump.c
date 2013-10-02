@@ -61,6 +61,7 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 #define F_MQCHARV   "%-48.20s"    // dump format for MQCHARV dummy
 #define F_MQLONG    "%.10d"       // dump format for MQLONG
 #define F_MQHMSG    "%.10d"       // dump format for MQHMSG
+#define F_MQBYTE16     16         // length of hex string
 #define F_MQBYTE24     24         // length of hex string
 #define F_MQBYTE32     32         // length of hex string
 #define F_MQBYTE40     40         // length of hex string
@@ -78,7 +79,7 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
 void setDumpItemStr(  const char* frmt, const char* key, char*   value ) ;
-void setDumpItemInt(  const char* frmt, const char* key, int     value ) ;
+void setDumpItemInt(  const char* frmt, const char* key, MQLONG  value ) ;
 void setDumpItemPtr(  const char* frmt, const char* key, MQPTR   value ) ;
 void setDumpItemByte(         int frmt, const char* key, PMQBYTE value ) ;
 
@@ -602,6 +603,7 @@ void dumpMqPutMsgOpt(  const PMQPMO pmo )
    setDumpItemInt( F_MQHMSG  ,
                   "Original message handle" ,
                    pmo->OriginalMsgHandle );
+
    setDumpItemInt( F_MQHMSG             ,
                   "New message handle"  ,
                    pmo->NewMsgHandle    );  
@@ -637,45 +639,45 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
                   (char*) mqgmoVer2str(gmo->Version) );
 
   setDumpItemInt(  F_MQLONG          ,
-                  "MQGET Options"  ,
-                   gmo->Options    );
+                  "MQGET Options"    ,
+                   gmo->Options      );
 
-  setDumpItemInt(  F_MQLONG           ,
-                  "Wait interval"     ,
-                   gmo->WaitInterval  );
+  setDumpItemInt(  F_MQLONG          ,
+                  "Wait interval"    ,
+                   gmo->WaitInterval );
 
-  setDumpItemInt(  F_MQLONG      ,
-                  "Signal1"      ,
+  setDumpItemInt(  F_MQLONG       ,
+                  "Signal1"       ,
                    gmo->Signal1  );
 
   setDumpItemInt(  F_MQLONG      ,
                   "Signal1"      ,
                    gmo->Signal2  );
 
-   setDumpItemStr(  F_MQCHAR48           ,
+   setDumpItemStr(  F_MQCHAR48   ,
                    "Resolved destination q name" ,
-                    gmo->ResolvedQName   ) ;
+                    gmo->ResolvedQName          );
 
   // -------------------------------------------------------
   // get message option version 2 or higher
   // -------------------------------------------------------
-//if( gmo->Version < MQPMO_VERSION_2 ) goto _door ;
+  if( gmo->Version < MQGMO_VERSION_2 ) goto _door ;
 
   setDumpItemInt(  F_MQLONG                  ,
                   "Selection MQGET criteria" ,
                    gmo->MatchOptions         );
 
-  setDumpItemInt(  F_MQCHAR                  ,
+  setDumpItemInt(  F_MQCHAR              ,
                   "Flag if msg in group" ,
-                   gmo->GroupStatus         );
+                   gmo->GroupStatus      );
 
-  setDumpItemInt(  F_MQCHAR                  ,
+  setDumpItemInt(  F_MQCHAR                      ,
                   "msg logical or physical flag" ,
-                   gmo->SegmentStatus        );
+                   gmo->SegmentStatus           );
 
-  setDumpItemInt(  F_MQCHAR                  ,
+  setDumpItemInt(  F_MQCHAR                       ,
                   "flag for further segmentation" ,
-                   gmo->Segmentation        );
+                   gmo->Segmentation             );
 
 #if(0)
    MQCHAR    Reserved1;       /* Reserved */
@@ -683,70 +685,27 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
   // -------------------------------------------------------
   // get message option version 2 or higher
   // -------------------------------------------------------
-//if( gmo->Version < MQPMO_VERSION_3 ) goto _door ;
+  if( gmo->Version < MQGMO_VERSION_3 ) goto _door ;
+  setDumpItemByte(  F_MQBYTE16     ,
+                   "message token" ,
+                    gmo->MsgToken  );
+
+  setDumpItemInt(  F_MQLONG                         ,
+                  "Length of message data returned" ,
+                   gmo->ReturnedLength              );
+
+  // -------------------------------------------------------
+  // get message option version 3 or higher
+  // -------------------------------------------------------
+  if( gmo->Version < MQGMO_VERSION_4 ) goto _door ;
+
 #if(0)
-   MQBYTE16  MsgToken;        /* Message token */
-   MQLONG    ReturnedLength;  /* Length of message data returned
-                                 (bytes) */
-   /* Ver:3 */
    MQLONG    Reserved2;       /* Reserved */
-   MQHMSG    MsgHandle;       /* Message handle */
-   /* Ver:4 */
 #endif
 
-
-#if(0)
-
-  // -------------------------------------------------------
-  // msg dscr version 2 or higher
-  // -------------------------------------------------------
-  if( pmo->Version < MQPMO_VERSION_2 ) goto _door ;
-
-  setDumpItemInt(  F_MQLONG                    ,
-                  "Nr of put or response records present" ,
-                   pmo->RecsPresent ); 
-
-  setDumpItemInt(  F_MQLONG             ,
-                  "MQPMR flags"         ,
-                   pmo->PutMsgRecFields );
-   
-  setDumpItemInt(  F_MQLONG                   ,
-                  "Offset of 1st put record from MQPMO" ,
-                   pmo->PutMsgRecOffset );    
-
-  setDumpItemInt(  F_MQLONG                   ,
-                  "Offset of 1st response record from MQPMO" ,
-                   pmo->ResponseRecOffset );  
-
-  setDumpItemPtr(  F_MQPTR,     
-                  "Address of first put message"  ,
-                   pmo->PutMsgRecPtr );       
-                   
-  setDumpItemPtr(  F_MQPTR,     
-                  "Address of first response record"  ,
-                   pmo->ResponseRecPtr  );     
-  
-  // -------------------------------------------------------
-  // msg dscr version 3 or higher
-  // -------------------------------------------------------
-  if( pmo->Version < MQPMO_VERSION_3 ) goto _door ;
-    
-   setDumpItemInt( F_MQHMSG  ,
-                  "Original message handle" ,
-                   pmo->OriginalMsgHandle );
-   setDumpItemInt( F_MQHMSG             ,
-                  "New message handle"  ,
-                   pmo->NewMsgHandle    );  
-
-  setDumpItemInt(  F_MQLONG                    ,
-                  "The action being performed" ,
-                   pmo->Action                 );             
-
-  setDumpItemInt(  F_MQLONG           ,
-                  "Publication level" ,
-                   pmo->PubLevel      );
-
-#endif
+   setDumpItemInt( F_MQHMSG         ,
+                   "Message handle" ,
+                   gmo->MsgHandle   );       
 
   _door :
   return ;

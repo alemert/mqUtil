@@ -421,12 +421,12 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
         *_bufLng = msgLng+1 ;                      //
         _buffer = (PMQVOID) realloc( _buffer ,     //
                                     sizeof(void)*(*_bufLng) );
-        logger( LMQM_INCR_MSG_BUFF, *_bufLng );    //
-        if( _buffer == NULL )                   //
-        {                              //
-          logger( LSTD_MEM_ALLOC_ERROR ) ;      //
-          goto _door ;                    //
-        }                        //
+        logger(LMQM_INCR_MSG_BUFF,(int)*_bufLng ); //
+        if( _buffer == NULL )                      //
+        {                                          //
+          logger( LSTD_MEM_ALLOC_ERROR ) ;         //
+          goto _door ;                             //
+        }                                          //
         break ;                                    //
       }                                            //
                                                    //
