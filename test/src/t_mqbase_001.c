@@ -64,7 +64,7 @@ int main( int argc, const char** argv )
               MQOO_FAIL_IF_QUIESCING,
               &ohQueue            ) ;
 
-  doIntTest( "connect qmgr"       , \
+  doIntTest( "disconnect qmgr"       , \
               0                   , \
               mqDisc              , \
               &hConn              ) ;

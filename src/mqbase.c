@@ -36,6 +36,7 @@
 /******************************************************************************/
 /*   G L O B A L S                                                            */
 /******************************************************************************/
+const char gDefaultQmgr[] = "\0" ;
 
 /******************************************************************************/
 /*   D E F I N E S                                                            */
@@ -67,6 +68,11 @@ int mqConn( char* qmName, PMQHCONN pHconn )
   MQLONG compCode ;
   MQLONG reason   ;
 
+  if( qmName == NULL )
+  {
+    qmName = (char*) gDefaultQmgr ;
+  }
+
   // -------------------------------------------------------
   // connect to queue manager
   // -------------------------------------------------------
@@ -82,7 +88,8 @@ int mqConn( char* qmName, PMQHCONN pHconn )
     goto _door ;
   }
 
- logMQCall( INF, "MQCONN", reason ) ;
+  logMQCall( INF, "MQCONN", reason ) ;
+  logger( LMQM_QMGR_CONNECTED, qmName[0] == '\0' ? "default" : qmName );
 
   _door :
   logFuncExit( ) ;
@@ -111,7 +118,7 @@ int mqDisc( PMQHCONN pHconn )
 
   if( compCode == MQCC_FAILED )
   {
-    logMQCall( ERR, "MQCONN", reason ) ;
+    logMQCall( ERR, "MQDISC", reason ) ;
     sysRc = reason ;
     goto _door ;
   }
@@ -195,6 +202,7 @@ int mqOpenObject( MQHCONN hConn   , // connection handle
   }
 
   logMQCall( INF, "MQOPEN", reason ) ;
+  logger( LMQM_Q_OPENED, pObjDesc->ObjectName );
 
   _door :
 
