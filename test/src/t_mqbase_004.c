@@ -80,7 +80,7 @@ int main( int argc, const char** argv )
   MQLONG bufLen = 10 ;
 
   doIntTest( "get message err" ,
-              0        ,
+              2080        ,
               mqGet    ,
               hConn    ,
               ohQueue  ,
@@ -88,7 +88,7 @@ int main( int argc, const char** argv )
               &bufLen  ,
               &md      ,
               _gDefGMO ,
-              0        );
+              0    );
 
   printf( "%s\n", buffer ) ;
 

@@ -80,3 +80,5 @@ int mqGet( MQHCONN _hConn      ,     // connection handle
            MQGMO   _getMsgOpt  ,     // wait interval
            MQLONG  _wait      );     // get message option
 
+PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize );
+

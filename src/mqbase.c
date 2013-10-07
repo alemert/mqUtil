@@ -362,7 +362,7 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
                                      //
   MQLONG  msgLng  ;                  // Length of the message
                                      //
-  int loop = 0 ;                     // flag breaking loop
+//int loop = 0 ;                     // flag breaking loop
 
   // -------------------------------------------------------
   // set get messages options
@@ -387,9 +387,11 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
   dumpMqStruct( "GMO  ", &_getMsgOpt, NULL );      //
   dumpMqStruct( "MD   ", _msgDscr   , NULL );      //
                                                    //
+#if(0)
   loop = 1 ;                                       //
   while( loop )                                    //
   {                                                // flash msg buffer 
+#endif
     memset( _buffer, ' ', (*_bufLng) - 1 );        //
               //
     MQGET( _hConn      ,                           // connection handle
@@ -412,20 +414,21 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
     {                                              //
       case MQRC_NONE :                             // message found,
       {                                            //  break out of loop
-        loop = 0 ;                                 //
+//      loop = 0 ;                                 //
         break ;                                    //
       }                                            //
                                                    //
       case MQRC_NO_MSG_AVAILABLE:                  // finding no message is not
       {                                            //  an error per default
         logMQCall( DBG, "MQGET", reason );         //
-        loop = 0 ;                                 //
+//      loop = 0 ;                                 //
         break ;                                    //
       }                                            //
                                                    //
       case MQRC_TRUNCATED_MSG_FAILED :             // msg buffer to small
       {                                            //  resize (realloc) msg buff
-        logMQCall( INF, "MQGET", reason );         //
+        logMQCall( WAR, "MQGET", reason );         //
+#if(0)
         *_bufLng = msgLng+1 ;                      //
         _buffer = (PMQVOID) realloc( _buffer ,     //
                                     sizeof(void)*(*_bufLng) );
@@ -435,6 +438,7 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
           logger( LSTD_MEM_ALLOC_ERROR ) ;         //
           goto _door ;                             //
         }                                          //
+#endif
         break ;                                    //
       }                                            //
                                                    //
@@ -444,7 +448,9 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
         goto _door ;                               //
       }                                            //
     }                                              //
+#if(0)
   }                                                //
+#endif
                                                    //
   logMQCall( INF, "MQGET", reason );               //
                                                    //
@@ -455,3 +461,33 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
   return reason ;                                  //
 }
 
+
+/******************************************************************************/
+/*   M Q    R E S I Z E   M E S S A G E             */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*   Description: resize message buffer                       */
+/*                if the buffer is to short for reading                     */
+/*                                                                            */
+/*   Comment:                                                                 */
+/*                                                                            */
+/******************************************************************************/
+PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize )
+{
+  logFuncCall() ;
+
+  (*newSize)++ ;                             //
+  message = (PMQVOID) realloc( message, sizeof(void)*(*newSize) );
+  logger(LMQM_INCR_MSG_BUFF,(int)*newSize ); //
+  if( message == NULL )                      //
+  {                                          //
+    logger( LSTD_MEM_ALLOC_ERROR ) ;         //
+    goto _door ;                             //
+  }                                          //
+
+  _door:
+
+  logFuncExit() ;                            
+
+  return message;
+}
