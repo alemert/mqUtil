@@ -428,8 +428,8 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
       case MQRC_TRUNCATED_MSG_FAILED :             // msg buffer to small
       {                                            //  resize (realloc) msg buff
         logMQCall( WAR, "MQGET", reason );         //
-#if(0)
         *_bufLng = msgLng+1 ;                      //
+#if(0)
         _buffer = (PMQVOID) realloc( _buffer ,     //
                                     sizeof(void)*(*_bufLng) );
         logger(LMQM_INCR_MSG_BUFF,(int)*_bufLng ); //
@@ -476,7 +476,6 @@ PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize )
 {
   logFuncCall() ;
 
-  (*newSize)++ ;                             //
   message = (PMQVOID) realloc( message, sizeof(void)*(*newSize) );
   logger(LMQM_INCR_MSG_BUFF,(int)*newSize ); //
   if( message == NULL )                      //
