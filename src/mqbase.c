@@ -367,9 +367,9 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
   // -------------------------------------------------------
   // set get messages options
   // -------------------------------------------------------
-  _getMsgOpt.Options = MQGMO_WAIT                  // wait for new messages
-                     + MQGMO_FAIL_IF_QUIESCING     // fail if quiesching
-                     + MQGMO_CONVERT;              // convert if necessary
+  _getMsgOpt.Options += MQGMO_WAIT                // wait for new messages
+                     +  MQGMO_FAIL_IF_QUIESCING   // fail if quiesching
+                     +  MQGMO_CONVERT;            // convert if necessary
                                                    //
    _getMsgOpt.WaitInterval = _wait ;               //
                                                    //
@@ -387,13 +387,8 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
   dumpMqStruct( "GMO  ", &_getMsgOpt, NULL );      //
   dumpMqStruct( "MD   ", _msgDscr   , NULL );      //
                                                    //
-#if(0)
-  loop = 1 ;                                       //
-  while( loop )                                    //
-  {                                                // flash msg buffer 
-#endif
     memset( _buffer, ' ', (*_bufLng) - 1 );        //
-              //
+                    //
     MQGET( _hConn      ,                           // connection handle
            _hQueue     ,                           // object handle
            _msgDscr    ,                           // message descriptor
@@ -414,22 +409,20 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
     {                                              //
       case MQRC_NONE :                             // message found,
       {                                            //  break out of loop
-//      loop = 0 ;                                 //
         break ;                                    //
       }                                            //
                                                    //
       case MQRC_NO_MSG_AVAILABLE:                  // finding no message is not
       {                                            //  an error per default
         logMQCall( DBG, "MQGET", reason );         //
-//      loop = 0 ;                                 //
         break ;                                    //
       }                                            //
                                                    //
       case MQRC_TRUNCATED_MSG_FAILED :             // msg buffer to small
       {                                            //  resize (realloc) msg buff
         logMQCall( WAR, "MQGET", reason );         //
-        *_bufLng = msgLng+1 ;                      //
 #if(0)
+        *_bufLng = msgLng+1 ;                      //
         _buffer = (PMQVOID) realloc( _buffer ,     //
                                     sizeof(void)*(*_bufLng) );
         logger(LMQM_INCR_MSG_BUFF,(int)*_bufLng ); //
@@ -448,9 +441,6 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
         goto _door ;                               //
       }                                            //
     }                                              //
-#if(0)
-  }                                                //
-#endif
                                                    //
   logMQCall( INF, "MQGET", reason );               //
                                                    //

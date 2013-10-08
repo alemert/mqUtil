@@ -5,17 +5,19 @@
 /*   - mqObjType2str                                                          */
 /*   - mqmdVer2str                                                            */
 /*   - mqodVer2str                                                            */
-/*   - mqpmoVer2str                                                */
-/*   - mqgmoVer2str                                          */
+/*   - mqpmoVer2str                                                           */
+/*   - mqgmoVer2str                                                  */
 /*   - mqReportOption2str                                                     */
 /*   - mqMsgTypeId2Str                                                        */
 /*   - mqFeedback2str                                                         */
 /*   - mqEncondig2str                                                         */
-/*   - mqCCSID2str                                                          */
-/*   - mqPriority2str                                                      */ 
-/*   - mqPersistence2str                                              */
-/*   - mqPutApplType2str                                            */
-/*   - mqMsgFlag2str                                                */
+/*   - mqCCSID2str                                                            */
+/*   - mqPriority2str                                                         */
+/*   - mqPersistence2str                                                      */
+/*   - mqPutApplType2str                                                    */
+/*   - mqMsgFlag2str                                                        */
+/*   - mqItemType2str                            */
+/*   - mqSelector2str                        */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -30,6 +32,8 @@
 // mq
 // ---------------------------------------------------------
 #include <cmqc.h>
+#include <cmqcfc.h>
+#include <cmqbc.h>
 
 // ---------------------------------------------------------
 // own 
@@ -467,4 +471,24 @@ const char* mqPutMsgOpt2str( int id )
   }
 
   return "UNKNOWN MQ MESSAGE FLAG" ;
+}
+
+/******************************************************************************/
+/* mq convert item type to string      */
+/******************************************************************************/
+const char* mqItemType2str( MQLONG id ) 
+{
+  switch( id )
+  {
+    convert( MQITEM_INTEGER             );
+    convert( MQITEM_STRING              );
+    convert( MQITEM_BAG                 );
+    convert( MQITEM_BYTE_STRING         );
+    convert( MQITEM_INTEGER_FILTER      );
+    convert( MQITEM_STRING_FILTER       );
+    convert( MQITEM_INTEGER64           );
+    convert( MQITEM_BYTE_STRING_FILTER  );
+  }
+
+  return "UNKNOWN MQ ITEM TYPE" ;
 }

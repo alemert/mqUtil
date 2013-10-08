@@ -13,6 +13,7 @@
 /*   - dumpMqMsgDscr                                                          */
 /*   - dumpMqPutMsgOpt                                        */
 /*   - dumpMqGetMsgOpt                                    */
+/*   - dumpMqBag            */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -27,10 +28,18 @@
 #include <string.h>
 
 // ---------------------------------------------------------
+// mq
+// ---------------------------------------------------------
+#include <cmqc.h>
+#include <cmqcfc.h>
+#include <cmqbc.h>
+
+// ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
 #include <mqdump.h>
 #include <mqtype.h>
+#include <mqbase.h>
 
 #include <ctl.h>
 #include <lgmqm.h>
@@ -65,6 +74,17 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 #define F_MQBYTE24     24         // length of hex string
 #define F_MQBYTE32     32         // length of hex string
 #define F_MQBYTE40     40         // length of hex string
+
+/******************************************************************************/
+/*   T Y P E S                                                                */
+/******************************************************************************/
+typedef enum   tagItemType   tItemType   ;
+
+/******************************************************************************/
+/*   S T R U C T S                                                            */
+/******************************************************************************/
+enum tagItemType { UNKNOWN, STRING, DIGIT } ;
+
 
 /******************************************************************************/
 /*   M A C R O S                                                              */
@@ -711,3 +731,132 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
   return ;
 }
 
+/******************************************************************************/
+/* dump mq get message options                                                */
+/*                                                                            */
+/* dump MQGMO                                                                 */
+/******************************************************************************/
+void dumpMqBag( MQHBAG bag )
+{
+  MQLONG itemCount;
+  MQLONG itemType ;
+  MQLONG selector ;
+
+  MQINT32 iVal ;
+
+  tItemType iT = UNKNOWN; // item type digit or string
+
+  MQLONG compCode;
+  MQLONG reason  ;
+  int    i       ;
+
+  // -------------------------------------------------------
+  // count items in the bag
+  // -------------------------------------------------------
+  mqCountItems( bag                ,       // 
+                MQSEL_ALL_SELECTORS,       //
+                &itemCount         ,       //
+                &compCode          ,       //
+                &reason           );       //
+                                           //
+  switch( reason )                         // handle error count items 
+  {                                        //
+    case MQRC_NONE : break;                //
+    default :                              //
+    {                                      //
+      logMQCall(DBG,"mqCountItems",reason);//
+      goto _door;                          //
+    }                                      //
+  }                                        //
+  logger( LMQM_ITEM_COUNT, itemCount );    //
+                                           //
+  // -------------------------------------------------------
+  // go through all items
+  // -------------------------------------------------------
+  for( i=0; i<itemCount; i++ )             //
+  {                                        //
+    // -----------------------------------------------------
+    // get item type
+    // -----------------------------------------------------
+    mqInquireItemInfo( bag               , //
+                       MQSEL_ANY_SELECTOR, //
+                       i                 , //
+                       &selector         , //
+                       &itemType         , //
+                       &compCode         , //
+                       &reason          ); //
+                                           //
+    switch( reason )                       //
+    {                                      //
+      case MQRC_NONE : break;              //
+      default :                            //
+      {                                    //
+        logMQCall(DBG,"mqCountItems",reason); 
+        goto _door;                        //
+      }                                    //
+    }                                      //
+    logger( LMQM_ITEM_TYPE, mqItemType2str( itemType) );  
+                                      //
+    // -----------------------------------------------------
+    // analyse the item type
+    // -----------------------------------------------------
+    switch( itemType )          //
+    {                              //
+      // ---------------------------------------------------
+      //
+      // ---------------------------------------------------
+      case MQITEM_INTEGER :      //
+      {                        //
+        mqInquireInteger( bag               ,
+                          MQSEL_ANY_SELECTOR,
+                          i                 ,
+                          &iVal             ,
+                          &compCode         ,  
+                          &reason          );
+        iT = DIGIT;             //
+        break;                //
+      }                            //
+      case MQITEM_STRING :      //
+      {                                //
+        break;          //
+      }                          //
+      case MQITEM_BAG :      //
+      {                          //
+        break;                    //
+      }                                //
+      case MQITEM_BYTE_STRING :      //
+      {                          //
+        break;                    //
+      }                                //
+      case MQITEM_INTEGER_FILTER :      //
+      {                                 //
+        break;                    //
+      }                              //
+      case MQITEM_STRING_FILTER :      //
+      {                              //
+        break;                    //
+      }                            //
+      case MQITEM_INTEGER64 :      //
+      {                                //
+        break;                    //
+      }                      //
+      case MQITEM_BYTE_STRING_FILTER :     //
+      {                          //
+        break;          //
+      }                //
+    }                      //
+                                           //
+    switch( reason )      //
+    {          //
+      case MQRC_NONE : break ;      //
+      default :      //
+      {                  //
+        logMQCall(DBG,"mqInquire???",reason); 
+        goto _door;      //
+      }                  //
+    }
+  }                                        //
+                                           //  
+  _door:
+  return; 
+}

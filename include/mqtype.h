@@ -44,4 +44,4 @@ const char* mqPutApplType2str(  int id );
 const char* mqMsgFlag2str(      int id );
 const char* mqPutMsgOpt2str(    int id );
 const char* mqGetMsgOpt2str(    int id );
-
+const char* mqItemType2str( MQLONG id );
