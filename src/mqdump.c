@@ -745,6 +745,7 @@ void dumpMqBag( MQHBAG bag )
   MQINT32 iVal ;
 
   tItemType iT = UNKNOWN; // item type digit or string
+  MQLONG mqlongVal ;
 
   MQLONG compCode;
   MQLONG reason  ;
@@ -796,45 +797,46 @@ void dumpMqBag( MQHBAG bag )
       }                                    //
     }                                      //
     logger( LMQM_ITEM_TYPE, mqItemType2str( itemType) );  
-                                      //
+                                           //
     // -----------------------------------------------------
     // analyse the item type
     // -----------------------------------------------------
-    switch( itemType )          //
-    {                              //
+    switch( itemType )                     //
+    {                                      //
       // ---------------------------------------------------
       //
       // ---------------------------------------------------
-      case MQITEM_INTEGER :      //
-      {                        //
+      case MQITEM_INTEGER :                //
+      {                                    //
         mqInquireInteger( bag               ,
                           MQSEL_ANY_SELECTOR,
                           i                 ,
                           &iVal             ,
                           &compCode         ,  
                           &reason          );
-        iT = DIGIT;             //
-        break;                //
-      }                            //
+        iT = DIGIT;                        //
+        mqlongVal = (MQLONG) iVal;         //
+        break;                      //
+      }                                //
       case MQITEM_STRING :      //
-      {                                //
-        break;          //
-      }                          //
+      {                                    //
+        break;              //
+      }                              //
       case MQITEM_BAG :      //
-      {                          //
-        break;                    //
-      }                                //
+      {                              //
+        break;                        //
+      }                                  //
       case MQITEM_BYTE_STRING :      //
-      {                          //
-        break;                    //
-      }                                //
+      {                              //
+        break;                          //
+      }                                 //
       case MQITEM_INTEGER_FILTER :      //
       {                                 //
-        break;                    //
-      }                              //
+        break;                      //
+      }                                //
       case MQITEM_STRING_FILTER :      //
-      {                              //
-        break;                    //
+      {                                //
+        break;                         //
       }                            //
       case MQITEM_INTEGER64 :      //
       {                                //
@@ -854,7 +856,28 @@ void dumpMqBag( MQHBAG bag )
         logMQCall(DBG,"mqInquire???",reason); 
         goto _door;      //
       }                  //
-    }
+    }      //
+              //
+    switch( iT )      //
+    {              //
+      case DIGIT :      //
+      {        //
+        setDumpItemInt( F_MQLONG,       //
+                        mqSelector2str( selector ), 
+                        mqlongVal ) ;      //
+        break;      //
+      }        //
+      case STRING :      //
+      {        //
+//  setDumpItemStr( F_MQCHAR48, mqSelector2str( id ), strVal ) ;
+        break;      //
+      }        //
+      default :      //
+      {        //
+        break;      //
+      }        //
+    }            //
+
   }                                        //
                                            //  
   _door:
