@@ -6,9 +6,13 @@
 /*    - mqConn                                                                */
 /*    - mqDisc                                                                */
 /*    - mqOpenObject                                                          */
-/*    - mqCloseObject                                */
+/*    - mqCloseObject                                                         */
 /*    - mqPut                                                                 */
-/*    - mqGet                                */
+/*    - mqGet                                                                 */
+/*    - resizeMqMessageBuffer                                                 */
+/*    - mqOpenBag                                                             */
+/*    - mqReadBag                                            */
+/*    - mqCloseBag                                          */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -25,6 +29,8 @@
 // MQ
 // ---------------------------------------------------------
 #include <cmqc.h>
+#include <cmqcfc.h>
+#include <cmqbc.h>
 
 // ---------------------------------------------------------
 // own 
@@ -453,11 +459,11 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
 
 
 /******************************************************************************/
-/*   M Q    R E S I Z E   M E S S A G E             */
+/*   M Q    R E S I Z E   M E S S A G E                                     */
 /* -------------------------------------------------------------------------- */
 /*                                                                            */
-/*   Description: resize message buffer                       */
-/*                if the buffer is to short for reading                     */
+/*   Description: resize message buffer                                     */
+/*                if the buffer is to short for reading                       */
 /*                                                                            */
 /*   Comment:                                                                 */
 /*                                                                            */
@@ -479,4 +485,135 @@ PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize )
   logFuncExit() ;                            
 
   return message;
+}
+
+/******************************************************************************/
+/*   M Q    O P E N   B A G                                                   */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*   Description: interface to mqCreateBag                                    */
+/*                                                                            */
+/*   Comment:                                                                 */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqOpenBag( PMQHBAG bag )
+{
+  MQLONG compCode;
+  MQLONG reason  ;
+
+  mqCreateBag( MQCBO_USER_BAG, bag, &compCode, &reason );
+
+  switch( reason )                            
+  {                                          
+    case MQRC_NONE :                        
+    {                                      
+      logMQCall(DBG,"mqCreateBag",reason);
+      break;                             
+    }                                   
+    default :                          
+    {                                 
+      logMQCall(ERR,"mqCreateBag",reason);  
+      goto _door;                   
+    }                              
+  }                               
+
+  _door:
+  return reason;
+
+}
+
+/******************************************************************************/
+/*   M Q    R E A D   B A G                                                   */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*   Description: interface to mqGetBag                                       */
+/*                                                                            */
+/*   Comment:                                                                 */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqReadBag( MQHCONN hConn, 
+                  MQHOBJ odQueue, 
+                  PMQMD msgDscr ,
+                  PMQGMO getMsgOpt, 
+                  MQHBAG bag )
+{
+  MQLONG compCode;
+  MQLONG reason  ;
+
+  if( getMsgOpt->Version < MQGMO_VERSION_2 )
+  {
+    getMsgOpt->Version = MQGMO_VERSION_2 ;
+  }
+  getMsgOpt->Options += MQGMO_CONVERT ;
+
+  mqGetBag( hConn    ,     // global (qmgr) connect handle
+            odQueue  ,     // globale (queue) open handle
+            msgDscr  ,     // message descriptor
+            getMsgOpt,     // get message options
+            bag      ,     // event bag
+            &compCode,     // compelition code
+            &reason );     // mq reason
+
+  dumpMqStruct( "GMO  ", getMsgOpt , NULL );  
+  dumpMqStruct( "MD   ", msgDscr, NULL ); 
+
+  switch( reason )                          
+  {                                        
+    case MQRC_NONE :                      
+    {                                    
+      logMQCall( DBG, "mqGetBag", reason ); 
+      break;                         
+    }                                  
+    case MQRC_NO_MSG_AVAILABLE :      
+    {                                
+      logMQCall( DBG, "mqGetBag", reason );
+      break;                     
+    }                              
+    default :                     
+    {                            
+      logMQCall( ERR, "mqGetBag", reason ); 
+      goto _door;
+      break ;
+    }                         
+  }                          
+
+  _door:
+  return reason;
+}
+
+/******************************************************************************/
+/*   M Q    C L O S E   B A G                                                 */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*   Description: interface to mqDeleteBag                                    */
+/*                                                                            */
+/*   Comment:                                                                 */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqCloseBag( PMQHBAG bag )
+{
+  MQLONG compCode;
+  MQLONG reason  = MQRC_NONE ;
+
+  if( *bag != MQHB_UNUSABLE_HBAG ) 
+  {
+    mqDeleteBag( bag, &compCode, &reason );
+
+    switch( reason )                            
+    {                                          
+      case MQRC_NONE :                        
+      {                                      
+        logMQCall(DBG,"mqCreateBag",reason);
+        break;                             
+      }                                   
+      default :                          
+      {                                 
+        logMQCall(ERR,"mqCreateBag",reason);  
+        goto _door;                   
+      }                              
+    }                               
+  }                               
+
+  _door:
+  return reason;
 }

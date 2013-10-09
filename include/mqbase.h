@@ -15,6 +15,8 @@
 // MQ
 // ---------------------------------------------------------
 #include <cmqc.h>
+#include <cmqbc.h>
+#include <cmqcfc.h>
 
 // ---------------------------------------------------------
 // own 
@@ -82,3 +84,10 @@ int mqGet( MQHCONN _hConn      ,     // connection handle
 
 PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize );
 
+MQLONG mqOpenBag(  PMQHBAG bag  );
+MQLONG mqReadBag( MQHCONN hConn,
+                  MQHOBJ odQueue,
+                  PMQMD msgDscr ,
+                  PMQGMO getMsgOpt,
+                  MQHBAG bag );
+MQLONG mqCloseBag( PMQHBAG bag  );
