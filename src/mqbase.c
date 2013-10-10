@@ -544,7 +544,13 @@ MQLONG mqReadBag( MQHCONN hConn,
   {
     getMsgOpt->Version = MQGMO_VERSION_2 ;
   }
-  getMsgOpt->Options += MQGMO_CONVERT ;
+  if( msgDscr->Version < MQMD_VERSION_2 )
+  {
+    msgDscr->Version < MQMD_VERSION_2 ;
+  }
+  getMsgOpt->Options += MQGMO_WAIT              // wait for new messages
+                      + MQGMO_FAIL_IF_QUIESCING // fail if quiesching
+                      + MQGMO_CONVERT ;         // convert if necessary
 
   mqGetBag( hConn    ,     // global (qmgr) connect handle
             odQueue  ,     // globale (queue) open handle

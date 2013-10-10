@@ -84,10 +84,12 @@ int main( int argc, const char** argv )
               &bag     );
 
   MQGMO gmo ={MQGMO_DEFAULT} ;
+#if(0)
   gmo.Options = MQGMO_WAIT              // wait for new messages
               + MQGMO_FAIL_IF_QUIESCING // fail if quiesching
               + MQGMO_CONVERT           // convert if necessary
               + MQGMO_BROWSE_NEXT;      // browse messages
+#endif
 
 
   doIntTest( "read bag" ,
