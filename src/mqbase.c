@@ -552,7 +552,7 @@ MQLONG mqReadBag( MQHCONN hConn,
   {
     msgDscr->Version = MQMD_VERSION_2 ;
   }
-  getMsgOpt->Options += MQGMO_WAIT              // wait for new messages
+  getMsgOpt->Options |= MQGMO_WAIT              // wait for new messages
                       + MQGMO_FAIL_IF_QUIESCING // fail if quiesching
                       + MQGMO_CONVERT ;         // convert if necessary
 

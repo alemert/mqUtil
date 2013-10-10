@@ -73,7 +73,10 @@ int main( int argc, const char** argv )
     MQHCONN hConn   ;
     MQOD    odQueue = {MQOD_DEFAULT} ;
     MQMD    md      = {MQMD_DEFAULT} ;
+    MQGMO   gmo     = {MQGMO_DEFAULT} ;
     MQHOBJ  ohQueue ;
+
+    gmo.MatchOptions = MQMO_NONE;
 
     mqConn( NULL, &hConn );
     memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
@@ -90,8 +93,9 @@ int main( int argc, const char** argv )
                 0         ,
                 mqOpenBag ,
                 &bag     );
-  
-    MQGMO gmo ={MQGMO_DEFAULT} ;
+ 
+    dumpMqStruct( "GMO  ", &gmo, NULL );  //
+    dumpMqStruct( "MD   ", &md , NULL );  //
 
     doIntTest( "read bag" ,
                 0         ,
