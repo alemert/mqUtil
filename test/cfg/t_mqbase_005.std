@@ -1,0 +1,6 @@
+# TEST START mqOpenBag  >>open bag            << test/src/t_mqbase_005.c(0092)
+# TEST OK    mqOpenBag  >>open bag            << test/src/t_mqbase_005.c(0092)
+# TEST START mqReadBag  >>read bag            << test/src/t_mqbase_005.c(0103)
+# TEST OK    mqReadBag  >>read bag            << test/src/t_mqbase_005.c(0103)
+# TEST START mqCloseBag >>open bag            << test/src/t_mqbase_005.c(0108)
+# TEST OK    mqCloseBag >>open bag            << test/src/t_mqbase_005.c(0108)

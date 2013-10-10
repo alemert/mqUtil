@@ -36,10 +36,6 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  MQHCONN hConn   ;
-  MQOD    odQueue = {MQOD_DEFAULT} ;
-  MQMD    md      = {MQMD_DEFAULT} ;
-  MQHOBJ  ohQueue ;
 
   sysRc = initLogging( "test/log/t_mqbase_005.log", DBG ) ;
   if( sysRc != 0 ) goto _door ;
@@ -48,67 +44,73 @@ int main( int argc, const char** argv )
   // put test
   // -------------------------------------------------------
 #if(1)
-  mqConn( "ALFA", &hConn );
+  {
+    MQHCONN hConn   ;
+    MQOD    odQueue = {MQOD_DEFAULT} ;
+    MQMD    md      = {MQMD_DEFAULT} ;
+    MQHOBJ  ohQueue ;
 
-  memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
-  memcpy( odQueue.ObjectName, "NOT.EXISTS.ON.OMEGA", MQ_Q_NAME_LENGTH ) ;
+    mqConn( "ALFA", &hConn );
 
-  mqOpenObject( hConn, &odQueue, MQOO_OUTPUT           |
-                                 MQOO_FAIL_IF_QUIESCING, &ohQueue ) ;
+    memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
+    memcpy( odQueue.ObjectName, "NOT.EXISTS.ON.OMEGA", MQ_Q_NAME_LENGTH ) ;
 
-  mqPut( hConn, ohQueue, &md, NULL, "go to dlq", 0 ) ;
+    mqOpenObject( hConn, &odQueue, MQOO_OUTPUT           |
+                                   MQOO_FAIL_IF_QUIESCING, &ohQueue ) ;
 
-  mqCloseObject( hConn, &ohQueue ) ;
-  mqDisc( &hConn ) ;
+    mqPut( hConn, ohQueue, &md, NULL, "go to dlq", 0 ) ;
+
+    mqCloseObject( hConn, &ohQueue ) ;
+    mqDisc( &hConn ) ;
+  }
 #endif
 
   // -------------------------------------------------------
   // get test
   // -------------------------------------------------------
 #if(1)
+  {
+    MQHCONN hConn   ;
+    MQOD    odQueue = {MQOD_DEFAULT} ;
+    MQMD    md      = {MQMD_DEFAULT} ;
+    MQHOBJ  ohQueue ;
 
-  mqConn( NULL, &hConn );
-  memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
-  memcpy( odQueue.ObjectName, "SYSTEM.ADMIN.QMGR.EVENT", MQ_Q_NAME_LENGTH ) ;
+    mqConn( NULL, &hConn );
+    memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
+    memcpy( odQueue.ObjectName, "SYSTEM.ADMIN.QMGR.EVENT", MQ_Q_NAME_LENGTH ) ;
+  
+    mqOpenObject( hConn, &odQueue, 
+                MQOO_INPUT_AS_Q_DEF   |
+                MQOO_FAIL_IF_QUIESCING,
+                &ohQueue            ) ;
 
-  mqOpenObject( hConn, &odQueue, 
-              MQOO_INPUT_AS_Q_DEF   |
-              MQOO_FAIL_IF_QUIESCING,
-              &ohQueue            ) ;
+    MQHBAG bag;
 
-  MQHBAG bag;
+    doIntTest( "open bag" ,
+                0         ,
+                mqOpenBag ,
+                &bag     );
+  
+    MQGMO gmo ={MQGMO_DEFAULT} ;
 
-  doIntTest( "open bag" ,
-              0         ,
-              mqOpenBag ,
-              &bag     );
+    doIntTest( "read bag" ,
+                0         ,
+                mqReadBag ,
+                hConn     ,
+                ohQueue  ,
+                &md       ,  
+                &gmo,
+                bag      );
 
-  MQGMO gmo ={MQGMO_DEFAULT} ;
-#if(0)
-  gmo.Options = MQGMO_WAIT              // wait for new messages
-              + MQGMO_FAIL_IF_QUIESCING // fail if quiesching
-              + MQGMO_CONVERT           // convert if necessary
-              + MQGMO_BROWSE_NEXT;      // browse messages
-#endif
+    doIntTest( "open bag" ,
+                0         ,
+                mqCloseBag ,
+                &bag     );
 
+    mqCloseObject( hConn, &ohQueue ) ;
 
-  doIntTest( "read bag" ,
-              0         ,
-              mqReadBag ,
-              hConn     ,
-              ohQueue  ,
-              &md       ,  
-              &gmo,
-              bag      );
-
-  doIntTest( "open bag" ,
-              0         ,
-              mqCloseBag ,
-              &bag     );
-
-  mqCloseObject( hConn, &ohQueue ) ;
-
-  mqDisc( &hConn ) ;
+    mqDisc( &hConn ) ;
+}
 
 #endif
 

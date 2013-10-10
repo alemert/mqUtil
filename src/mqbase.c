@@ -65,18 +65,20 @@ const char gDefaultQmgr[] = "\0" ;
 /******************************************************************************/
 /* mq connect                                                                 */
 /******************************************************************************/
-int mqConn( char* qmName, PMQHCONN pHconn )
+int mqConn( char* _qmName, PMQHCONN pHconn )
 {
   logFuncCall( ) ;
 
   int sysRc = 0 ;
 
+  MQCHAR qmName[MQ_Q_MGR_NAME_LENGTH+1] ;
   MQLONG compCode ;
   MQLONG reason   ;
 
-  if( qmName == NULL )
+  memset( qmName, ' ', MQ_Q_MGR_NAME_LENGTH );
+  if( _qmName != NULL )
   {
-    qmName = (char*) gDefaultQmgr ;
+    strncpy( qmName, _qmName, strlen(_qmName) );
   }
 
   // -------------------------------------------------------
@@ -546,7 +548,7 @@ MQLONG mqReadBag( MQHCONN hConn,
   }
   if( msgDscr->Version < MQMD_VERSION_2 )
   {
-    msgDscr->Version < MQMD_VERSION_2 ;
+    msgDscr->Version = MQMD_VERSION_2 ;
   }
   getMsgOpt->Options += MQGMO_WAIT              // wait for new messages
                       + MQGMO_FAIL_IF_QUIESCING // fail if quiesching

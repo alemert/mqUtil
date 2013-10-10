@@ -90,7 +90,7 @@ int main( int argc, const char** argv )
               _gDefGMO ,
               0    );
 
-  printf( "%s\n", buffer ) ;
+//printf( "%s\n", buffer ) ;
 
   mqCloseObject( hConn, &ohQueue ) ;
 

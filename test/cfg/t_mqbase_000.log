@@ -1,8 +1,8 @@
-2013-10-04 21:44:53  12631 01104 INF logging mq call MQCONN with: MQRC_NONE
-                                     mqConn() in src/mqbase.c (line: 00091)
-2013-10-04 21:44:53  12631 01110 LOG connected to queue manager TEST
-                                     mqConn() in src/mqbase.c (line: 00092)
-2013-10-04 21:44:53  12631 01104 INF logging mq call MQDISC with: MQRC_NONE
-                                     mqDisc() in src/mqbase.c (line: 00126)
-2013-10-04 21:44:53  12631 01101 ERR mq call MQDISC failed with: MQRC_HCONN_ERROR
-                                     mqDisc() in src/mqbase.c (line: 00121)
+2013-10-10 09:22:32  12348 01104 INF logging mq call MQCONN with: MQRC_NONE
+                                     mqConn() in src/mqbase.c (line: 00099)
+2013-10-10 09:22:32  12348 01110 LOG connected to queue manager TEST                          
+                                     mqConn() in src/mqbase.c (line: 00100)
+2013-10-10 09:22:32  12348 01104 INF logging mq call MQDISC with: MQRC_NONE
+                                     mqDisc() in src/mqbase.c (line: 00134)
+2013-10-10 09:22:32  12348 01101 ERR mq call MQDISC failed with: MQRC_HCONN_ERROR
+                                     mqDisc() in src/mqbase.c (line: 00129)
