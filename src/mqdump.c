@@ -816,67 +816,67 @@ void dumpMqBag( MQHBAG bag )
                           &reason          );
         iT = DIGIT;                        //
         mqlongVal = (MQLONG) iVal;         //
-        break;                      //
-      }                                //
-      case MQITEM_STRING :      //
+        break;                             //
+      }                                    //
+      case MQITEM_STRING :                 //
       {                                    //
-        break;              //
-      }                              //
-      case MQITEM_BAG :      //
-      {                              //
-        break;                        //
-      }                                  //
-      case MQITEM_BYTE_STRING :      //
-      {                              //
-        break;                          //
-      }                                 //
-      case MQITEM_INTEGER_FILTER :      //
-      {                                 //
-        break;                      //
-      }                                //
-      case MQITEM_STRING_FILTER :      //
-      {                                //
-        break;                         //
-      }                            //
-      case MQITEM_INTEGER64 :      //
-      {                                //
-        break;                    //
-      }                      //
+        break;                             //
+      }                                    //
+      case MQITEM_BAG :                    //
+      {                                    //
+        break;                             //
+      }                                    //
+      case MQITEM_BYTE_STRING :            //
+      {                                    //
+        break;                             //
+      }                                    //
+      case MQITEM_INTEGER_FILTER :         //
+      {                                    //
+        break;                             //
+      }                                    //
+      case MQITEM_STRING_FILTER :          //
+      {                                    //
+        break;                             //
+      }                                    //
+      case MQITEM_INTEGER64 :              //
+      {                                    //
+        break;                             //
+      }                                    //
       case MQITEM_BYTE_STRING_FILTER :     //
-      {                          //
-        break;          //
-      }                //
-    }                      //
+      {                                    //
+        break;                    //
+      }                            //
+    }                                  //
                                            //
     switch( reason )      //
-    {          //
+    {                        //
       case MQRC_NONE : break ;      //
-      default :      //
-      {                  //
+      default :            //
+      {                          //
         logMQCall(DBG,"mqInquire???",reason); 
         goto _door;      //
-      }                  //
-    }      //
-              //
+      }                        //
+    }                  //
+                    //
     switch( iT )      //
-    {              //
+    {                    //
       case DIGIT :      //
-      {        //
+      {              //
         setDumpItemInt( F_MQLONG,       //
-                        mqSelector2str( selector ), 
+                        mqSelector2str(selector), 
                         mqlongVal ) ;      //
-        break;      //
-      }        //
-      case STRING :      //
-      {        //
+        break;        //
+      }              //
+      case STRING :        //
+      {                    //
 //  setDumpItemStr( F_MQCHAR48, mqSelector2str( id ), strVal ) ;
-        break;      //
-      }        //
-      default :      //
-      {        //
-        break;      //
-      }        //
-    }            //
+        break;        //
+      }                    //
+      default :          //
+      {                    //
+        break;        //
+      }              //
+    }                    //
 
   }                                        //
                                            //  
