@@ -503,6 +503,8 @@ MQLONG mqOpenBag( PMQHBAG bag )
   MQLONG compCode;
   MQLONG reason  ;
 
+  *bag = MQHB_UNUSABLE_HBAG;
+
   mqCreateBag( MQCBO_USER_BAG, bag, &compCode, &reason );
 
   switch( reason )                            
