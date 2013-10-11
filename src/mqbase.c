@@ -573,6 +573,7 @@ MQLONG mqReadBag( MQHCONN hConn,
     case MQRC_NONE :                      
     {                                    
       logMQCall( DBG, "mqGetBag", reason ); 
+      dumpMqStruct( "MQBAG", &bag, NULL );
       break;                         
     }                                  
     case MQRC_NO_MSG_AVAILABLE :      

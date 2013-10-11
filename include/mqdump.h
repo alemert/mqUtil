@@ -41,3 +41,4 @@ void dumpMqObjDscr(   const PMQOD  od  );
 void dumpMqMsgDscr(   const PMQMD  md  );
 void dumpMqPutMsgOpt( const PMQPMO pmo );
 void dumpMqGetMsgOpt( const PMQGMO gmo );
+void dumpMqBag( const MQHBAG bag );

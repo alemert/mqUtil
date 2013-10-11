@@ -148,6 +148,15 @@ void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
   }
 
   // -------------------------------------------------------
+  // Bag
+  // -------------------------------------------------------
+  if( memcmp( _type, "MQBAG", 4 ) == 0 )
+  {
+    dumpMqBag( *((PMQHBAG) _pStruct) ) ;
+    goto _output ; 
+  }
+
+  // -------------------------------------------------------
   // if you get that far, then it has to be unkonwn struct
   // -------------------------------------------------------
   logger( LMQM_UNKNOWN_DMP_STRUCT, _type ) ;
@@ -738,14 +747,16 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
 /******************************************************************************/
 void dumpMqBag( MQHBAG bag )
 {
+  _gDmpMsgIx = 0 ;  
+
   MQLONG itemCount;
   MQLONG itemType ;
   MQLONG selector ;
 
   MQINT32 iVal ;
 
-  tItemType iT = UNKNOWN; // item type digit or string
-  MQLONG mqlongVal ;
+  MQLONG mqlongVal;
+  char  *mqstrVal  ;
 
   MQLONG compCode;
   MQLONG reason  ;
@@ -754,132 +765,128 @@ void dumpMqBag( MQHBAG bag )
   // -------------------------------------------------------
   // count items in the bag
   // -------------------------------------------------------
-  mqCountItems( bag                ,       // 
-                MQSEL_ALL_SELECTORS,       //
-                &itemCount         ,       //
-                &compCode          ,       //
-                &reason           );       //
-                                           //
-  switch( reason )                         // handle error count items 
-  {                                        //
-    case MQRC_NONE : break;                //
-    default :                              //
-    {                                      //
-      logMQCall(DBG,"mqCountItems",reason);//
-      goto _door;                          //
-    }                                      //
-  }                                        //
-  logger( LMQM_ITEM_COUNT, itemCount );    //
-                                           //
+  mqCountItems( bag                ,                 // 
+                MQSEL_ALL_SELECTORS,                 //
+                &itemCount         ,                 //
+                &compCode          ,                 //
+                &reason           );                 //
+                                                     //
+  switch( reason )                                   // handle error count items
+  {                                                  //
+    case MQRC_NONE : break;                          //
+    default :                                        //
+    {                                                //
+      logMQCall(DBG,"mqCountItems",reason);          //
+      goto _door;                                    //
+    }                                                //
+  }                                                  //
+  logger( LMQM_ITEM_COUNT, itemCount );              //
+                                                     //
   // -------------------------------------------------------
   // go through all items
   // -------------------------------------------------------
-  for( i=0; i<itemCount; i++ )             //
-  {                                        //
+  for( i=0; i<itemCount; i++ )                       // mqstrVal will stay NULL
+  {                                                  // if item type is intiger
+    mqstrVal = NULL;                                 // which can not be 
+                                                     // converted to string
     // -----------------------------------------------------
     // get item type
     // -----------------------------------------------------
-    mqInquireItemInfo( bag               , //
-                       MQSEL_ANY_SELECTOR, //
-                       i                 , //
-                       &selector         , //
-                       &itemType         , //
-                       &compCode         , //
-                       &reason          ); //
-                                           //
-    switch( reason )                       //
-    {                                      //
-      case MQRC_NONE : break;              //
-      default :                            //
-      {                                    //
-        logMQCall(DBG,"mqCountItems",reason); 
-        goto _door;                        //
-      }                                    //
-    }                                      //
-    logger( LMQM_ITEM_TYPE, mqItemType2str( itemType) );  
-                                           //
+    mqInquireItemInfo( bag               ,           // get selector(id)
+                       MQSEL_ANY_SELECTOR,           //  and item type
+                       i                 ,           //
+                       &selector         ,           //
+                       &itemType         ,           //
+                       &compCode         ,           //
+                       &reason          );           //
+                                                     //
+    switch( reason )                                 //
+    {                                                //
+      case MQRC_NONE : break;                        //
+      default :                                      //
+      {                                              //
+        logMQCall(DBG,"mqCountItems",reason);        //
+        goto _door;                                  //
+      }                                              //
+    }                                                //
+    logger(LMQM_ITEM_TYPE,mqItemType2str(itemType)); //
+                                                     //
     // -----------------------------------------------------
     // analyse the item type
     // -----------------------------------------------------
-    switch( itemType )                     //
-    {                                      //
+    switch( itemType )                               //
+    {                                                //
       // ---------------------------------------------------
       //
       // ---------------------------------------------------
-      case MQITEM_INTEGER :                //
-      {                                    //
-        mqInquireInteger( bag               ,
-                          MQSEL_ANY_SELECTOR,
-                          i                 ,
-                          &iVal             ,
-                          &compCode         ,  
-                          &reason          );
-        iT = DIGIT;                        //
-        mqlongVal = (MQLONG) iVal;         //
-        break;                             //
-      }                                    //
-      case MQITEM_STRING :                 //
-      {                                    //
-        break;                             //
-      }                                    //
-      case MQITEM_BAG :                    //
-      {                                    //
-        break;                             //
-      }                                    //
-      case MQITEM_BYTE_STRING :            //
-      {                                    //
-        break;                             //
-      }                                    //
-      case MQITEM_INTEGER_FILTER :         //
-      {                                    //
-        break;                             //
-      }                                    //
-      case MQITEM_STRING_FILTER :          //
-      {                                    //
-        break;                             //
-      }                                    //
-      case MQITEM_INTEGER64 :              //
-      {                                    //
-        break;                             //
-      }                                    //
-      case MQITEM_BYTE_STRING_FILTER :     //
-      {                                    //
-        break;                    //
-      }                            //
-    }                                  //
-                                           //
-    switch( reason )      //
-    {                        //
-      case MQRC_NONE : break ;      //
-      default :            //
-      {                          //
-        logMQCall(DBG,"mqInquire???",reason); 
-        goto _door;      //
-      }                        //
-    }                  //
-                    //
-    switch( iT )      //
-    {                    //
-      case DIGIT :      //
-      {              //
-        setDumpItemInt( F_MQLONG,       //
-                        mqSelector2str(selector), 
-                        mqlongVal ) ;      //
-        break;        //
-      }              //
-      case STRING :        //
-      {                    //
-//  setDumpItemStr( F_MQCHAR48, mqSelector2str( id ), strVal ) ;
-        break;        //
-      }                    //
-      default :          //
-      {                    //
-        break;        //
-      }              //
+      case MQITEM_INTEGER :                          //
+      {                                              //
+        mqInquireInteger( bag               ,        //
+                          MQSEL_ANY_SELECTOR,        //
+                          i                 ,        //
+                          &iVal             ,        //
+                          &compCode         ,        //
+                          &reason          );        //
+        mqlongVal = (MQLONG) iVal;                   //
+        mqstrVal = (char*) itemValue2str(selector  , //
+                                         mqlongVal); //
+        break;                                       //
+      }                                              //
+      case MQITEM_STRING :                           //
+      {                                              //
+        break;                                       //
+      }                                              //
+      case MQITEM_BAG :                              //
+      {                                              //
+        break;                                       //
+      }                                              //
+      case MQITEM_BYTE_STRING :                      //
+      {                                              //
+        break;                                       //
+      }                                              //
+      case MQITEM_INTEGER_FILTER :                   //
+      {                                              //
+        break;                                       //
+      }                                              //
+      case MQITEM_STRING_FILTER :                    //
+      {                                              //
+        break;                                       //
+      }                                              //
+      case MQITEM_INTEGER64 :                        //
+      {                                              //
+        break;                                       //
+      }                                              //
+      case MQITEM_BYTE_STRING_FILTER :               //
+      {                                              //
+        break;                                       //
+      }                                              //
+    }                                                //
+                                                     //
+    switch( reason )                                 //
+    {                                                //
+      case MQRC_NONE : break;                        //
+      default :                                      //
+      {                                              //
+        logMQCall(DBG,"mqInquire???",reason);        //
+        goto _door;                                  //
+      }                                              //
+    }                                                //
+                                                     //
+    if( mqstrVal )                                   //
+    {                                                //
+      setDumpItemStr(  F_STR                  ,      //
+                      mqSelector2str(selector),      //
+                      mqstrVal );        //
     }                    //
-
-  }                                        //
-                                           //  
+    else                  //
+    {                                        //
+      setDumpItemInt( F_MQLONG,             //
+                      mqSelector2str(selector),  //
+                      mqlongVal ) ;        //
+    }                                        //
+                        //
+  }                                            //
+                                               //  
   _door:
   return; 
 }
