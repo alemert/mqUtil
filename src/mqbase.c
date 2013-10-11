@@ -629,3 +629,4 @@ MQLONG mqCloseBag( PMQHBAG bag )
   _door:
   return reason;
 }
+
