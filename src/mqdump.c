@@ -57,6 +57,8 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 /******************************************************************************/
 /*   D E F I N E S                                                            */
 /******************************************************************************/
+#define ITEM_STRING_LENGTH    500
+
 #define F_KEY       "%-35.35s"    // dump format for key
 #define F_STR       "%-48.25s"    // dump format for general string
 #define F_MQPTR     "%-48.8s"     // dump format for general pointer
@@ -755,7 +757,11 @@ void dumpMqBag( MQHBAG bag )
 
   MQINT32 iVal ;
 
-  MQLONG mqlongVal;
+  MQCHAR itemStrBuffer[ITEM_STRING_LENGTH+1];
+  MQLONG itemStrLength;
+  MQLONG iCCSID;
+
+  MQLONG mqlongVal ;
   char  *mqstrVal  ;
 
   MQLONG compCode;
@@ -817,7 +823,7 @@ void dumpMqBag( MQHBAG bag )
     switch( itemType )                               //
     {                                                //
       // ---------------------------------------------------
-      //
+      //  handle INTIGER item 
       // ---------------------------------------------------
       case MQITEM_INTEGER :                          //
       {                                              //
@@ -828,12 +834,25 @@ void dumpMqBag( MQHBAG bag )
                           &compCode         ,        //
                           &reason          );        //
         mqlongVal = (MQLONG) iVal;                   //
-        mqstrVal = (char*) itemValue2str(selector  , //
+        mqstrVal = (char*) itemValue2str(selector  , // try to convert to string
                                          mqlongVal); //
         break;                                       //
       }                                              //
+      // ---------------------------------------------------
+      //  handle STRING item 
+      // ---------------------------------------------------
       case MQITEM_STRING :                           //
       {                                              //
+        mqInquireString( bag               ,         //
+                         MQSEL_ANY_SELECTOR,         //
+                         i                 ,         //
+                         ITEM_STRING_LENGTH,         //
+                         itemStrBuffer     ,         //
+                         &itemStrLength    ,         //
+                         &iCCSID           ,         //
+                         &compCode         ,         //
+                         &reason          );         //
+        mqstrVal = (char*) itemStrBuffer   ;         //
         break;                                       //
       }                                              //
       case MQITEM_BAG :                              //
@@ -876,17 +895,17 @@ void dumpMqBag( MQHBAG bag )
     {                                                //
       setDumpItemStr(  F_STR                  ,      //
                       mqSelector2str(selector),      //
-                      mqstrVal );        //
-    }                    //
-    else                  //
-    {                                        //
-      setDumpItemInt( F_MQLONG,             //
+                      mqstrVal               );      //
+    }                                //
+    else                      //
+    {                                            //
+      setDumpItemInt( F_MQLONG                ,      //
                       mqSelector2str(selector),  //
                       mqlongVal ) ;        //
-    }                                        //
-                        //
-  }                                            //
-                                               //  
+    }                                            //
+                            //
+  }                                                //
+                                                     //  
   _door:
   return; 
 }

@@ -48,5 +48,8 @@ const char* mqGetMsgOpt2str(    int id );
 const char* mqItemType2str( MQLONG id );
 const char* itemValue2str( MQLONG selector, MQLONG mqlongVal );
 const char* mqSelector2str( MQLONG id );
-
 const char* mqbagType2str( MQLONG id );
+const char* mqcmd2str( MQLONG id );
+const char* mqcfc2str( MQLONG id );
+const char* mqcompCode2str( MQLONG id );
+const char* mqrcQualifier2str( MQLONG id );

@@ -2,12 +2,13 @@
 /*   C O N V E R T   M Q    D E F I N E S   ( T Y P E )   T O   S T R I N G   */
 /*                                                                            */
 /*  functions:                                                                */
+/*   - unknownReason                              */
 /*   - mqObjType2str                                                          */
 /*   - mqmdVer2str                                                            */
 /*   - mqodVer2str                                                            */
 /*   - mqpmoVer2str                                                           */
 /*   - mqgmoVer2str                                                           */
-/*   - mqcfhVer2str                        */
+/*   - mqcfhVer2str                                                        */
 /*   - mqReportOption2str                                                     */
 /*   - mqMsgTypeId2Str                                                        */
 /*   - mqFeedback2str                                                         */
@@ -17,11 +18,15 @@
 /*   - mqPersistence2str                                                      */
 /*   - mqPutApplType2str                                                      */
 /*   - mqMsgFlag2str                                                          */
-/*   - mqItemType2str                                        */
-/*   - mqSelector2str                                    */
-/*   - itemValue2str                      */
-/*   - mqbagType2str                  */
-/*                                          */
+/*   - mqItemType2str                                                         */
+/*   - mqSelector2str                                                         */
+/*   - itemValue2str                                            */
+/*   - mqbagType2str                                        */
+/*   - mqcmd2str                                        */
+/*   - mqcfc2str                                */
+/*   - mqcompCode2str                            */
+/*   - mqrcQualifier2str                    */
+/*                                                          */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -44,6 +49,7 @@
 // own 
 // ---------------------------------------------------------
 #include <mqtype.h>
+#include <mqreason.h>
 
 /******************************************************************************/
 /*   G L O B A L S                                                            */
@@ -67,6 +73,28 @@
 /*   F U N C T I O N S                                                        */
 /*                                                                            */
 /******************************************************************************/
+
+/******************************************************************************/
+/* unknown reason                  */
+/******************************************************************************/
+const char* unknownReason( const char* txt, int id )
+{
+  #define UR_MAX_MEM_IX  8
+  #define UR_MEM_LNG    32 
+
+  static int memIx = 0;
+  static char buff[UR_MAX_MEM_IX][UR_MEM_LNG+1];
+
+  memIx++;
+  if( memIx >= UR_MAX_MEM_IX )
+  {
+    memIx = 0 ;
+  }
+  snprintf( buff[memIx], UR_MEM_LNG, "%d %s", id, txt );
+  
+  return buff[memIx] ;
+  
+}
 
 /******************************************************************************/
 /* mq object description to string                                            */
@@ -1149,29 +1177,296 @@ const char* mqSelector2str( MQLONG id )
     convert( MQIACH_CLIENT_CHANNEL_WEIGHT     );
     convert( MQIACH_CONNECTION_AFFINITY       );
 //  convert( MQIACH_LAST_USED                 );
-   }
-  
-  return "UNKNOWN MQ ITEM SELECTOR ID" ;
+//  convert( MQIACF_FIRST                     );
+    convert( MQIACF_Q_MGR_ATTRS               );
+    convert( MQIACF_Q_ATTRS                   );
+    convert( MQIACF_PROCESS_ATTRS             );
+    convert( MQIACF_NAMELIST_ATTRS            );
+    convert( MQIACF_FORCE                     );
+    convert( MQIACF_REPLACE                   );
+    convert( MQIACF_PURGE                     );
+    convert( MQIACF_QUIESCE                   );
+//  convert( MQIACF_MODE                      );
+    convert( MQIACF_ALL                       );
+    convert( MQIACF_EVENT_APPL_TYPE           );
+    convert( MQIACF_EVENT_ORIGIN              );
+    convert( MQIACF_PARAMETER_ID              );
+    convert( MQIACF_ERROR_ID                  );
+//  convert( MQIACF_ERROR_IDENTIFIER          );
+    convert( MQIACF_SELECTOR                  );
+    convert( MQIACF_CHANNEL_ATTRS             );
+    convert( MQIACF_OBJECT_TYPE               );
+    convert( MQIACF_ESCAPE_TYPE               );
+    convert( MQIACF_ERROR_OFFSET              );
+    convert( MQIACF_AUTH_INFO_ATTRS           );
+    convert( MQIACF_REASON_QUALIFIER          );
+    convert( MQIACF_COMMAND                   );
+    convert( MQIACF_OPEN_OPTIONS              );
+    convert( MQIACF_OPEN_TYPE                 );
+    convert( MQIACF_PROCESS_ID                );
+    convert( MQIACF_THREAD_ID                 );
+    convert( MQIACF_Q_STATUS_ATTRS            );
+    convert( MQIACF_UNCOMMITTED_MSGS          );
+    convert( MQIACF_HANDLE_STATE              );
+    convert( MQIACF_AUX_ERROR_DATA_INT_1      );
+    convert( MQIACF_AUX_ERROR_DATA_INT_2      );
+    convert( MQIACF_CONV_REASON_CODE          );
+    convert( MQIACF_BRIDGE_TYPE               );
+    convert( MQIACF_INQUIRY                   );
+    convert( MQIACF_WAIT_INTERVAL             );
+    convert( MQIACF_OPTIONS                   );
+    convert( MQIACF_BROKER_OPTIONS            );
+    convert( MQIACF_REFRESH_TYPE              );
+    convert( MQIACF_SEQUENCE_NUMBER           );
+    convert( MQIACF_INTEGER_DATA              );
+    convert( MQIACF_REGISTRATION_OPTIONS      );
+    convert( MQIACF_PUBLICATION_OPTIONS       );
+    convert( MQIACF_CLUSTER_INFO              );
+    convert( MQIACF_Q_MGR_DEFINITION_TYPE     );
+    convert( MQIACF_Q_MGR_TYPE                );
+    convert( MQIACF_ACTION                    );
+    convert( MQIACF_SUSPEND                   );
+    convert( MQIACF_BROKER_COUNT              );
+    convert( MQIACF_APPL_COUNT                );
+    convert( MQIACF_ANONYMOUS_COUNT           );
+    convert( MQIACF_REG_REG_OPTIONS           );
+    convert( MQIACF_DELETE_OPTIONS            );
+    convert( MQIACF_CLUSTER_Q_MGR_ATTRS       );
+    convert( MQIACF_REFRESH_INTERVAL          );
+    convert( MQIACF_REFRESH_REPOSITORY        );
+    convert( MQIACF_REMOVE_QUEUES             );
+    convert( MQIACF_OPEN_INPUT_TYPE           );
+    convert( MQIACF_OPEN_OUTPUT               );
+    convert( MQIACF_OPEN_SET                  );
+    convert( MQIACF_OPEN_INQUIRE              );
+    convert( MQIACF_OPEN_BROWSE               );
+    convert( MQIACF_Q_STATUS_TYPE             );
+    convert( MQIACF_Q_HANDLE                  );
+    convert( MQIACF_Q_STATUS                  );
+    convert( MQIACF_SECURITY_TYPE             );
+    convert( MQIACF_CONNECTION_ATTRS          );
+    convert( MQIACF_CONNECT_OPTIONS           );
+    convert( MQIACF_CONN_INFO_TYPE            );
+    convert( MQIACF_CONN_INFO_CONN            );
+    convert( MQIACF_CONN_INFO_HANDLE          );
+    convert( MQIACF_CONN_INFO_ALL             );
+    convert( MQIACF_AUTH_PROFILE_ATTRS        );
+    convert( MQIACF_AUTHORIZATION_LIST        );
+    convert( MQIACF_AUTH_ADD_AUTHS            );
+    convert( MQIACF_AUTH_REMOVE_AUTHS         );
+    convert( MQIACF_ENTITY_TYPE               );
+    convert( MQIACF_COMMAND_INFO              );
+    convert( MQIACF_CMDSCOPE_Q_MGR_COUNT      );
+    convert( MQIACF_Q_MGR_SYSTEM              );
+    convert( MQIACF_Q_MGR_EVENT               );
+    convert( MQIACF_Q_MGR_DQM                 );
+    convert( MQIACF_Q_MGR_CLUSTER             );
+    convert( MQIACF_QSG_DISPS                 );
+    convert( MQIACF_UOW_STATE                 );
+    convert( MQIACF_SECURITY_ITEM             );
+    convert( MQIACF_CF_STRUC_STATUS           );
+    convert( MQIACF_UOW_TYPE                  );
+    convert( MQIACF_CF_STRUC_ATTRS            );
+    convert( MQIACF_EXCLUDE_INTERVAL          );
+    convert( MQIACF_CF_STATUS_TYPE            );
+    convert( MQIACF_CF_STATUS_SUMMARY         );
+    convert( MQIACF_CF_STATUS_CONNECT         );
+    convert( MQIACF_CF_STATUS_BACKUP          );
+    convert( MQIACF_CF_STRUC_TYPE             );
+    convert( MQIACF_CF_STRUC_SIZE_MAX         );
+    convert( MQIACF_CF_STRUC_SIZE_USED        );
+    convert( MQIACF_CF_STRUC_ENTRIES_MAX      );
+    convert( MQIACF_CF_STRUC_ENTRIES_USED     );
+    convert( MQIACF_CF_STRUC_BACKUP_SIZE      );
+    convert( MQIACF_MOVE_TYPE                 );
+    convert( MQIACF_MOVE_TYPE_MOVE            );
+    convert( MQIACF_MOVE_TYPE_ADD             );
+    convert( MQIACF_Q_MGR_NUMBER              );
+    convert( MQIACF_Q_MGR_STATUS              );
+    convert( MQIACF_DB2_CONN_STATUS           );
+    convert( MQIACF_SECURITY_ATTRS            );
+    convert( MQIACF_SECURITY_TIMEOUT          );
+    convert( MQIACF_SECURITY_INTERVAL         );
+    convert( MQIACF_SECURITY_SWITCH           );
+    convert( MQIACF_SECURITY_SETTING          );
+    convert( MQIACF_STORAGE_CLASS_ATTRS       );
+    convert( MQIACF_USAGE_TYPE                );
+    convert( MQIACF_BUFFER_POOL_ID            );
+    convert( MQIACF_USAGE_TOTAL_PAGES         );
+    convert( MQIACF_USAGE_UNUSED_PAGES        );
+    convert( MQIACF_USAGE_PERSIST_PAGES       );
+    convert( MQIACF_USAGE_NONPERSIST_PAGES    );
+    convert( MQIACF_USAGE_RESTART_EXTENTS     );
+    convert( MQIACF_USAGE_EXPAND_COUNT        );
+    convert( MQIACF_PAGESET_STATUS            );
+    convert( MQIACF_USAGE_TOTAL_BUFFERS       );
+    convert( MQIACF_USAGE_DATA_SET_TYPE       );
+    convert( MQIACF_USAGE_PAGESET             );
+    convert( MQIACF_USAGE_DATA_SET            );
+    convert( MQIACF_USAGE_BUFFER_POOL         );
+    convert( MQIACF_MOVE_COUNT                );
+    convert( MQIACF_EXPIRY_Q_COUNT            );
+    convert( MQIACF_CONFIGURATION_OBJECTS     );
+    convert( MQIACF_CONFIGURATION_EVENTS      );
+    convert( MQIACF_SYSP_TYPE                 );
+    convert( MQIACF_SYSP_DEALLOC_INTERVAL     );
+    convert( MQIACF_SYSP_MAX_ARCHIVE          );
+    convert( MQIACF_SYSP_MAX_READ_TAPES       );
+    convert( MQIACF_SYSP_IN_BUFFER_SIZE       );
+    convert( MQIACF_SYSP_OUT_BUFFER_SIZE      );
+    convert( MQIACF_SYSP_OUT_BUFFER_COUNT     );
+    convert( MQIACF_SYSP_ARCHIVE              );
+    convert( MQIACF_SYSP_DUAL_ACTIVE          );
+    convert( MQIACF_SYSP_DUAL_ARCHIVE         );
+    convert( MQIACF_SYSP_DUAL_BSDS            );
+    convert( MQIACF_SYSP_MAX_CONNS            );
+    convert( MQIACF_SYSP_MAX_CONNS_FORE       );
+    convert( MQIACF_SYSP_MAX_CONNS_BACK       );
+    convert( MQIACF_SYSP_EXIT_INTERVAL        );
+    convert( MQIACF_SYSP_EXIT_TASKS           );
+    convert( MQIACF_SYSP_CHKPOINT_COUNT       );
+    convert( MQIACF_SYSP_OTMA_INTERVAL        );
+    convert( MQIACF_SYSP_Q_INDEX_DEFER        );
+    convert( MQIACF_SYSP_DB2_TASKS            );
+    convert( MQIACF_SYSP_RESLEVEL_AUDIT       );
+    convert( MQIACF_SYSP_ROUTING_CODE         );
+    convert( MQIACF_SYSP_SMF_ACCOUNTING       );
+    convert( MQIACF_SYSP_SMF_STATS            );
+    convert( MQIACF_SYSP_SMF_INTERVAL         );
+    convert( MQIACF_SYSP_TRACE_CLASS          );
+    convert( MQIACF_SYSP_TRACE_SIZE           );
+    convert( MQIACF_SYSP_WLM_INTERVAL         );
+    convert( MQIACF_SYSP_ALLOC_UNIT           );
+    convert( MQIACF_SYSP_ARCHIVE_RETAIN       );
+    convert( MQIACF_SYSP_ARCHIVE_WTOR         );
+    convert( MQIACF_SYSP_BLOCK_SIZE           );
+    convert( MQIACF_SYSP_CATALOG              );
+    convert( MQIACF_SYSP_COMPACT              );
+    convert( MQIACF_SYSP_ALLOC_PRIMARY        );
+    convert( MQIACF_SYSP_ALLOC_SECONDARY      );
+    convert( MQIACF_SYSP_PROTECT              );
+    convert( MQIACF_SYSP_QUIESCE_INTERVAL     );
+    convert( MQIACF_SYSP_TIMESTAMP            );
+    convert( MQIACF_SYSP_UNIT_ADDRESS         );
+    convert( MQIACF_SYSP_UNIT_STATUS          );
+    convert( MQIACF_SYSP_LOG_COPY             );
+    convert( MQIACF_SYSP_LOG_USED             );
+    convert( MQIACF_SYSP_LOG_SUSPEND          );
+    convert( MQIACF_SYSP_OFFLOAD_STATUS       );
+    convert( MQIACF_SYSP_TOTAL_LOGS           );
+    convert( MQIACF_SYSP_FULL_LOGS            );
+    convert( MQIACF_LISTENER_ATTRS            );
+    convert( MQIACF_LISTENER_STATUS_ATTRS     );
+    convert( MQIACF_SERVICE_ATTRS             );
+    convert( MQIACF_SERVICE_STATUS_ATTRS      );
+    convert( MQIACF_Q_TIME_INDICATOR          );
+    convert( MQIACF_OLDEST_MSG_AGE            );
+    convert( MQIACF_AUTH_OPTIONS              );
+    convert( MQIACF_Q_MGR_STATUS_ATTRS        );
+    convert( MQIACF_CONNECTION_COUNT          );
+    convert( MQIACF_Q_MGR_FACILITY            );
+    convert( MQIACF_CHINIT_STATUS             );
+    convert( MQIACF_CMD_SERVER_STATUS         );
+    convert( MQIACF_ROUTE_DETAIL              );
+    convert( MQIACF_RECORDED_ACTIVITIES       );
+    convert( MQIACF_MAX_ACTIVITIES            );
+    convert( MQIACF_DISCONTINUITY_COUNT       );
+    convert( MQIACF_ROUTE_ACCUMULATION        );
+    convert( MQIACF_ROUTE_DELIVERY            );
+    convert( MQIACF_OPERATION_TYPE            );
+    convert( MQIACF_BACKOUT_COUNT             );
+    convert( MQIACF_COMP_CODE                 );
+    convert( MQIACF_ENCODING                  );
+    convert( MQIACF_EXPIRY                    );
+    convert( MQIACF_FEEDBACK                  );
+    convert( MQIACF_MSG_FLAGS                 );
+    convert( MQIACF_MSG_LENGTH                );
+    convert( MQIACF_MSG_TYPE                  );
+    convert( MQIACF_OFFSET                    );
+    convert( MQIACF_ORIGINAL_LENGTH           );
+    convert( MQIACF_PERSISTENCE               );
+    convert( MQIACF_PRIORITY                  );
+    convert( MQIACF_REASON_CODE               );
+    convert( MQIACF_REPORT                    );
+    convert( MQIACF_VERSION                   );
+    convert( MQIACF_UNRECORDED_ACTIVITIES     );
+    convert( MQIACF_MONITORING                );
+    convert( MQIACF_ROUTE_FORWARDING          );
+    convert( MQIACF_SERVICE_STATUS            );
+    convert( MQIACF_Q_TYPES                   );
+    convert( MQIACF_USER_ID_SUPPORT           );
+    convert( MQIACF_INTERFACE_VERSION         );
+    convert( MQIACF_AUTH_SERVICE_ATTRS        );
+    convert( MQIACF_USAGE_EXPAND_TYPE         );
+    convert( MQIACF_SYSP_CLUSTER_CACHE        );
+    convert( MQIACF_SYSP_DB2_BLOB_TASKS       );
+    convert( MQIACF_SYSP_WLM_INT_UNITS        );
+    convert( MQIACF_TOPIC_ATTRS               );
+    convert( MQIACF_PUBSUB_PROPERTIES         );
+    convert( MQIACF_DESTINATION_CLASS         );
+    convert( MQIACF_DURABLE_SUBSCRIPTION      );
+    convert( MQIACF_SUBSCRIPTION_SCOPE        );
+    convert( MQIACF_VARIABLE_USER_ID          );
+    convert( MQIACF_REQUEST_ONLY              );
+    convert( MQIACF_PUB_PRIORITY              );
+    convert( MQIACF_SUB_ATTRS                 );
+    convert( MQIACF_WILDCARD_SCHEMA           );
+    convert( MQIACF_SUB_TYPE                  );
+    convert( MQIACF_MESSAGE_COUNT             );
+    convert( MQIACF_Q_MGR_PUBSUB              );
+    convert( MQIACF_Q_MGR_VERSION             );
+    convert( MQIACF_SUB_STATUS_ATTRS          );
+    convert( MQIACF_TOPIC_STATUS              );
+    convert( MQIACF_TOPIC_SUB                 );
+    convert( MQIACF_TOPIC_PUB                 );
+    convert( MQIACF_RETAINED_PUBLICATION      );
+    convert( MQIACF_TOPIC_STATUS_ATTRS        );
+    convert( MQIACF_TOPIC_STATUS_TYPE         );
+    convert( MQIACF_SUB_OPTIONS               );
+    convert( MQIACF_PUBLISH_COUNT             );
+    convert( MQIACF_CLEAR_TYPE                );
+    convert( MQIACF_CLEAR_SCOPE               );
+    convert( MQIACF_SUB_LEVEL                 );
+    convert( MQIACF_ASYNC_STATE               );
+    convert( MQIACF_SUB_SUMMARY               );
+    convert( MQIACF_OBSOLETE_MSGS             );
+    convert( MQIACF_PUBSUB_STATUS             );
+    convert( MQIACF_PS_STATUS_TYPE            );
+    convert( MQIACF_PUBSUB_STATUS_ATTRS       );
+    convert( MQIACF_SELECTOR_TYPE             );
+    convert( MQIACF_LOG_COMPRESSION           );
+    convert( MQIACF_GROUPUR_CHECK_ID          );
+    convert( MQIACF_MULC_CAPTURE              );
+    convert( MQIACF_PERMIT_STANDBY            );
+    convert( MQIACF_OPERATION_MODE            );
+//  convert( MQIACF_LAST_USED                 );
+  }
+ 
+  return unknownReason( "UNKNOWN MQ ITEM SELECTOR ID", (int)id );
 }
 
 
 /******************************************************************************/
 /* item value to string                                                       */
 /******************************************************************************/
-const char* itemValue2str( MQLONG selector, MQLONG mqlongVal )
+const char* itemValue2str( MQLONG selector, MQLONG id )
 {
   char *rc = NULL ;
   
   switch( selector )
   {
-    case MQIASY_TYPE :
+    case MQIASY_TYPE            :{rc=(char*)mqbagType2str(    id);break;}
+    case MQIASY_VERSION         :{rc=(char*)mqcfhVer2str(     id);break;}
+    case MQIASY_COMMAND         :{rc=(char*)mqcmd2str(        id);break;}
+    case MQIASY_CONTROL         :{rc=(char*)mqcfc2str(        id);break;}
+    case MQIASY_COMP_CODE       :{rc=(char*)mqcompCode2str(   id);break;}
+    case MQIASY_REASON          :{rc=(char*)mqrc2str(         id);break;}
+    case MQIA_APPL_TYPE         :{rc=(char*)mqPutApplType2str(id);break;}
+    case MQIACF_REASON_QUALIFIER:{rc=(char*)mqrcQualifier2str(id);break;}
+
+    case MQIASY_MSG_SEQ_NUMBER :
     {
-      rc = (char*) mqbagType2str( mqlongVal );
-      break;
-    }
-    case MQIASY_VERSION :
-    {
-      rc = (char*) mqcfhVer2str( mqlongVal );
+      break ;
     }
   }
 
@@ -1221,4 +1516,235 @@ const char* mqcmd2str( MQLONG id )
 {
   switch( id )
   {
+    convert(MQCMD_NONE                    );
+    convert(MQCMD_CHANGE_Q_MGR            );
+    convert(MQCMD_INQUIRE_Q_MGR           );
+    convert(MQCMD_CHANGE_PROCESS          );
+    convert(MQCMD_COPY_PROCESS            );
+    convert(MQCMD_CREATE_PROCESS          );
+    convert(MQCMD_DELETE_PROCESS          );
+    convert(MQCMD_INQUIRE_PROCESS         );
+    convert(MQCMD_CHANGE_Q                );
+    convert(MQCMD_CLEAR_Q                 );
+    convert(MQCMD_COPY_Q                  );
+    convert(MQCMD_CREATE_Q                );
+    convert(MQCMD_DELETE_Q                );
+    convert(MQCMD_INQUIRE_Q               );
+    convert(MQCMD_REFRESH_Q_MGR           );
+    convert(MQCMD_RESET_Q_STATS           );
+    convert(MQCMD_INQUIRE_Q_NAMES         );
+    convert(MQCMD_INQUIRE_PROCESS_NAMES   );
+    convert(MQCMD_INQUIRE_CHANNEL_NAMES   );
+    convert(MQCMD_CHANGE_CHANNEL          );
+    convert(MQCMD_COPY_CHANNEL            );
+    convert(MQCMD_CREATE_CHANNEL          );
+    convert(MQCMD_DELETE_CHANNEL          );
+    convert(MQCMD_INQUIRE_CHANNEL         );
+    convert(MQCMD_PING_CHANNEL            );
+    convert(MQCMD_RESET_CHANNEL           );
+    convert(MQCMD_START_CHANNEL           );
+    convert(MQCMD_STOP_CHANNEL            );
+    convert(MQCMD_START_CHANNEL_INIT      );
+    convert(MQCMD_START_CHANNEL_LISTENER  );
+    convert(MQCMD_CHANGE_NAMELIST         );
+    convert(MQCMD_COPY_NAMELIST           );
+    convert(MQCMD_CREATE_NAMELIST         );
+    convert(MQCMD_DELETE_NAMELIST         );
+    convert(MQCMD_INQUIRE_NAMELIST        );
+    convert(MQCMD_INQUIRE_NAMELIST_NAMES  );
+    convert(MQCMD_ESCAPE                  );
+    convert(MQCMD_RESOLVE_CHANNEL         );
+    convert(MQCMD_PING_Q_MGR              );
+    convert(MQCMD_INQUIRE_Q_STATUS        );
+    convert(MQCMD_INQUIRE_CHANNEL_STATUS  );
+    convert(MQCMD_CONFIG_EVENT            );
+    convert(MQCMD_Q_MGR_EVENT             );
+    convert(MQCMD_PERFM_EVENT             );
+    convert(MQCMD_CHANNEL_EVENT           );
+    convert(MQCMD_DELETE_PUBLICATION      );
+    convert(MQCMD_DEREGISTER_PUBLISHER    );
+    convert(MQCMD_DEREGISTER_SUBSCRIBER   );
+    convert(MQCMD_PUBLISH                 );
+    convert(MQCMD_REGISTER_PUBLISHER      );
+    convert(MQCMD_REGISTER_SUBSCRIBER     );
+    convert(MQCMD_REQUEST_UPDATE          );
+    convert(MQCMD_BROKER_INTERNAL         );
+    convert(MQCMD_ACTIVITY_MSG            );
+    convert(MQCMD_INQUIRE_CLUSTER_Q_MGR   );
+    convert(MQCMD_RESUME_Q_MGR_CLUSTER    );
+    convert(MQCMD_SUSPEND_Q_MGR_CLUSTER   );
+    convert(MQCMD_REFRESH_CLUSTER         );
+    convert(MQCMD_RESET_CLUSTER           );
+    convert(MQCMD_TRACE_ROUTE             );
+    convert(MQCMD_REFRESH_SECURITY        );
+    convert(MQCMD_CHANGE_AUTH_INFO        );
+    convert(MQCMD_COPY_AUTH_INFO          );
+    convert(MQCMD_CREATE_AUTH_INFO        );
+    convert(MQCMD_DELETE_AUTH_INFO        );
+    convert(MQCMD_INQUIRE_AUTH_INFO       );
+    convert(MQCMD_INQUIRE_AUTH_INFO_NAMES );
+    convert(MQCMD_INQUIRE_CONNECTION      );
+    convert(MQCMD_STOP_CONNECTION         );
+    convert(MQCMD_INQUIRE_AUTH_RECS       );
+    convert(MQCMD_INQUIRE_ENTITY_AUTH     );
+    convert(MQCMD_DELETE_AUTH_REC         );
+    convert(MQCMD_SET_AUTH_REC            );
+    convert(MQCMD_LOGGER_EVENT            );
+    convert(MQCMD_RESET_Q_MGR             );
+    convert(MQCMD_CHANGE_LISTENER         );
+    convert(MQCMD_COPY_LISTENER           );
+    convert(MQCMD_CREATE_LISTENER         );
+    convert(MQCMD_DELETE_LISTENER         );
+    convert(MQCMD_INQUIRE_LISTENER        );
+    convert(MQCMD_INQUIRE_LISTENER_STATUS );
+    convert(MQCMD_COMMAND_EVENT           );
+    convert(MQCMD_CHANGE_SECURITY         );
+    convert(MQCMD_CHANGE_CF_STRUC         );
+    convert(MQCMD_CHANGE_STG_CLASS        );
+    convert(MQCMD_CHANGE_TRACE            );
+    convert(MQCMD_ARCHIVE_LOG             );
+    convert(MQCMD_BACKUP_CF_STRUC         );
+    convert(MQCMD_CREATE_BUFFER_POOL      );
+    convert(MQCMD_CREATE_PAGE_SET         );
+    convert(MQCMD_CREATE_CF_STRUC         );
+    convert(MQCMD_CREATE_STG_CLASS        );
+    convert(MQCMD_COPY_CF_STRUC           );
+    convert(MQCMD_COPY_STG_CLASS          );
+    convert(MQCMD_DELETE_CF_STRUC         );
+    convert(MQCMD_DELETE_STG_CLASS        );
+    convert(MQCMD_INQUIRE_ARCHIVE         );
+    convert(MQCMD_INQUIRE_CF_STRUC        );
+    convert(MQCMD_INQUIRE_CF_STRUC_STATUS );
+    convert(MQCMD_INQUIRE_CMD_SERVER      );
+    convert(MQCMD_INQUIRE_CHANNEL_INIT    );
+    convert(MQCMD_INQUIRE_QSG             );
+    convert(MQCMD_INQUIRE_LOG             );
+    convert(MQCMD_INQUIRE_SECURITY        );
+    convert(MQCMD_INQUIRE_STG_CLASS       );
+    convert(MQCMD_INQUIRE_SYSTEM          );
+    convert(MQCMD_INQUIRE_THREAD          );
+    convert(MQCMD_INQUIRE_TRACE           );
+    convert(MQCMD_INQUIRE_USAGE           );
+    convert(MQCMD_MOVE_Q                  );
+    convert(MQCMD_RECOVER_BSDS            );
+    convert(MQCMD_RECOVER_CF_STRUC        );
+    convert(MQCMD_RESET_TPIPE             );
+    convert(MQCMD_RESOLVE_INDOUBT         );
+    convert(MQCMD_RESUME_Q_MGR            );
+    convert(MQCMD_REVERIFY_SECURITY       );
+    convert(MQCMD_SET_ARCHIVE             );
+    convert(MQCMD_SET_LOG                 );
+    convert(MQCMD_SET_SYSTEM              );
+    convert(MQCMD_START_CMD_SERVER        );
+    convert(MQCMD_START_Q_MGR             );
+    convert(MQCMD_START_TRACE             );
+    convert(MQCMD_STOP_CHANNEL_INIT       );
+    convert(MQCMD_STOP_CHANNEL_LISTENER   );
+    convert(MQCMD_STOP_CMD_SERVER         );
+    convert(MQCMD_STOP_Q_MGR              );
+    convert(MQCMD_STOP_TRACE              );
+    convert(MQCMD_SUSPEND_Q_MGR           );
+    convert(MQCMD_INQUIRE_CF_STRUC_NAMES  );
+    convert(MQCMD_INQUIRE_STG_CLASS_NAMES );
+    convert(MQCMD_CHANGE_SERVICE          );
+    convert(MQCMD_COPY_SERVICE            );
+    convert(MQCMD_CREATE_SERVICE          );
+    convert(MQCMD_DELETE_SERVICE          );
+    convert(MQCMD_INQUIRE_SERVICE         );
+    convert(MQCMD_INQUIRE_SERVICE_STATUS  );
+    convert(MQCMD_START_SERVICE           );
+    convert(MQCMD_STOP_SERVICE            );
+    convert(MQCMD_DELETE_BUFFER_POOL      );
+    convert(MQCMD_DELETE_PAGE_SET         );
+    convert(MQCMD_CHANGE_BUFFER_POOL      );
+    convert(MQCMD_CHANGE_PAGE_SET         );
+    convert(MQCMD_INQUIRE_Q_MGR_STATUS    );
+    convert(MQCMD_CREATE_LOG              );
+    convert(MQCMD_STATISTICS_MQI          );
+    convert(MQCMD_STATISTICS_Q            );
+    convert(MQCMD_STATISTICS_CHANNEL      );
+    convert(MQCMD_ACCOUNTING_MQI          );
+    convert(MQCMD_ACCOUNTING_Q            );
+    convert(MQCMD_INQUIRE_AUTH_SERVICE    );
+    convert(MQCMD_CHANGE_TOPIC            );
+    convert(MQCMD_COPY_TOPIC              );
+    convert(MQCMD_CREATE_TOPIC            );
+    convert(MQCMD_DELETE_TOPIC            );
+    convert(MQCMD_INQUIRE_TOPIC           );
+    convert(MQCMD_INQUIRE_TOPIC_NAMES     );
+    convert(MQCMD_INQUIRE_SUBSCRIPTION    );
+    convert(MQCMD_CREATE_SUBSCRIPTION     );
+    convert(MQCMD_CHANGE_SUBSCRIPTION     );
+    convert(MQCMD_DELETE_SUBSCRIPTION     );
+    convert(MQCMD_COPY_SUBSCRIPTION       );
+    convert(MQCMD_INQUIRE_SUB_STATUS      );
+    convert(MQCMD_INQUIRE_TOPIC_STATUS    );
+    convert(MQCMD_CLEAR_TOPIC_STRING      );
+    convert(MQCMD_INQUIRE_PUBSUB_STATUS   );
+  }
 
+//return "UNKNOWN MQ CMD TYPE " ;
+  return unknownReason( "UNKNOWN MQ CMD TYPE", id) ;
+}
+
+/******************************************************************************/
+/*  mq control options to string                                 */
+/******************************************************************************/
+const char* mqcfc2str( MQLONG id )
+{
+  switch( id )
+  {
+    convert( MQCFC_LAST     );
+    convert( MQCFC_NOT_LAST );
+  }
+
+  return "UNKNOWN MQIA CONTROL OPTION" ;
+}
+
+/******************************************************************************/
+/*  mq comp code to string                                     */
+/******************************************************************************/
+const char* mqcompCode2str( MQLONG id )
+{
+  switch( id )
+  {
+    convert( MQCC_OK      );
+    convert( MQCC_WARNING );
+    convert( MQCC_FAILED  );
+    convert( MQCC_UNKNOWN );
+  }
+
+  return "UNKNOWN COMP CODE" ;
+}
+
+/******************************************************************************/
+/*  mq reason qualifier to string                                             */
+/******************************************************************************/
+const char* mqrcQualifier2str( MQLONG id )
+{
+  switch( id )
+  {
+    convert( MQRQ_CONN_NOT_AUTHORIZED       );
+    convert( MQRQ_OPEN_NOT_AUTHORIZED       );
+    convert( MQRQ_CLOSE_NOT_AUTHORIZED      );
+    convert( MQRQ_CMD_NOT_AUTHORIZED        );
+    convert( MQRQ_Q_MGR_STOPPING            );
+    convert( MQRQ_Q_MGR_QUIESCING           );
+    convert( MQRQ_CHANNEL_STOPPED_OK        );
+    convert( MQRQ_CHANNEL_STOPPED_ERROR     );
+    convert( MQRQ_CHANNEL_STOPPED_RETRY     );
+    convert( MQRQ_CHANNEL_STOPPED_DISABLED  );
+    convert( MQRQ_BRIDGE_STOPPED_OK         );
+    convert( MQRQ_BRIDGE_STOPPED_ERROR      );
+    convert( MQRQ_SSL_HANDSHAKE_ERROR       );
+    convert( MQRQ_SSL_CIPHER_SPEC_ERROR     );
+    convert( MQRQ_SSL_CLIENT_AUTH_ERROR     );
+    convert( MQRQ_SSL_PEER_NAME_ERROR       );
+    convert( MQRQ_SUB_NOT_AUTHORIZED        );
+    convert( MQRQ_SUB_DEST_NOT_AUTHORIZED   );
+    convert( MQRQ_SSL_UNKNOWN_REVOCATION    );
+    convert( MQRQ_SYS_CONN_NOT_AUTHORIZED   );
+  }
+
+  return unknownReason( "UNKNOWN COMP CODE", id );
+}
