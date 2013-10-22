@@ -1455,13 +1455,14 @@ const char* itemValue2str( MQLONG selector, MQLONG id )
   
   switch( selector )
   {
-    case MQIASY_TYPE            :{rc=(char*)mqbagType2str(    id);break;}
-    case MQIASY_VERSION         :{rc=(char*)mqcfhVer2str(     id);break;}
-    case MQIASY_COMMAND         :{rc=(char*)mqcmd2str(        id);break;}
-    case MQIASY_CONTROL         :{rc=(char*)mqcfc2str(        id);break;}
-    case MQIASY_COMP_CODE       :{rc=(char*)mqcompCode2str(   id);break;}
-    case MQIASY_REASON          :{rc=(char*)mqrc2str(         id);break;}
-    case MQIA_APPL_TYPE         :{rc=(char*)mqPutApplType2str(id);break;}
+    case MQIASY_TYPE      :{rc=(char*)mqbagType2str(    id);break;}
+    case MQIASY_VERSION   :{rc=(char*)mqcfhVer2str(     id);break;}
+    case MQIASY_COMMAND   :{rc=(char*)mqcmd2str(        id);break;}
+    case MQIASY_CONTROL   :{rc=(char*)mqcfc2str(        id);break;}
+    case MQIASY_COMP_CODE :{rc=(char*)mqcompCode2str(   id);break;}
+    case MQIASY_REASON    :{rc=(char*)mqrc2str(         id);break;}
+    case MQIA_APPL_TYPE   :{rc=(char*)mqPutApplType2str(id);break;}
+    case MQIA_BASE_TYPE   :{rc=(char*)mqObjType2str(    id);break;}
     case MQIACF_REASON_QUALIFIER:{rc=(char*)mqrcQualifier2str(id);break;}
 
     case MQIASY_MSG_SEQ_NUMBER :

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="89">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="include" displayName="include" projectFiles="true">
+        <logicalFolder name="etc" displayName="etc" projectFiles="true">
+          <itemPath>include/etc/svn_externals.prop</itemPath>
+        </logicalFolder>
+        <logicalFolder name="msgcat" displayName="msgcat" projectFiles="true">
+          <itemPath>include/msgcat/lgmqm.h</itemPath>
+          <itemPath>include/msgcat/lgstd.h</itemPath>
+          <itemPath>include/msgcat/lgxym.h</itemPath>
+        </logicalFolder>
+        <itemPath>include/Makefile</itemPath>
+        <itemPath>include/ctl.h</itemPath>
+        <itemPath>include/genlib.h</itemPath>
+        <itemPath>include/inihnd.h</itemPath>
+        <itemPath>include/main.h</itemPath>
+        <itemPath>include/mqbase.h</itemPath>
+        <itemPath>include/mqdump.h</itemPath>
+        <itemPath>include/mqreason.h</itemPath>
+        <itemPath>include/mqreason.se</itemPath>
+        <itemPath>include/mqreason.ss</itemPath>
+        <itemPath>include/mqtype.h</itemPath>
+        <itemPath>include/rename_for_new_project.h</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="src" displayName="src" projectFiles="true">
+        <itemPath>src/main.c</itemPath>
+        <itemPath>src/mqbase.c</itemPath>
+        <itemPath>src/mqdump.c</itemPath>
+        <itemPath>src/mqreason.se</itemPath>
+        <itemPath>src/mqreason.ss</itemPath>
+        <itemPath>src/mqtype.c</itemPath>
+        <itemPath>src/rename_for_new_project.c</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="2">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+      </compileType>
+      <item path="include/Makefile" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ctl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/etc/svn_externals.prop" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/genlib.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/inihnd.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/main.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqbase.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqdump.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqreason.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqreason.se" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqreason.ss" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqtype.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/msgcat/lgmqm.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/msgcat/lgstd.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/msgcat/lgxym.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/rename_for_new_project.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/mqbase.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/mqdump.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/mqreason.se" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/mqreason.ss" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/mqtype.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/rename_for_new_project.c" ex="false" tool="0" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="2">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="include/Makefile" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ctl.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/etc/svn_externals.prop" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/genlib.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/inihnd.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/main.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqbase.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqdump.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqreason.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqreason.se" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqreason.ss" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/mqtype.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/msgcat/lgmqm.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/msgcat/lgstd.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/msgcat/lgxym.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/rename_for_new_project.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/mqbase.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/mqdump.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/mqreason.se" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/mqreason.ss" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/mqtype.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/rename_for_new_project.c" ex="false" tool="0" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
