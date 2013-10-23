@@ -48,7 +48,7 @@ int main( int argc, const char** argv )
   // put test
   // -------------------------------------------------------
 #if(1)
-  mqConn( "TEST", &hConn );
+  mqConn( "OMEGA", &hConn );
 
   memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
   memcpy( odQueue.ObjectName, "TEST.MQBASE", MQ_Q_NAME_LENGTH ) ;

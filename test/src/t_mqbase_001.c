@@ -48,7 +48,7 @@ int main( int argc, const char** argv )
   doIntTest( "connect qmgr"       , \
               0                   , \
               mqConn              , \
-             "TEST"               , \
+             "OMEGA"               , \
               &hConn              ) ;
 
 

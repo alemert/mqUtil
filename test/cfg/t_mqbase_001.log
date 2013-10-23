@@ -1,9 +1,9 @@
-2013-10-10 09:22:40  12536 01104 INF logging mq call MQCONN with: MQRC_NONE
+2013-10-23 10:46:47  15475 01104 INF logging mq call MQCONN with: MQRC_NONE
                                      mqConn() in src/mqbase.c (line: 00099)
-2013-10-10 09:22:40  12536 01110 LOG connected to queue manager TEST                          
+2013-10-23 10:46:47  15475 01110 LOG connected to queue manager OMEGA                         
                                      mqConn() in src/mqbase.c (line: 00100)
-2013-10-10 09:22:40  12536 00005 DBG Memory dump start for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00162)
+2013-10-23 10:46:47  15475 00005 DBG Memory dump start for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00173)
 | ==============================:==============================
 | Structure identifier          :OD                            
 | Structure version             :MQOD_VERSION_1                
@@ -13,11 +13,11 @@
 | Dynamic queue name            :AMQ.*                         
 | Alternate user id             :                              
 | ==============================:==============================
-2013-10-10 09:22:40  12536 00006 DBG Memory dump end for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00162)
-2013-10-10 09:22:40  12536 01104 INF logging mq call MQOPEN with: MQRC_NONE
+2013-10-23 10:46:47  15475 00006 DBG Memory dump end for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00173)
+2013-10-23 10:46:47  15475 01104 INF logging mq call MQOPEN with: MQRC_NONE
                                      mqOpenObject() in src/mqbase.c (line: 00212)
-2013-10-10 09:22:40  12536 01112 LOG queue TEST.MQBASE opened
+2013-10-23 10:46:47  15475 01112 LOG queue TEST.MQBASE opened
                                      mqOpenObject() in src/mqbase.c (line: 00213)
-2013-10-10 09:22:40  12536 01104 INF logging mq call MQDISC with: MQRC_NONE
+2013-10-23 10:46:47  15475 01104 INF logging mq call MQDISC with: MQRC_NONE
                                      mqDisc() in src/mqbase.c (line: 00134)
