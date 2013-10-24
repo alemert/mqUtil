@@ -9,10 +9,13 @@
 /*    - mqCloseObject                                                         */
 /*    - mqPut                                                                 */
 /*    - mqGet                                                                 */
+/*    - mqBegin                  */
+/*    - mqCommit              */
 /*    - resizeMqMessageBuffer                                                 */
 /*    - mqOpenBag                                                             */
-/*    - mqReadBag                                            */
-/*    - mqCloseBag                                          */
+/*    - mqReadBag                                                */
+/*    - mqCloseBag                                              */
+/*                                    */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -65,7 +68,7 @@ const char gDefaultQmgr[] = "\0" ;
 /******************************************************************************/
 /* mq connect                                                                 */
 /******************************************************************************/
-int mqConn( char* _qmName, PMQHCONN pHconn )
+MQLONG mqConn( char* _qmName, PMQHCONN pHconn )
 {
   logFuncCall( ) ;
 
@@ -108,7 +111,7 @@ int mqConn( char* _qmName, PMQHCONN pHconn )
 /******************************************************************************/
 /* mq disconnect                                                              */
 /******************************************************************************/
-int mqDisc( PMQHCONN pHconn )
+MQLONG mqDisc( PMQHCONN pHconn )
 {
   logFuncCall( ) ;
 
@@ -180,10 +183,10 @@ int mqDisc( PMQHCONN pHconn )
 /*                                  in quiscing state                         */
 /*                                                                            */
 /******************************************************************************/
-int mqOpenObject( MQHCONN hConn   , // connection handle
-                  PMQOD   pObjDesc, // pointer to object descriptor
-                  MQLONG  options , // options for MQOPEN
-                  PMQHOBJ pHobj   ) // pointer to object handle
+MQLONG mqOpenObject( MQHCONN hConn   , // connection handle
+                     PMQOD   pObjDesc, // pointer to object descriptor
+                     MQLONG  options , // options for MQOPEN
+                     PMQHOBJ pHobj   ) // pointer to object handle
 {
   logFuncCall( ) ;
 
@@ -224,8 +227,8 @@ int mqOpenObject( MQHCONN hConn   , // connection handle
 /* -------------------------------------------------------------------------- */
 /*   Dscr: close queue given by pHobj                                         */
 /******************************************************************************/
-int mqCloseObject( MQHCONN hConn   ,   // connection handle
-                   PMQHOBJ pHobj   )   // pointer to object handle
+MQLONG mqCloseObject( MQHCONN hConn   ,   // connection handle
+                      PMQHOBJ pHobj   )   // pointer to object handle
 {
   logFuncCall() ;
 
@@ -265,13 +268,13 @@ int mqCloseObject( MQHCONN hConn   ,   // connection handle
 /*   Descrip: write messages to a queue                                       */
 /*                                                                            */
 /******************************************************************************/
-int mqPut( MQHCONN _hConn      ,         // connection handle
-           MQHOBJ  _hQueue     ,         // pointer to queue handle
-           PMQMD   _msgDscr    ,         // msg Desriptor
-           PMQPMO  _pPutMsgOpt ,         // Options controling MQPUT
-           PMQVOID _buffer     ,         // message buffer
-           MQLONG  _msgLng     )         // message length (buffer length)
-{                                        //
+MQLONG mqPut( MQHCONN _hConn      ,         // connection handle
+              MQHOBJ  _hQueue     ,         // pointer to queue handle
+              PMQMD   _msgDscr    ,         // msg Desriptor
+              PMQPMO  _pPutMsgOpt ,         // Options controling MQPUT
+              PMQVOID _buffer     ,         // message buffer
+              MQLONG  _msgLng     )         // message length (buffer length)
+{                                           //
   logFuncCall( ) ;
 
   MQPMO  putMsgOpt = {MQPMO_DEFAULT} ;  // Options controling MQPUT
@@ -355,14 +358,14 @@ int mqPut( MQHCONN _hConn      ,         // connection handle
 /*   Comment:                                                                 */
 /*                                                                            */
 /******************************************************************************/
-int mqGet( MQHCONN _hConn     ,      // connection handle
-           MQHOBJ  _hQueue    ,      // pointer to queue handle
-           PMQVOID _buffer    ,      // message buffer
-           PMQLONG  _bufLng   ,      // buffer length
-           PMQMD   _msgDscr   ,      // msg Desriptor
-           MQGMO   _getMsgOpt ,      // get message option 
-           MQLONG  _wait      )      // wait interval
-{                                    //
+MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
+              MQHOBJ  _hQueue    ,      // pointer to queue handle
+              PMQVOID _buffer    ,      // message buffer
+              PMQLONG  _bufLng   ,      // buffer length
+              PMQMD   _msgDscr   ,      // msg Desriptor
+              MQGMO   _getMsgOpt ,      // get message option 
+              MQLONG  _wait      )      // wait interval
+{                                       //
   logFuncCall() ;
 
   MQLONG compCode ;                  // Completion code
@@ -429,7 +432,7 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
       case MQRC_TRUNCATED_MSG_FAILED :             // msg buffer to small
       {                                            //  resize (realloc) msg buff
         logMQCall( WAR, "MQGET", reason );         //
-#if(0)
+      #if(0)
         *_bufLng = msgLng+1 ;                      //
         _buffer = (PMQVOID) realloc( _buffer ,     //
                                     sizeof(void)*(*_bufLng) );
@@ -439,7 +442,7 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
           logger( LSTD_MEM_ALLOC_ERROR ) ;         //
           goto _door ;                             //
         }                                          //
-#endif
+       #endif
         break ;                                    //
       }                                            //
                                                    //
@@ -459,6 +462,86 @@ int mqGet( MQHCONN _hConn     ,      // connection handle
   return reason ;                                  //
 }
 
+/******************************************************************************/
+/*   M Q   B E G I N                                                          */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*   Description: api to MQBEGIN call                                         */
+/*                                                                            */
+/*   Comment:                                                                 */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqBegin( MQHCONN _hConn )   // connection handle
+{
+  logFuncCall() ;
+
+  MQLONG compCode;
+  MQLONG reason = MQRC_NONE;
+
+  MQBO bo = { MQBMHO_DEFAULT };
+
+  MQBEGIN( _hConn,
+           &bo    ,
+           &compCode,
+           &reason );
+
+  switch( reason )
+  {
+    case MQRC_NONE :                        
+    {                                      
+      logMQCall(DBG,"MQBEGIN",reason);
+      break;                             
+    }                                   
+    default :                          
+    {                                 
+      logMQCall(ERR,"MQBEGIN",reason);  
+      goto _door;                   
+    }                              
+  }
+
+  _door:
+  logFuncExit() ; 
+  return reason ; 
+}
+
+/******************************************************************************/
+/*   M Q   C O M M I T                                                        */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*   Description: api to MQCMIT call                                          */
+/*                                                                            */
+/*   Comment:                                                                 */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqCommit( MQHCONN _hConn )   // connection handle
+{
+  logFuncCall() ;
+
+  MQLONG compCode;
+  MQLONG reason = MQRC_NONE;
+
+  MQCMIT( _hConn,
+          &compCode,
+          &reason );
+
+  switch( reason )
+  {
+    case MQRC_NONE :                        
+    {                                      
+      logMQCall(DBG,"MQCMIT",reason);
+      break;                             
+    }                                   
+    default :                          
+    {                                 
+      logMQCall(ERR,"MQCMIT",reason);  
+      goto _door;                   
+    }                              
+  }
+
+  _door:
+  logFuncExit() ; 
+  return reason ; 
+}
 
 /******************************************************************************/
 /*   M Q    R E S I Z E   M E S S A G E                                     */

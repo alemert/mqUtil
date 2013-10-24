@@ -56,31 +56,34 @@
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
-int mqConn( char* qmName, PMQHCONN pHconn ) ;
-int mqDisc( PMQHCONN pHconn ) ;
+MQLONG mqConn( char* qmName, PMQHCONN pHconn ) ;
+MQLONG mqDisc( PMQHCONN pHconn ) ;
 
-int mqOpenObject( MQHCONN hConn    , // connection handle
-                  PMQOD   pObjDesc , // pointer to object descriptor
-                  MQLONG  options  , // options for MQOPEN
-                  PMQHOBJ pHobj  ) ; // pointer to object handle
-                                  //
-int mqCloseObject( MQHCONN hConn   , // connection handle
-                   PMQHOBJ pHobj ) ; // pointer to object handle
-                                     //
-int mqPut( MQHCONN _hConn      ,     // connection handle
-           MQHOBJ  _hQueue     ,     // pointer to queue handle
-           PMQMD   _msgDscr    ,     // msg Desriptor
-           PMQPMO  _pPutMsgOpt ,     // Options controling MQPUT
-           PMQVOID _buffer     ,     // message buffer
-           MQLONG  _msgLng    );     // message length (buffer length)
-                                     //
-int mqGet( MQHCONN _hConn      ,     // connection handle
-           MQHOBJ  _hQueue     ,     // pointer to queue handle
-           PMQVOID _buffer     ,     // message buffer
-           PMQLONG _bufLng     ,     // buffer length
-           PMQMD   _msgDscr    ,     // msg Desriptor
-           MQGMO   _getMsgOpt  ,     // wait interval
-           MQLONG  _wait      );     // get message option
+MQLONG mqOpenObject( MQHCONN hConn    , // connection handle
+                     PMQOD   pObjDesc , // pointer to object descriptor
+                     MQLONG  options  , // options for MQOPEN
+                     PMQHOBJ pHobj  ) ; // pointer to object handle
+                                        //
+MQLONG mqCloseObject( MQHCONN hConn   , // connection handle
+                      PMQHOBJ pHobj ) ; // pointer to object handle
+                                        //
+MQLONG mqPut( MQHCONN _hConn      ,     // connection handle
+              MQHOBJ  _hQueue     ,     // pointer to queue handle
+              PMQMD   _msgDscr    ,     // msg Desriptor
+              PMQPMO  _pPutMsgOpt ,     // Options controling MQPUT
+              PMQVOID _buffer     ,     // message buffer
+              MQLONG  _msgLng    );     // message length (buffer length)
+                                        //
+MQLONG mqGet( MQHCONN _hConn      ,     // connection handle
+              MQHOBJ  _hQueue     ,     // pointer to queue handle
+              PMQVOID _buffer     ,     // message buffer
+              PMQLONG _bufLng     ,     // buffer length
+              PMQMD   _msgDscr    ,     // msg Desriptor
+              MQGMO   _getMsgOpt  ,     // wait interval
+              MQLONG  _wait      );     // get message option
+
+MQLONG mqBegin(  MQHCONN _hConn );   // connection handle
+MQLONG mqCommit( MQHCONN _hConn );   // connection handle
 
 PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize );
 

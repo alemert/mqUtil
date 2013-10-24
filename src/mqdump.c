@@ -277,7 +277,7 @@ void setDumpItemCharV( const char* frmt, const char* key, MQPTR value )
 #endif
 
 /******************************************************************************/
-/* set dump items for key of type mqbyte                              */
+/* set dump items for key of type mqbyte                                */
 /******************************************************************************/
 void setDumpItemByte( int frmt, const char* key, PMQBYTE value ) 
 {

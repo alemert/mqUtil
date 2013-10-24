@@ -2,3 +2,4 @@ ver 0.0.01 logging in mqConn adjusted
 ver 0.0.02 logging in mqConn adjusted
 ver 0.1.00 resizing the message moved from mqRead to resizeMessage()
 ver 0.1.01 itemValue2str additional selector MQIA_BASE_TYPE
+ver 0.2.00 mqBegin and mqCommit added
