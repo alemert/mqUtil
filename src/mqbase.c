@@ -378,7 +378,7 @@ MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
   // -------------------------------------------------------
   // set get messages options
   // -------------------------------------------------------
-  _getMsgOpt.Options += MQGMO_WAIT                // wait for new messages
+  _getMsgOpt.Options |= MQGMO_WAIT                // wait for new messages
                      +  MQGMO_FAIL_IF_QUIESCING   // fail if quiesching
                      +  MQGMO_CONVERT;            // convert if necessary
                                                    //
@@ -398,60 +398,60 @@ MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
   dumpMqStruct( "GMO  ", &_getMsgOpt, NULL );      //
   dumpMqStruct( "MD   ", _msgDscr   , NULL );      //
                                                    //
-    memset( _buffer, ' ', (*_bufLng) - 1 );        //
-                    //
-    MQGET( _hConn      ,                           // connection handle
-           _hQueue     ,                           // object handle
-           _msgDscr    ,                           // message descriptor
-           &_getMsgOpt ,                           // get message options
-           *_bufLng    ,                           // buffer length
-           _buffer     ,                           // message buffer
-           &msgLng     ,                           // message length
-           &compCode   ,                           // completion code
-           &reason    );                           // reason code
+  memset( _buffer, ' ', (*_bufLng) - 1 );          //
+                                                   //
+  MQGET( _hConn      ,                             // connection handle
+         _hQueue     ,                             // object handle
+         _msgDscr    ,                             // message descriptor
+         &_getMsgOpt ,                             // get message options
+         *_bufLng    ,                             // buffer length
+         _buffer     ,                             // message buffer
+         &msgLng     ,                             // message length
+         &compCode   ,                             // completion code
+         &reason    );                             // reason code
                                                    //
     dumpMqStruct( "GMO  ", &_getMsgOpt, NULL );    //
     dumpMqStruct( "MD   ", _msgDscr   , NULL );    //
                                                    //
-    // -----------------------------------------------------
-    // check Return Code and log it into log file
-    // -----------------------------------------------------
-    switch( reason )                               //
-    {                                              //
-      case MQRC_NONE :                             // message found,
-      {                                            //  break out of loop
-        break ;                                    //
-      }                                            //
-                                                   //
-      case MQRC_NO_MSG_AVAILABLE:                  // finding no message is not
-      {                                            //  an error per default
-        logMQCall( DBG, "MQGET", reason );         //
-        break ;                                    //
-      }                                            //
-                                                   //
-      case MQRC_TRUNCATED_MSG_FAILED :             // msg buffer to small
-      {                                            //  resize (realloc) msg buff
-        logMQCall( WAR, "MQGET", reason );         //
-      #if(0)
-        *_bufLng = msgLng+1 ;                      //
-        _buffer = (PMQVOID) realloc( _buffer ,     //
-                                    sizeof(void)*(*_bufLng) );
-        logger(LMQM_INCR_MSG_BUFF,(int)*_bufLng ); //
-        if( _buffer == NULL )                      //
-        {                                          //
-          logger( LSTD_MEM_ALLOC_ERROR ) ;         //
-          goto _door ;                             //
-        }                                          //
-       #endif
-        break ;                                    //
-      }                                            //
-                                                   //
-      default :                                    // error
-      {                                            //
-        logMQCall( ERR, "MQGET", reason );         //
-        goto _door ;                               //
-      }                                            //
+  // -------------------------------------------------------
+  // check Return Code and log it into log file
+  // -------------------------------------------------------
+  switch( reason )                                 //
+  {                                                //
+    case MQRC_NONE :                               // message found,
+    {                                              //  break out of loop
+      break ;                                      //
     }                                              //
+                                                   //
+    case MQRC_NO_MSG_AVAILABLE:                    // finding no message is not
+    {                                              //  an error per default
+      logMQCall( DBG, "MQGET", reason );           //
+      break;                                       //
+    }                                              //
+                                                   //
+    case MQRC_TRUNCATED_MSG_FAILED :               // msg buffer to small
+    {                                              //  resize (realloc) msg buff
+      logMQCall( WAR, "MQGET", reason );           //
+    #if(0)
+      *_bufLng = msgLng+1 ;                      //
+      _buffer = (PMQVOID) realloc( _buffer ,     //
+                                  sizeof(void)*(*_bufLng) );
+      logger(LMQM_INCR_MSG_BUFF,(int)*_bufLng ); //
+      if( _buffer == NULL )                      //
+      {                                          //
+        logger( LSTD_MEM_ALLOC_ERROR ) ;         //
+        goto _door ;                             //
+      }                                          //
+     #endif
+      break ;                                      //
+    }                                              //
+                                                   //
+    default :                                      // error
+    {                                              //
+      logMQCall( ERR, "MQGET", reason );           //
+      goto _door ;                                 //
+    }                                              //
+  }                                                //
                                                    //
   logMQCall( INF, "MQGET", reason );               //
                                                    //

@@ -1,1 +1,2 @@
 ver 0.2.01 mqBegin fix default bo set to MQBO_DEFAULT
+ver 0.2.02 mqRead setting gmo changed from += to |=
