@@ -478,10 +478,10 @@ MQLONG mqBegin( MQHCONN _hConn )   // connection handle
   MQLONG compCode;
   MQLONG reason = MQRC_NONE;
 
-  MQBO bo = { MQBMHO_DEFAULT };
+  MQBO bo = { MQBO_DEFAULT };
 
-  MQBEGIN( _hConn,
-           &bo    ,
+  MQBEGIN( _hConn   ,
+           &bo      ,
            &compCode,
            &reason );
 
