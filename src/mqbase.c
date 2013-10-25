@@ -378,9 +378,8 @@ MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
   // -------------------------------------------------------
   // set get messages options
   // -------------------------------------------------------
-  _getMsgOpt.Options |= MQGMO_WAIT                // wait for new messages
-                     +  MQGMO_FAIL_IF_QUIESCING   // fail if quiesching
-                     +  MQGMO_CONVERT;            // convert if necessary
+  _getMsgOpt.Options |= MQGMO_FAIL_IF_QUIESCING    // fail if quiesching
+                     +  MQGMO_CONVERT;             // convert if necessary
                                                    //
    _getMsgOpt.WaitInterval = _wait ;               //
                                                    //
@@ -487,6 +486,7 @@ MQLONG mqBegin( MQHCONN _hConn )   // connection handle
 
   switch( reason )
   {
+    case MQRC_NO_EXTERNAL_PARTICIPANTS :  // no external transactional manager
     case MQRC_NONE :                        
     {                                      
       logMQCall(DBG,"MQBEGIN",reason);
