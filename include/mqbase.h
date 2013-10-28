@@ -82,8 +82,9 @@ MQLONG mqGet( MQHCONN _hConn      ,     // connection handle
               MQGMO   _getMsgOpt  ,     // wait interval
               MQLONG  _wait      );     // get message option
 
-MQLONG mqBegin(  MQHCONN _hConn );   // connection handle
-MQLONG mqCommit( MQHCONN _hConn );   // connection handle
+MQLONG mqBegin(    MQHCONN _hConn );    // connection handle
+MQLONG mqCommit(   MQHCONN _hConn );    // connection handle
+MQLONG mqRollback( MQHCONN _hConn );    // connection handle
 
 PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize );
 

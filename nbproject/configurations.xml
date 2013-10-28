@@ -53,6 +53,7 @@
           <itemPath>test/src/t_mqbase_004.c</itemPath>
           <itemPath>test/src/t_mqbase_005.c</itemPath>
           <itemPath>test/src/t_mqbase_006.c</itemPath>
+          <itemPath>test/src/t_mqbase_007.c</itemPath>
           <itemPath>test/src/t_template_000.c</itemPath>
         </logicalFolder>
       </logicalFolder>
@@ -152,6 +153,8 @@
       </item>
       <item path="test/src/t_mqbase_006.c" ex="false" tool="0" flavor2="0">
       </item>
+      <item path="test/src/t_mqbase_007.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="test/src/t_template_000.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
@@ -237,6 +240,8 @@
       <item path="test/src/t_mqbase_005.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="test/src/t_mqbase_006.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_007.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="test/src/t_template_000.c" ex="false" tool="0" flavor2="0">
       </item>

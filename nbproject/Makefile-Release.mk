@@ -48,6 +48,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/test/src/t_mqbase_004.o \
 	${OBJECTDIR}/test/src/t_mqbase_005.o \
 	${OBJECTDIR}/test/src/t_mqbase_006.o \
+	${OBJECTDIR}/test/src/t_mqbase_007.o \
 	${OBJECTDIR}/test/src/t_template_000.o
 
 
@@ -139,6 +140,11 @@ ${OBJECTDIR}/test/src/t_mqbase_006.o: test/src/t_mqbase_006.c
 	${MKDIR} -p ${OBJECTDIR}/test/src
 	${RM} $@.d
 	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_006.o test/src/t_mqbase_006.c
+
+${OBJECTDIR}/test/src/t_mqbase_007.o: test/src/t_mqbase_007.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_007.o test/src/t_mqbase_007.c
 
 ${OBJECTDIR}/test/src/t_template_000.o: test/src/t_template_000.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
