@@ -39,7 +39,16 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/mqbase.o \
 	${OBJECTDIR}/src/mqdump.o \
 	${OBJECTDIR}/src/mqtype.o \
-	${OBJECTDIR}/src/rename_for_new_project.o
+	${OBJECTDIR}/src/rename_for_new_project.o \
+	${OBJECTDIR}/test/src/t_main_000.o \
+	${OBJECTDIR}/test/src/t_mqbase_000.o \
+	${OBJECTDIR}/test/src/t_mqbase_001.o \
+	${OBJECTDIR}/test/src/t_mqbase_002.o \
+	${OBJECTDIR}/test/src/t_mqbase_003.o \
+	${OBJECTDIR}/test/src/t_mqbase_004.o \
+	${OBJECTDIR}/test/src/t_mqbase_005.o \
+	${OBJECTDIR}/test/src/t_mqbase_006.o \
+	${OBJECTDIR}/test/src/t_template_000.o
 
 
 # C Compiler Flags
@@ -90,6 +99,51 @@ ${OBJECTDIR}/src/rename_for_new_project.o: src/rename_for_new_project.c
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
 	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/rename_for_new_project.o src/rename_for_new_project.c
+
+${OBJECTDIR}/test/src/t_main_000.o: test/src/t_main_000.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_main_000.o test/src/t_main_000.c
+
+${OBJECTDIR}/test/src/t_mqbase_000.o: test/src/t_mqbase_000.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_000.o test/src/t_mqbase_000.c
+
+${OBJECTDIR}/test/src/t_mqbase_001.o: test/src/t_mqbase_001.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_001.o test/src/t_mqbase_001.c
+
+${OBJECTDIR}/test/src/t_mqbase_002.o: test/src/t_mqbase_002.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_002.o test/src/t_mqbase_002.c
+
+${OBJECTDIR}/test/src/t_mqbase_003.o: test/src/t_mqbase_003.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_003.o test/src/t_mqbase_003.c
+
+${OBJECTDIR}/test/src/t_mqbase_004.o: test/src/t_mqbase_004.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_004.o test/src/t_mqbase_004.c
+
+${OBJECTDIR}/test/src/t_mqbase_005.o: test/src/t_mqbase_005.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_005.o test/src/t_mqbase_005.c
+
+${OBJECTDIR}/test/src/t_mqbase_006.o: test/src/t_mqbase_006.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_006.o test/src/t_mqbase_006.c
+
+${OBJECTDIR}/test/src/t_template_000.o: test/src/t_template_000.c 
+	${MKDIR} -p ${OBJECTDIR}/test/src
+	${RM} $@.d
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_template_000.o test/src/t_template_000.c
 
 # Subprojects
 .build-subprojects:

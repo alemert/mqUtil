@@ -43,6 +43,19 @@
         <itemPath>src/mqtype.c</itemPath>
         <itemPath>src/rename_for_new_project.c</itemPath>
       </logicalFolder>
+      <logicalFolder name="f1" displayName="test" projectFiles="true">
+        <logicalFolder name="src" displayName="src" projectFiles="true">
+          <itemPath>test/src/t_main_000.c</itemPath>
+          <itemPath>test/src/t_mqbase_000.c</itemPath>
+          <itemPath>test/src/t_mqbase_001.c</itemPath>
+          <itemPath>test/src/t_mqbase_002.c</itemPath>
+          <itemPath>test/src/t_mqbase_003.c</itemPath>
+          <itemPath>test/src/t_mqbase_004.c</itemPath>
+          <itemPath>test/src/t_mqbase_005.c</itemPath>
+          <itemPath>test/src/t_mqbase_006.c</itemPath>
+          <itemPath>test/src/t_template_000.c</itemPath>
+        </logicalFolder>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -70,6 +83,13 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <folder path="SourceFiles/f1/src">
+        <cTool>
+          <incDir>
+            <pElem>test/include</pElem>
+          </incDir>
+        </cTool>
+      </folder>
       <item path="include/Makefile" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/ctl.h" ex="false" tool="3" flavor2="0">
@@ -115,6 +135,24 @@
       <item path="src/mqtype.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="src/rename_for_new_project.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_main_000.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_000.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_001.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_002.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_003.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_004.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_005.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_006.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_template_000.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="2">
@@ -183,6 +221,24 @@
       <item path="src/mqtype.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="src/rename_for_new_project.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_main_000.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_000.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_001.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_002.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_003.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_004.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_005.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_mqbase_006.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="test/src/t_template_000.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
   </confs>

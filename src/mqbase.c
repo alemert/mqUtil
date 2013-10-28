@@ -9,13 +9,14 @@
 /*    - mqCloseObject                                                         */
 /*    - mqPut                                                                 */
 /*    - mqGet                                                                 */
-/*    - mqBegin                  */
-/*    - mqCommit              */
+/*    - mqBegin                        */
+/*    - mqCommit                  */
+/*    - mqRollback                      */
 /*    - resizeMqMessageBuffer                                                 */
 /*    - mqOpenBag                                                             */
-/*    - mqReadBag                                                */
-/*    - mqCloseBag                                              */
-/*                                    */
+/*    - mqReadBag                                                    */
+/*    - mqCloseBag                                                  */
+/*                                          */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -521,6 +522,45 @@ MQLONG mqCommit( MQHCONN _hConn )   // connection handle
   MQLONG reason = MQRC_NONE;
 
   MQCMIT( _hConn,
+          &compCode,
+          &reason );
+
+  switch( reason )
+  {
+    case MQRC_NONE :                        
+    {                                      
+      logMQCall(DBG,"MQCMIT",reason);
+      break;                             
+    }                                   
+    default :                          
+    {                                 
+      logMQCall(ERR,"MQCMIT",reason);  
+      goto _door;                   
+    }                              
+  }
+
+  _door:
+  logFuncExit() ; 
+  return reason ; 
+}
+
+/******************************************************************************/
+/*   M Q   R O L L B A C K                                                    */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*   Description: api to MQBACK call                                          */
+/*                                                                            */
+/*   Comment:                                                                 */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqRollback( MQHCONN _hConn )   // connection handle
+{
+  logFuncCall() ;
+
+  MQLONG compCode;
+  MQLONG reason = MQRC_NONE;
+
+  MQBACK( _hConn,
           &compCode,
           &reason );
 
