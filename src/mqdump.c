@@ -59,7 +59,7 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 /******************************************************************************/
 #define ITEM_STRING_LENGTH    500
 
-#define F_KEY       "%-35.35s"    // dump format for key
+#define F_KEY       "%-30.30s"    // dump format for key
 #define F_STR       "%-48.25s"    // dump format for general string
 #define F_MQPTR     "%-48.8s"     // dump format for general pointer
 #define F_MQCHAR    "%c"          // dump format for MQCHAR4
@@ -73,7 +73,7 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 #define F_MQLONG    "%.10d"       // dump format for MQLONG
 #define F_MQHMSG    "%.10d"       // dump format for MQHMSG
 #define F_MQBYTE16     16         // length of hex string
-#define F_MQBYTE24     24*2         // length of hex string
+#define F_MQBYTE24     24         // length of hex string
 #define F_MQBYTE32     32         // length of hex string
 #define F_MQBYTE40     40         // length of hex string
 
