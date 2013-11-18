@@ -786,7 +786,7 @@ void dumpMqBag( MQHBAG bag )
       goto _door;                                    //
     }                                                //
   }                                                  //
-  logger( LMQM_ITEM_COUNT, itemCount );              //
+  logger( LMQM_ITEM_COUNT, (int) itemCount );        //
                                                      //
   // -------------------------------------------------------
   // go through all items
