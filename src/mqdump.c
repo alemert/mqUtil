@@ -73,7 +73,7 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 #define F_MQLONG    "%.10d"       // dump format for MQLONG
 #define F_MQHMSG    "%.10d"       // dump format for MQHMSG
 #define F_MQBYTE16     16         // length of hex string
-#define F_MQBYTE24     24         // length of hex string
+#define F_MQBYTE24     24*2         // length of hex string
 #define F_MQBYTE32     32         // length of hex string
 #define F_MQBYTE40     40         // length of hex string
 

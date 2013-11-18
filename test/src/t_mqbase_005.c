@@ -50,7 +50,7 @@ int main( int argc, const char** argv )
     MQMD    md      = {MQMD_DEFAULT} ;
     MQHOBJ  ohQueue ;
 
-    mqConn( "ALFA", &hConn );
+    mqConn( "TEST", &hConn );
 
     memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
     memcpy( odQueue.ObjectName, "NOT.EXISTS.ON.OMEGA", MQ_Q_NAME_LENGTH ) ;
@@ -78,7 +78,7 @@ int main( int argc, const char** argv )
 
     gmo.MatchOptions = MQMO_NONE;
 
-    mqConn( NULL, &hConn );
+    mqConn( "TEST", &hConn );
     memset( odQueue.ObjectName, (int) ' ', MQ_Q_NAME_LENGTH ) ;
     memcpy( odQueue.ObjectName, "SYSTEM.ADMIN.QMGR.EVENT", MQ_Q_NAME_LENGTH ) ;
   

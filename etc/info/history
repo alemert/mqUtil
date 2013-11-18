@@ -5,3 +5,4 @@ ver 0.1.01 itemValue2str additional selector MQIA_BASE_TYPE
 ver 0.2.00 mqBegin and mqCommit added
 ver 0.2.01 bug
 ver 0.2.05 mqRollback added, t_mqbase_006/ t_mqbase_007 added
+ver 0.2.07 changing format of mqdump for mqbyte24
