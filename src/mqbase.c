@@ -420,6 +420,7 @@ MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
   {                                                //
     case MQRC_NONE :                               // message found,
     {                                              //  break out of loop
+      *_bufLng = msgLng;                           //
       break ;                                      //
     }                                              //
                                                    //
