@@ -14,7 +14,7 @@
 # TEST OK    mqOpenObject >>open queue          << test/src/t_mqbase_003.c(0111)
 # TEST START mqGet      >>get message err     << test/src/t_mqbase_003.c(0126)
 # TEST OK    mqGet      >>get message err     << test/src/t_mqbase_003.c(0126)
-11 hello world                                                                                        
+100 hello world                                                                                        
 # TEST START mqCloseObject >>close queue         << test/src/t_mqbase_003.c(0134)
 # TEST OK    mqCloseObject >>close queue         << test/src/t_mqbase_003.c(0134)
 # TEST START mqDisc     >>disconnect qmgr     << test/src/t_mqbase_003.c(0139)

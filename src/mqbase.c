@@ -420,7 +420,6 @@ MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
   {                                                //
     case MQRC_NONE :                               // message found,
     {                                              //  break out of loop
-      *_bufLng = msgLng;
       break ;                                      //
     }                                              //
                                                    //
@@ -432,18 +431,8 @@ MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
                                                    //
     case MQRC_TRUNCATED_MSG_FAILED :               // msg buffer to small
     {                                              //  resize (realloc) msg buff
+      *_bufLng = msgLng;                           //
       logMQCall( WAR, "MQGET", reason );           //
-    #if(0)
-      *_bufLng = msgLng+1 ;                      //
-      _buffer = (PMQVOID) realloc( _buffer ,     //
-                                  sizeof(void)*(*_bufLng) );
-      logger(LMQM_INCR_MSG_BUFF,(int)*_bufLng ); //
-      if( _buffer == NULL )                      //
-      {                                          //
-        logger( LSTD_MEM_ALLOC_ERROR ) ;         //
-        goto _door ;                             //
-      }                                          //
-     #endif
       break ;                                      //
     }                                              //
                                                    //
