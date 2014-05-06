@@ -16,6 +16,7 @@
 /******************************************************************************/
 /*   D E F I N E S                                                            */
 /******************************************************************************/
+#define MQ_UNKNOWN_SELECTOR     0
 
 /******************************************************************************/
 /*   G L O B A L E S                                                          */
@@ -53,3 +54,5 @@ const char* mqcmd2str( MQLONG id );
 const char* mqcfc2str( MQLONG id );
 const char* mqcompCode2str( MQLONG id );
 const char* mqrcQualifier2str( MQLONG id );
+
+MQLONG  str2mqSelector( const char* str );
