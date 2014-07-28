@@ -11,9 +11,11 @@
 /*   - setDumpItemCharV                                                       */
 /*   - dumpMqObjDscr                                                          */
 /*   - dumpMqMsgDscr                                                          */
-/*   - dumpMqPutMsgOpt                                        */
-/*   - dumpMqGetMsgOpt                                    */
-/*   - dumpMqBag            */
+/*   - dumpMqPutMsgOpt                                                    */
+/*   - dumpMqGetMsgOpt                                            */
+/*   - dumpMqBag                  */
+/*   - dumpTrigData                  */
+/*                  */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -68,7 +70,9 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 #define F_MQCHAR12  "%-47.12"     // dump format for MQCHAR12
 #define F_MQCHAR28  "%-47.28s"    // dump format for MQCHAR28
 #define F_MQCHAR32  "%-47.32s"    // dump format for MQCHAR32
+#define F_MQCHAR40  "%-47.40s"    // dump format for MQCHAR40
 #define F_MQCHAR48  "%-47.48s"    // dump format for MQCHAR48
+#define F_MQCHAR64  "%-47.64"     // dump format for MQCHAR60
 #define F_MQCHARV   "%-47.20s"    // dump format for MQCHARV dummy
 #define F_MQLONG    "%.10d"       // dump format for MQLONG
 #define F_MQHMSG    "%.10d"       // dump format for MQHMSG
@@ -155,6 +159,15 @@ void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
   if( memcmp( _type, "MQBAG", 4 ) == 0 )
   {
     dumpMqBag( *((PMQHBAG) _pStruct) ) ;
+    goto _output ; 
+  }
+
+  // -------------------------------------------------------
+  // Trigger Monitor
+  // -------------------------------------------------------
+  if( memcmp( _type, MQTMC_STRUC_ID , 4 ) == 0 )
+  {
+    dumpTrigData( ((PMQTMC2) _pStruct) ) ;
     goto _output ; 
   }
 
@@ -896,16 +909,61 @@ void dumpMqBag( MQHBAG bag )
       setDumpItemStr(  F_STR                  ,      //
                       mqSelector2str(selector),      //
                       mqstrVal               );      //
-    }                                //
-    else                      //
-    {                                            //
+    }                                                //
+    else                                             //
+    {                                                //
       setDumpItemInt( F_MQLONG                ,      //
-                      mqSelector2str(selector),  //
-                      mqlongVal ) ;        //
-    }                                            //
-                            //
-  }                                                //
+                      mqSelector2str(selector),      //
+                      mqlongVal ) ;                  //
+    }                                                //
+                                                     //
+  }                                                  //
                                                      //  
   _door:
   return; 
+}
+
+/******************************************************************************/
+/*  dumpTrigData            */
+/******************************************************************************/
+void dumpTrigData( const PMQTMC2 trigData )
+{
+  _gDmpMsgIx = 0 ;  
+
+  setDumpItemStr(  F_MQCHAR4               ,
+                  "Structure identifier"   ,
+                   trigData->StrucId       );           
+  
+  setDumpItemStr(  F_MQCHAR48 ,
+		  "Name of triggered queue", 
+		   trigData->QName         );
+
+  setDumpItemStr(  F_MQCHAR48 ,
+                  "Name of process object" , 
+		   trigData->ProcessName   );
+
+  setDumpItemStr(  F_MQCHAR64             ,
+                  "Trigger data"          , 
+		   trigData->TriggerData   );
+
+  setDumpItemStr(  F_MQCHAR40 ,
+                  "Application type"      , 
+		   trigData->ApplType     );
+
+  setDumpItemStr(  F_STR ,
+                  "Application identifier", 
+		   trigData->ApplId       );
+
+  setDumpItemStr(  F_STR                  ,
+                  "Environment data"      , 
+		   trigData->EnvData      );
+  
+  setDumpItemStr(  F_STR                  ,
+                  "User data"             , 
+		   trigData->UserData     );
+
+  setDumpItemStr(  F_MQCHAR48            ,
+                  "Queue manager name"   , 
+		   trigData->QMgrName    );
+
 }

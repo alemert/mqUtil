@@ -7,3 +7,4 @@ ver 0.2.01 bug
 ver 0.2.05 mqRollback added, t_mqbase_006/ t_mqbase_007 added
 ver 0.2.07 changing format of mqdump for mqbyte24
 ver 0.2.08 str2mqSelector added
+ver 0.2.09 dumpTrigData added
