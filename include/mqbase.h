@@ -69,8 +69,8 @@ MQLONG mqCloseObject( MQHCONN hConn   , // connection handle
                                         //
 MQLONG mqPut( MQHCONN _hConn      ,     // connection handle
               MQHOBJ  _hQueue     ,     // pointer to queue handle
-              PMQMD   _msgDscr    ,     // msg Desriptor
-              PMQPMO  _pPutMsgOpt ,     // Options controling MQPUT
+              PMQMD   _msgDscr    ,     // message descriptor
+              PMQPMO  _pPutMsgOpt ,     // Options controlling MQPUT
               PMQVOID _buffer     ,     // message buffer
               MQLONG  _msgLng    );     // message length (buffer length)
                                         //
@@ -78,13 +78,15 @@ MQLONG mqGet( MQHCONN _hConn      ,     // connection handle
               MQHOBJ  _hQueue     ,     // pointer to queue handle
               PMQVOID _buffer     ,     // message buffer
               PMQLONG _bufLng     ,     // buffer length
-              PMQMD   _msgDscr    ,     // msg Desriptor
+              PMQMD   _msgDscr    ,     // message descriptor
               MQGMO   _getMsgOpt  ,     // wait interval
               MQLONG  _wait      );     // get message option
-
+                                        //
 MQLONG mqBegin(    MQHCONN _hConn );    // connection handle
 MQLONG mqCommit(   MQHCONN _hConn );    // connection handle
 MQLONG mqRollback( MQHCONN _hConn );    // connection handle
+MQLONG mqSetTrigger( MQHCONN Hconn  ,   // connection handle
+                     MQHOBJ  Hqueue);   // queue handle
 
 PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize );
 

@@ -9,14 +9,15 @@
 /*    - mqCloseObject                                                         */
 /*    - mqPut                                                                 */
 /*    - mqGet                                                                 */
-/*    - mqBegin                        */
-/*    - mqCommit                  */
-/*    - mqRollback                      */
+/*    - mqBegin                              */
+/*    - mqCommit                      */
+/*    - mqRollback                          */
 /*    - resizeMqMessageBuffer                                                 */
+/*    - mqSetTrigger                      */
 /*    - mqOpenBag                                                             */
-/*    - mqReadBag                                                    */
-/*    - mqCloseBag                                                  */
-/*                                          */
+/*    - mqReadBag                                                        */
+/*    - mqCloseBag                                                      */
+/*                                                */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -67,7 +68,7 @@ const char gDefaultQmgr[] = "\0" ;
 /******************************************************************************/
 
 /******************************************************************************/
-/* mq connect                                                                 */
+/* MQ connect                                                                 */
 /******************************************************************************/
 MQLONG mqConn( char* _qmName, PMQHCONN pHconn )
 {
@@ -110,7 +111,7 @@ MQLONG mqConn( char* _qmName, PMQHCONN pHconn )
 }
 
 /******************************************************************************/
-/* mq disconnect                                                              */
+/* MQ disconnect                                                              */
 /******************************************************************************/
 MQLONG mqDisc( PMQHCONN pHconn )
 {
@@ -601,6 +602,66 @@ PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize )
   logFuncExit() ;                            
 
   return message;
+}
+
+/******************************************************************************/
+/*   M Q   S E T   T R I G G E R   O N                                        */
+/*   ----------------------------------------------------------------------   */
+/*                                                                            */
+/*   this function procees following:                                         */
+/*   ALTER QLOCAL (QUEUE.NAME) TRIGGER                                        */
+/******************************************************************************/
+MQLONG mqSetTrigger( MQHCONN Hconn   ,   // connection handle
+                     MQHOBJ  Hqueue  )   // queue handle
+{
+  logFuncCall() ;
+
+  MQLONG compCode      ;              // Completion code
+  MQLONG reason = MQRC_NONE ;         // Reason code qualifying CompCode
+
+  MQLONG select[1]     ;              // attribute selector(s)
+  MQLONG intAttrArr[1] ;              // integer attribute count
+
+  // -------------------------------------------------------
+  // set attributes for alter
+  // -------------------------------------------------------
+  select[0]     = MQIA_TRIGGER_CONTROL ;
+  intAttrArr[0] = MQTC_ON              ;
+
+  // -------------------------------------------------------
+  // MQ alter
+  // -------------------------------------------------------
+  MQSET( Hconn      ,    // connection handle
+         Hqueue     ,    // object handle
+         1          ,    // selector count
+         select     ,    // selector array
+         1          ,    // integer attribute count
+         intAttrArr ,    // integer attribute array
+         0          ,    // char attribute count
+         NULL       ,    // char attribute array
+         &compCode  ,    // completion code
+         &reason   );    // reason code
+
+  // -------------------------------------------------------
+  // check Return Code and log it into the log file
+  // -------------------------------------------------------
+  switch( reason )
+  {
+    case MQRC_NONE :                        
+    {                                      
+      logMQCall(DBG,"MQSET",reason);
+      break;                             
+    }                                   
+    default :                          
+    {                                 
+      logMQCall(ERR,"MQSET",reason);  
+      goto _door;                   
+    }                              
+  }
+  
+  _door:
+  logFuncExit() ; 
+  return reason ;
 }
 
 /******************************************************************************/
