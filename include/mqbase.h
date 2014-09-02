@@ -45,6 +45,9 @@
                                                 call                     , \
                                                 (char*) mqrc2str( reason ) )
 
+#define mqOpenUserBag(  pBag ) mqOpenBagAPI( MQCBO_USER_BAG,  pBag );
+#define mqOpenAdminBag( pBag ) mqOpenBagAPI( MQCBO_ADMIN_BAG, pBag );
+
 #if(0)
 #define mqOpenQueue( queue, hConn, ObjDesc, opt, pHobj )           \
         {                                            \
@@ -90,10 +93,14 @@ MQLONG mqSetTrigger( MQHCONN Hconn  ,   // connection handle
 
 PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize );
 
-MQLONG mqOpenBag(  PMQHBAG bag  );
-MQLONG mqReadBag( MQHCONN hConn,
-                  MQHOBJ odQueue,
-                  PMQMD msgDscr ,
-                  PMQGMO getMsgOpt,
-                  MQHBAG bag );
-MQLONG mqCloseBag( PMQHBAG bag  );
+MQLONG mqOpenBagAPI(  MQLONG opt       ,   // Bag options
+                      PMQHBAG bag     );
+MQLONG mqCloseBag(    PMQHBAG bag     );
+MQLONG mqReadBag(  MQHCONN hConn    ,
+                   MQHOBJ  odQueue  ,
+                   PMQMD   msgDscr  ,
+                   PMQGMO  getMsgOpt,
+                   MQHBAG  bag     );
+
+
+MQLONG mqResetQmgrLog( MQHCONN Hconn ); 

@@ -2,22 +2,27 @@
 /*                                                                            */
 /*                      M Q   B A S E   F U N C T I O N S                     */
 /*                                                                            */
-/*  funstions:                                                                */
+/*  functions:                                                                */
 /*    - mqConn                                                                */
 /*    - mqDisc                                                                */
 /*    - mqOpenObject                                                          */
 /*    - mqCloseObject                                                         */
 /*    - mqPut                                                                 */
 /*    - mqGet                                                                 */
-/*    - mqBegin                              */
-/*    - mqCommit                      */
-/*    - mqRollback                          */
+/*    - mqBegin                                                               */
+/*    - mqCommit                                                        */
+/*    - mqRollback                                                        */
 /*    - resizeMqMessageBuffer                                                 */
-/*    - mqSetTrigger                      */
-/*    - mqOpenBag                                                             */
-/*    - mqReadBag                                                        */
-/*    - mqCloseBag                                                      */
-/*                                                */
+/*    - mqSetTrigger                                                    */
+/*    - mqOpenBagAPI                                                          */
+/*    - mqReadBag                                                             */
+/*    - mqCloseBag                                                            */
+/*    - mqResetQmgrLog                                                  */
+/*                                                                            */
+/*  macros:                                          */
+/*    - mqOpenUserBag                              */
+/*    - mqOpenAdminBag                      */
+/*                              */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -665,22 +670,22 @@ MQLONG mqSetTrigger( MQHCONN Hconn   ,   // connection handle
 }
 
 /******************************************************************************/
-/*   M Q    O P E N   B A G                                                   */
+/*   M Q    O P E N   B A G   A P I                                           */
 /* -------------------------------------------------------------------------- */
 /*                                                                            */
 /*   Description: interface to mqCreateBag                                    */
 /*                                                                            */
-/*   Comment:                                                                 */
+/*   Comment: macros mqOpenAdminBag and mqOpenUserBag should be used          */
 /*                                                                            */
 /******************************************************************************/
-MQLONG mqOpenBag( PMQHBAG bag )
+MQLONG mqOpenBagAPI( MQLONG opt, PMQHBAG bag )
 {
   MQLONG compCode;
   MQLONG reason  ;
 
   *bag = MQHB_UNUSABLE_HBAG;
 
-  mqCreateBag( MQCBO_USER_BAG, bag, &compCode, &reason );
+  mqCreateBag( opt, bag, &compCode, &reason );
 
   switch( reason )                            
   {                                          
@@ -809,10 +814,11 @@ MQLONG mqCloseBag( PMQHBAG bag )
 /*   M Q   R E S E T   Q M G R   A D V A N C E   L O G                        */
 /*   ----------------------------------------------------------------------   */
 /*                                                                            */
-/*   Dscr: this function process following:                                   */
-/*         RESET QMGR TYPE(ADVANCELOG)                                        */
+/*   Description: this function process:                                      */
+/*                RESET QMGR TYPE(ADVANCELOG)                                 */
+/*            */
 /******************************************************************************/
-int mqResetQmgrLog( MQHCONN Hconn ) // connection handle
+MQLONG mqResetQmgrLog( MQHCONN Hconn ) // connection handle
 {
   logFuncCall() ;
 
@@ -825,78 +831,62 @@ int mqResetQmgrLog( MQHCONN Hconn ) // connection handle
   MQLONG execCompCode ;  // Completion code for mqExec
   MQLONG execReason   ;  // Reason code for mqExec qualifying execCompCode
 
-  char dscr[MQ_REASON_STR_LENGTH];  // buffer for human readable description
-  int rc ;
+  int sysRc ;
 
   // -------------------------------------------------------
   // create an admin bag for the mqExecute call
   // -------------------------------------------------------
-  rc = mqCreateAdminBag( &adminBag ) ;
-  if( rc != MQRC_NONE ) return rc ;
-
-//mqCreateBag(MQCBO_ADMIN_BAG, &adminBag, &compCode, &reason);
-//mqReasonId2Str( reason, dscr ) ;
-//if( compCode == MQCC_FAILED)
-//{
-//  logger( LM_MQ_GENERAL_ERR, "mqCreateBag", reason, dscr ) ;
-//  return (int) reason ;
-//}
-//logger( LM_MQ_GENERAL_INF, "mqCreateBag", reason, dscr ) ;
+  sysRc = mqOpenAdminBag( &adminBag ) ;
+  if( sysRc != MQRC_NONE ) return sysRc ;
 
   // -------------------------------------------------------
   // create an admin bag for the mqExecute call
   // -------------------------------------------------------
-  rc = mqCreateAdminBag( &responBag ) ;
-  if( rc != MQRC_NONE ) return rc ;
-
-  //mqCreateBag(MQCBO_ADMIN_BAG, &responBag, &compCode, &reason);
-//mqReasonId2Str( reason, dscr ) ;
-//if( compCode == MQCC_FAILED)
-//{
-//  logger( LM_MQ_GENERAL_ERR, "mqCreateBag", reason, dscr ) ;
-//  return (int) reason ;
-//}
-//logger( LM_MQ_GENERAL_INF, "mqCreateBag", reason, dscr ) ;
+  sysRc = mqOpenAdminBag( &responBag ) ;
+  if( sysRc != MQRC_NONE ) return sysRc ;
 
   // -------------------------------------------------------
-  // set type(advancelog)
+  // SET TYPE(ADVANCELOG)
   // -------------------------------------------------------
-  mqAddInteger(adminBag, MQIACF_ACTION      ,
-                       MQACT_ADVANCE_LOG   ,
-                       &compCode           ,
-                       &reason            );
+  mqAddInteger(adminBag, MQIACF_ACTION    ,
+                         MQACT_ADVANCE_LOG,
+                         &compCode        ,
+                         &reason         );
 
-  mqReasonId2Str( reason, dscr ) ;
-
-  if( compCode == MQCC_FAILED)
+  switch( reason )
   {
-    logger( LM_MQ_GENERAL_ERR, "mqAddInteger", reason, dscr ) ;
-    return (int) reason ;
+    case MQRC_NONE :                        
+    {                                      
+      logMQCall(DBG,"mqAddInteger",reason);
+      break;                             
+    }                                   
+    default :                          
+    {                                 
+      logMQCall(ERR,"mqAddInteger",reason);  
+      return reason ;
+    }                              
   }
 
-  logger( LM_MQ_GENERAL_INF, "mqAddInteger", reason, dscr ) ;
-
   // -------------------------------------------------------
-  // execute
+  // execute bag
   // -------------------------------------------------------
-  mqExecute( Hconn            , // qmgr connection handle
+  mqExecute( Hconn            , // queue manager connection handle
              MQCMD_RESET_Q_MGR, // command to be executed
              MQHB_NONE        , // no options bag
              adminBag         , // handle to bag containing attributes
              responBag        , // handle to bag to receive response
              MQHO_NONE        , // put msg on SYSTEM.ADMIN.COMMAND.QUEUE
              MQHO_NONE        , // create a dynamic q for response
-             &execCompCode        , // compelition code
-             &execReason         ); // reason code
+             &execCompCode    , // completion code
+             &execReason     ); // reason code
 
-  mqReasonId2Str( execReason, dscr ) ;
 
   if( compCode == MQCC_FAILED)
   {
-    logger( LM_MQ_GENERAL_ERR, "mqExecute", execReason, dscr ) ;
+    logMQCall(ERR,"mqExecute",reason);  
 
     // ---------------------------------------------------
-    // analyse answer from mqExecute if NOK
+    // analyze answer from mqExecute if NOK
     // ---------------------------------------------------
     mqInquireBag( responBag, MQHA_BAG_HANDLE,
                              0              ,
@@ -904,8 +894,7 @@ int mqResetQmgrLog( MQHCONN Hconn ) // connection handle
                              &compCode      ,
                              &reason       );
 
-    mqReasonId2Str( reason, dscr ) ;
-    logger( LM_MQ_GENERAL_DBG, "mqInquireBag", reason, dscr ) ;
+    logMQCall(DBG,"mqInquireBag",reason);  
 
     mqInquireInteger( resultBag, MQIASY_COMP_CODE,
                                  MQIND_NONE      ,
@@ -913,11 +902,10 @@ int mqResetQmgrLog( MQHCONN Hconn ) // connection handle
                                  &compCode       ,
                                  &reason        );
 
-    mqReasonId2Str( reason, dscr ) ;
-    logger( LM_MQ_GENERAL_ERR, "mqInquireIntiger RC(mqExec)", reason, dscr ) ;
+    logMQCall(DBG,"mqInquireInteger",reason);  
   }
 
-  logger( LM_MQ_GENERAL_INF, "mqExecute", execReason, dscr ) ;
+  logMQCall(ERR,"RC(mqExec)",execCompCode);  
 
   return (int) execReason ;
 }
