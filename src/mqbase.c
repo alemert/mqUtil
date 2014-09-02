@@ -608,7 +608,7 @@ PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize )
 /*   M Q   S E T   T R I G G E R   O N                                        */
 /*   ----------------------------------------------------------------------   */
 /*                                                                            */
-/*   this function procees following:                                         */
+/*   this function process following:                                         */
 /*   ALTER QLOCAL (QUEUE.NAME) TRIGGER                                        */
 /******************************************************************************/
 MQLONG mqSetTrigger( MQHCONN Hconn   ,   // connection handle
@@ -803,5 +803,122 @@ MQLONG mqCloseBag( PMQHBAG bag )
 
   _door:
   return reason;
+}
+
+/******************************************************************************/
+/*   M Q   R E S E T   Q M G R   A D V A N C E   L O G                        */
+/*   ----------------------------------------------------------------------   */
+/*                                                                            */
+/*   Dscr: this function process following:                                   */
+/*         RESET QMGR TYPE(ADVANCELOG)                                        */
+/******************************************************************************/
+int mqResetQmgrLog( MQHCONN Hconn ) // connection handle
+{
+  logFuncCall() ;
+
+  MQHBAG adminBag  = MQHB_UNUSABLE_HBAG;  // admin bag for mqExecute
+  MQHBAG responBag = MQHB_UNUSABLE_HBAG;  // response bag for mqExecute
+  MQHBAG resultBag = MQHB_UNUSABLE_HBAG;  // response bag for mqExecute
+
+  MQLONG compCode     ;  // Completion code
+  MQLONG reason       ;  // Reason code qualifying CompCode
+  MQLONG execCompCode ;  // Completion code for mqExec
+  MQLONG execReason   ;  // Reason code for mqExec qualifying execCompCode
+
+  char dscr[MQ_REASON_STR_LENGTH];  // buffer for human readable description
+  int rc ;
+
+  // -------------------------------------------------------
+  // create an admin bag for the mqExecute call
+  // -------------------------------------------------------
+  rc = mqCreateAdminBag( &adminBag ) ;
+  if( rc != MQRC_NONE ) return rc ;
+
+//mqCreateBag(MQCBO_ADMIN_BAG, &adminBag, &compCode, &reason);
+//mqReasonId2Str( reason, dscr ) ;
+//if( compCode == MQCC_FAILED)
+//{
+//  logger( LM_MQ_GENERAL_ERR, "mqCreateBag", reason, dscr ) ;
+//  return (int) reason ;
+//}
+//logger( LM_MQ_GENERAL_INF, "mqCreateBag", reason, dscr ) ;
+
+  // -------------------------------------------------------
+  // create an admin bag for the mqExecute call
+  // -------------------------------------------------------
+  rc = mqCreateAdminBag( &responBag ) ;
+  if( rc != MQRC_NONE ) return rc ;
+
+  //mqCreateBag(MQCBO_ADMIN_BAG, &responBag, &compCode, &reason);
+//mqReasonId2Str( reason, dscr ) ;
+//if( compCode == MQCC_FAILED)
+//{
+//  logger( LM_MQ_GENERAL_ERR, "mqCreateBag", reason, dscr ) ;
+//  return (int) reason ;
+//}
+//logger( LM_MQ_GENERAL_INF, "mqCreateBag", reason, dscr ) ;
+
+  // -------------------------------------------------------
+  // set type(advancelog)
+  // -------------------------------------------------------
+  mqAddInteger(adminBag, MQIACF_ACTION      ,
+                       MQACT_ADVANCE_LOG   ,
+                       &compCode           ,
+                       &reason            );
+
+  mqReasonId2Str( reason, dscr ) ;
+
+  if( compCode == MQCC_FAILED)
+  {
+    logger( LM_MQ_GENERAL_ERR, "mqAddInteger", reason, dscr ) ;
+    return (int) reason ;
+  }
+
+  logger( LM_MQ_GENERAL_INF, "mqAddInteger", reason, dscr ) ;
+
+  // -------------------------------------------------------
+  // execute
+  // -------------------------------------------------------
+  mqExecute( Hconn            , // qmgr connection handle
+             MQCMD_RESET_Q_MGR, // command to be executed
+             MQHB_NONE        , // no options bag
+             adminBag         , // handle to bag containing attributes
+             responBag        , // handle to bag to receive response
+             MQHO_NONE        , // put msg on SYSTEM.ADMIN.COMMAND.QUEUE
+             MQHO_NONE        , // create a dynamic q for response
+             &execCompCode        , // compelition code
+             &execReason         ); // reason code
+
+  mqReasonId2Str( execReason, dscr ) ;
+
+  if( compCode == MQCC_FAILED)
+  {
+    logger( LM_MQ_GENERAL_ERR, "mqExecute", execReason, dscr ) ;
+
+    // ---------------------------------------------------
+    // analyse answer from mqExecute if NOK
+    // ---------------------------------------------------
+    mqInquireBag( responBag, MQHA_BAG_HANDLE,
+                             0              ,
+                             &resultBag     ,
+                             &compCode      ,
+                             &reason       );
+
+    mqReasonId2Str( reason, dscr ) ;
+    logger( LM_MQ_GENERAL_DBG, "mqInquireBag", reason, dscr ) ;
+
+    mqInquireInteger( resultBag, MQIASY_COMP_CODE,
+                                 MQIND_NONE      ,
+                                 &execCompCode   ,
+                                 &compCode       ,
+                                 &reason        );
+
+    mqReasonId2Str( reason, dscr ) ;
+    logger( LM_MQ_GENERAL_ERR, "mqInquireIntiger RC(mqExec)", reason, dscr ) ;
+  }
+
+  logger( LM_MQ_GENERAL_INF, "mqExecute", execReason, dscr ) ;
+
+  return (int) execReason ;
 }
 
