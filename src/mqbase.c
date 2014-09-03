@@ -359,33 +359,36 @@ MQLONG mqPut( MQHCONN _hConn      ,         // connection handle
 /*   M Q    G E T                                                             */
 /* -------------------------------------------------------------------------- */
 /*                                                                            */
-/*   Descrip: read messages from the queue,                                   */
-/*            read options were set by calling mqOpen                         */
+/*   Description: read messages from the queue,                               */
+/*                read options were set by calling mqOpen                     */
 /*                                                                            */
-/*   Comment:                                                                 */
+/*   Comment: function will add:                                              */
+/*             - MQGMO_FAIL_IF_QUIESCING,                                     */
+/*             - MQGMO_CONVERT                                                */
+/*            to get message options as default settings                      */
 /*                                                                            */
 /******************************************************************************/
 MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
               MQHOBJ  _hQueue    ,      // pointer to queue handle
               PMQVOID _buffer    ,      // message buffer
               PMQLONG  _bufLng   ,      // buffer length
-              PMQMD   _msgDscr   ,      // msg Desriptor
+              PMQMD   _msgDscr   ,      // message descriptor
               MQGMO   _getMsgOpt ,      // get message option 
-              MQLONG  _wait      )      // wait interval
+              MQLONG  _wait      )      // wait interval to adjust _getMsgOpt
 {                                       //
-  logFuncCall() ;
-
-  MQLONG compCode ;                  // Completion code
-  MQLONG reason   ;                  // Reason code qualifying CompCode
-                                     //
-  MQLONG  msgLng  ;                  // Length of the message
-                                     //
-//int loop = 0 ;                     // flag breaking loop
+  logFuncCall() ;                       //
+                                        //
+  MQLONG compCode ;                     // Completion code
+  MQLONG reason   ;                     // Reason code qualifying CompCode
+                                        //
+  MQLONG  msgLng  ;                     // Length of the message
+                                        //
+//int loop = 0 ;                        // flag breaking loop
 
   // -------------------------------------------------------
   // set get messages options
   // -------------------------------------------------------
-  _getMsgOpt.Options |= MQGMO_FAIL_IF_QUIESCING    // fail if quiesching
+  _getMsgOpt.Options |= MQGMO_FAIL_IF_QUIESCING    // fail if quiescing    
                      +  MQGMO_CONVERT;             // convert if necessary
                                                    //
    _getMsgOpt.WaitInterval = _wait ;               //
@@ -436,9 +439,9 @@ MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
       break;                                       //
     }                                              //
                                                    //
-    case MQRC_TRUNCATED_MSG_FAILED :               // msg buffer to small
-    {                                              //  resize (realloc) msg buff
-      *_bufLng = msgLng;                           //
+    case MQRC_TRUNCATED_MSG_FAILED :               // message buffer to small
+    {                                              //  resize (reallocate)
+      *_bufLng = msgLng;                           //  message buffer
       logMQCall( WAR, "MQGET", reason );           //
       break ;                                      //
     }                                              //
