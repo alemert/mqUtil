@@ -158,7 +158,7 @@ const char* mqgmoVer2str( int id )
 }
 
 /******************************************************************************/
-/* mqia version 2 string      */
+/* MQCFH version 2 string                  */
 /******************************************************************************/
 const char* mqcfhVer2str( int id )
 {
@@ -1514,7 +1514,7 @@ const char* mqbagType2str( MQLONG id )
 }
 
 /******************************************************************************/
-/* mq command to string                                                       */
+/* MQ command to string                                                       */
 /******************************************************************************/
 const char* mqcmd2str( MQLONG id )
 {

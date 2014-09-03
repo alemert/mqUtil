@@ -386,11 +386,14 @@ MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
 //int loop = 0 ;                        // flag breaking loop
 
   // -------------------------------------------------------
-  // set get messages options
+  // set the get messages options
   // -------------------------------------------------------
   _getMsgOpt.Options |= MQGMO_FAIL_IF_QUIESCING    // fail if quiescing    
                      +  MQGMO_CONVERT;             // convert if necessary
-                                                   //
+  if( _wait > 0 )                                  //
+  {                                                // set wait for messages
+    _getMsgOpt.Options |= MQGMO_WAIT ;             // 
+  }                                                //
    _getMsgOpt.WaitInterval = _wait ;               //
                                                    //
   // -------------------------------------------------------

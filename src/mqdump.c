@@ -11,11 +11,12 @@
 /*   - setDumpItemCharV                                                       */
 /*   - dumpMqObjDscr                                                          */
 /*   - dumpMqMsgDscr                                                          */
-/*   - dumpMqPutMsgOpt                                                    */
-/*   - dumpMqGetMsgOpt                                            */
-/*   - dumpMqBag                  */
-/*   - dumpTrigData                  */
-/*                  */
+/*   - dumpMqPutMsgOpt                                                        */
+/*   - dumpMqGetMsgOpt                                                      */
+/*   - dumpMqBag                          */
+/*   - dumpTrigData                          */
+/*   - dumpPcfHeader                  */
+/*                                  */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -172,7 +173,16 @@ void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
   }
 
   // -------------------------------------------------------
-  // if you get that far, then it has to be unkonwn struct
+  // PCF Header
+  // -------------------------------------------------------
+  if( memcmp( _type, MQFMT_PCF, 4 ) == 0 )
+  {
+    dumpPcfHeader((PMQCFH) _pStruct  );
+    goto _output ;
+  }
+
+  // -------------------------------------------------------
+  // if you get that far, then it has to be unknown structure
   // -------------------------------------------------------
   logger( LMQM_UNKNOWN_DMP_STRUCT, _type ) ;
   goto _door ;
@@ -223,7 +233,7 @@ void mqDumper( FILE *output )
 }
 
 /******************************************************************************/
-/* set dump items for key of type strings                                   */
+/* set dump items for key of type strings                                     */
 /******************************************************************************/
 void setDumpItemStr( const char* frmt, const char* key, char* value )
 {
@@ -237,7 +247,7 @@ void setDumpItemStr( const char* frmt, const char* key, char* value )
 }
 
 /******************************************************************************/
-/* set dump items for key of type mqlong                               */
+/* set dump items for key of type MQLONG                                 */
 /******************************************************************************/
 void setDumpItemInt( const char* frmt, const char* key, MQLONG value )
 {
@@ -251,7 +261,7 @@ void setDumpItemInt( const char* frmt, const char* key, MQLONG value )
 }
 
 /******************************************************************************/
-/* set dump items for key of type pointer                          */
+/* set dump items for key of type pointer                            */
 /******************************************************************************/
 void setDumpItemPtr( const char* frmt, const char* key, MQPTR value )  
 {
@@ -290,7 +300,7 @@ void setDumpItemCharV( const char* frmt, const char* key, MQPTR value )
 #endif
 
 /******************************************************************************/
-/* set dump items for key of type mqbyte                                */
+/* set dump items for key of type MQBYTE                                      */
 /******************************************************************************/
 void setDumpItemByte( int frmt, const char* key, PMQBYTE value ) 
 {
@@ -924,7 +934,7 @@ void dumpMqBag( MQHBAG bag )
 }
 
 /******************************************************************************/
-/*  dumpTrigData            */
+/*  dumpTrigData                                */
 /******************************************************************************/
 void dumpTrigData( const PMQTMC2 trigData )
 {
@@ -965,5 +975,50 @@ void dumpTrigData( const PMQTMC2 trigData )
   setDumpItemStr(  F_MQCHAR48            ,
                   "Queue manager name"   , 
 		   trigData->QMgrName    );
+
+}
+
+/******************************************************************************/
+/*  dumpPcfHeader                                          */
+/******************************************************************************/
+void dumpPcfHeader( PMQCFH  pPCFh )
+{
+  _gDmpMsgIx = 0 ;  
+
+  setDumpItemStr(  F_STR                      ,
+                  "Structure type"            ,
+                  (char*) mqbagType2str(pPCFh->Type) );
+
+   setDumpItemInt(  F_MQLONG          ,
+                   "Structure length" ,
+                    pPCFh->StrucLength );
+   
+  setDumpItemStr(  F_STR                         ,
+                  "Structure version number"     ,
+                  (char*) mqcfhVer2str(pPCFh->Version ) );
+  
+  setDumpItemStr(  F_STR                     ,
+                  "Command identifier"       ,
+                  (char*) mqcmd2str(pPCFh->Command) );
+
+   setDumpItemInt(  F_MQLONG                ,
+                   "Message sequence number",
+		   pPCFh->MsgSeqNumber     );
+
+   setDumpItemInt(  F_MQLONG                ,
+                   "Message sequence number",
+		   pPCFh->Control          );
+
+  setDumpItemStr(  F_STR                   ,
+                  "Completion code"        ,
+                   (char*) mqcompCode2str(pPCFh->CompCode) );
+
+  setDumpItemStr(  F_STR                   ,
+                  "Reason code qualifying completion code",
+		  (char*) mqrc2str(pPCFh->Reason) );
+
+   setDumpItemInt(  F_MQLONG                      ,
+                   "Count of parameter structures",
+		    pPCFh->ParameterCount        );
 
 }
