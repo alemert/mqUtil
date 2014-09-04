@@ -11,3 +11,4 @@ ver 0.2.09 dumpTrigData added
 ver 0.2.10 mqSetTrigger added
 ver 0.2.11 mqResetQmgrLog added
 ver 0.2.12 dumpPcfHeader added
+ver 0.2.13 dumpPcfString added

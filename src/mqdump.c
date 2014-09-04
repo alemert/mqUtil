@@ -12,11 +12,12 @@
 /*   - dumpMqObjDscr                                                          */
 /*   - dumpMqMsgDscr                                                          */
 /*   - dumpMqPutMsgOpt                                                        */
-/*   - dumpMqGetMsgOpt                                                      */
-/*   - dumpMqBag                          */
-/*   - dumpTrigData                          */
-/*   - dumpPcfHeader                  */
-/*                                  */
+/*   - dumpMqGetMsgOpt                                                        */
+/*   - dumpMqBag                                    */
+/*   - dumpTrigData                                  */
+/*   - dumpPcfHeader                          */
+/*   - dumpPcfString                        */
+/*                                        */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -178,6 +179,15 @@ void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
   if( memcmp( _type, MQFMT_PCF, 4 ) == 0 )
   {
     dumpPcfHeader((PMQCFH) _pStruct  );
+    goto _output ;
+  }
+
+  // -------------------------------------------------------
+  // PCF String
+  // -------------------------------------------------------
+  if( memcmp( _type, "PCFSTR", 6 ) == 0 )
+  {
+    dumpPcfString((PMQCFST) _pStruct  );
     goto _output ;
   }
 
@@ -654,21 +664,21 @@ void dumpMqPutMsgOpt(  const PMQPMO pmo )
   // -------------------------------------------------------
   if( pmo->Version < MQPMO_VERSION_3 ) goto _door ;
     
-   setDumpItemInt( F_MQHMSG  ,
-                  "Original message handle" ,
+   setDumpItemInt( F_MQHMSG                ,
+                  "Original message handle",
                    pmo->OriginalMsgHandle );
 
-   setDumpItemInt( F_MQHMSG             ,
-                  "New message handle"  ,
-                   pmo->NewMsgHandle    );  
+   setDumpItemInt( F_MQHMSG           ,
+                  "New message handle",
+                   pmo->NewMsgHandle );  
 
-  setDumpItemInt(  F_MQLONG                    ,
-                  "The action being performed" ,
-                   pmo->Action                 );             
+  setDumpItemInt(  F_MQLONG                   ,
+                  "The action being performed",
+                   pmo->Action                );             
 
-  setDumpItemInt(  F_MQLONG           ,
-                  "Publication level" ,
-                   pmo->PubLevel      );
+  setDumpItemInt(  F_MQLONG          ,
+                  "Publication level",
+                   pmo->PubLevel     );
 
   _door :
 
@@ -676,7 +686,7 @@ void dumpMqPutMsgOpt(  const PMQPMO pmo )
 }
 
 /******************************************************************************/
-/* dump mq get message options                                                */
+/* dump MQ get message options                                                */
 /*                                                                            */
 /* dump MQGMO                                                                 */
 /******************************************************************************/
@@ -684,46 +694,46 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
 {
   _gDmpMsgIx = 0 ;  
 
-  setDumpItemStr(  F_MQCHAR4             ,
-                  "Structure identifier" ,
-                   gmo->StrucId          );           
+  setDumpItemStr(  F_MQCHAR4            ,
+                  "Structure identifier",
+                   gmo->StrucId         );           
 
-  setDumpItemStr(  F_STR                 ,
+  setDumpItemStr(  F_STR                     ,
                   "Structure version"    ,
                   (char*) mqgmoVer2str(gmo->Version) );
 
-  setDumpItemInt(  F_MQLONG          ,
-                  "MQGET Options"    ,
-                   gmo->Options      );
+  setDumpItemInt(  F_MQLONG      ,
+                  "MQGET Options",
+                   gmo->Options  );
 
-  setDumpItemInt(  F_MQLONG          ,
-                  "Wait interval"    ,
+  setDumpItemInt(  F_MQLONG           ,
+                  "Wait interval"     ,
                    gmo->WaitInterval );
-
-  setDumpItemInt(  F_MQLONG       ,
-                  "Signal1"       ,
-                   gmo->Signal1  );
 
   setDumpItemInt(  F_MQLONG      ,
                   "Signal1"      ,
-                   gmo->Signal2  );
+                   gmo->Signal1 );
 
-   setDumpItemStr(  F_MQCHAR48   ,
-                   "Resolved destination q name" ,
-                    gmo->ResolvedQName          );
+  setDumpItemInt(  F_MQLONG      ,
+                  "Signal1"      ,
+                   gmo->Signal2 );
+
+   setDumpItemStr(  F_MQCHAR48         ,
+                   "Resolved destination q name",
+                    gmo->ResolvedQName         );
 
   // -------------------------------------------------------
   // get message option version 2 or higher
   // -------------------------------------------------------
   if( gmo->Version < MQGMO_VERSION_2 ) goto _door ;
 
-  setDumpItemInt(  F_MQLONG                  ,
-                  "Selection MQGET criteria" ,
-                   gmo->MatchOptions         );
+  setDumpItemInt(  F_MQLONG                 ,
+                  "Selection MQGET criteria",
+                   gmo->MatchOptions        );
 
-  setDumpItemInt(  F_MQCHAR              ,
-                  "Flag if msg in group" ,
-                   gmo->GroupStatus      );
+  setDumpItemInt(  F_MQCHAR             ,
+                  "Flag if msg in group",
+                   gmo->GroupStatus    );
 
   setDumpItemInt(  F_MQCHAR                      ,
                   "msg logical or physical flag" ,
@@ -740,9 +750,10 @@ void dumpMqGetMsgOpt(  const PMQGMO gmo )
   // get message option version 2 or higher
   // -------------------------------------------------------
   if( gmo->Version < MQGMO_VERSION_3 ) goto _door ;
-  setDumpItemByte(  F_MQBYTE16     ,
-                   "message token" ,
-                    gmo->MsgToken  );
+
+  setDumpItemByte(  F_MQBYTE16    ,
+                   "message token",
+                    gmo->MsgToken );
 
   setDumpItemInt(  F_MQLONG                         ,
                   "Length of message data returned" ,
@@ -934,7 +945,7 @@ void dumpMqBag( MQHBAG bag )
 }
 
 /******************************************************************************/
-/*  dumpTrigData                                */
+/*  dumpTrigData                                              */
 /******************************************************************************/
 void dumpTrigData( const PMQTMC2 trigData )
 {
@@ -944,60 +955,60 @@ void dumpTrigData( const PMQTMC2 trigData )
                   "Structure identifier"   ,
                    trigData->StrucId       );           
   
-  setDumpItemStr(  F_MQCHAR48 ,
+  setDumpItemStr(  F_MQCHAR48         ,
 		  "Name of triggered queue", 
-		   trigData->QName         );
+		   trigData->QName        );
 
-  setDumpItemStr(  F_MQCHAR48 ,
+  setDumpItemStr(  F_MQCHAR48         ,
                   "Name of process object" , 
 		   trigData->ProcessName   );
 
-  setDumpItemStr(  F_MQCHAR64             ,
-                  "Trigger data"          , 
-		   trigData->TriggerData   );
+  setDumpItemStr(  F_MQCHAR64            ,
+                  "Trigger data"         , 
+		   trigData->TriggerData);
 
-  setDumpItemStr(  F_MQCHAR40 ,
-                  "Application type"      , 
-		   trigData->ApplType     );
+  setDumpItemStr(  F_MQCHAR40          ,
+                  "Application type"   , 
+		   trigData->ApplType );
 
-  setDumpItemStr(  F_STR ,
+  setDumpItemStr(  F_STR         ,
                   "Application identifier", 
-		   trigData->ApplId       );
+		   trigData->ApplId      );
 
-  setDumpItemStr(  F_STR                  ,
-                  "Environment data"      , 
-		   trigData->EnvData      );
+  setDumpItemStr(  F_STR              ,
+                  "Environment data"  , 
+		   trigData->EnvData );
   
-  setDumpItemStr(  F_STR                  ,
-                  "User data"             , 
-		   trigData->UserData     );
+  setDumpItemStr(  F_STR               ,
+                  "User data"          , 
+		   trigData->UserData );
 
-  setDumpItemStr(  F_MQCHAR48            ,
-                  "Queue manager name"   , 
-		   trigData->QMgrName    );
+  setDumpItemStr(  F_MQCHAR48          ,
+                  "Queue manager name" , 
+		   trigData->QMgrName );
 
 }
 
 /******************************************************************************/
-/*  dumpPcfHeader                                          */
+/*  dumpPcfHeader                                                    */
 /******************************************************************************/
 void dumpPcfHeader( PMQCFH  pPCFh )
 {
   _gDmpMsgIx = 0 ;  
 
-  setDumpItemStr(  F_STR                      ,
-                  "Structure type"            ,
+  setDumpItemStr(  F_STR                        ,
+                  "Structure type"              ,
                   (char*) mqbagType2str(pPCFh->Type) );
 
-   setDumpItemInt(  F_MQLONG          ,
-                   "Structure length" ,
-                    pPCFh->StrucLength );
+   setDumpItemInt(  F_MQLONG           ,
+                   "Structure length"  ,
+                    pPCFh->StrucLength);
    
-  setDumpItemStr(  F_STR                         ,
+  setDumpItemStr(  F_STR                           ,
                   "Structure version number"     ,
                   (char*) mqcfhVer2str(pPCFh->Version ) );
   
-  setDumpItemStr(  F_STR                     ,
+  setDumpItemStr(  F_STR                       ,
                   "Command identifier"       ,
                   (char*) mqcmd2str(pPCFh->Command) );
 
@@ -1009,16 +1020,49 @@ void dumpPcfHeader( PMQCFH  pPCFh )
                    "Message sequence number",
 		   pPCFh->Control          );
 
-  setDumpItemStr(  F_STR                   ,
+  setDumpItemStr(  F_STR                     ,
                   "Completion code"        ,
                    (char*) mqcompCode2str(pPCFh->CompCode) );
 
-  setDumpItemStr(  F_STR                   ,
+  setDumpItemStr(  F_STR                     ,
                   "Reason code qualifying completion code",
 		  (char*) mqrc2str(pPCFh->Reason) );
 
    setDumpItemInt(  F_MQLONG                      ,
                    "Count of parameter structures",
 		    pPCFh->ParameterCount        );
+
+}
+
+/******************************************************************************/
+/*  dumpPcfString                                                        */
+/******************************************************************************/
+void dumpPcfString( PMQCFST  pcfString )
+{
+  _gDmpMsgIx = 0 ;  
+
+  setDumpItemStr(  F_STR                        ,
+                  "Structure type"            ,
+                  (char*) mqbagType2str(pcfString->Type) );
+
+   setDumpItemInt(  F_MQLONG               ,
+                   "Structure length"      ,
+                    pcfString->StrucLength );
+   
+  setDumpItemStr(  F_STR                         ,
+                  "Parameter identifier"         ,
+                  (char*) mqSelector2str(pcfString->Parameter) );
+
+   setDumpItemInt(  F_MQLONG                       ,
+                   "Coded character set identifier",
+		  pcfString->CodedCharSetId       );
+
+   setDumpItemInt(  F_MQLONG                ,
+                   "Length of string"       ,
+		   pcfString->StringLength );
+
+  setDumpItemInt(  F_MQCHAR                       ,
+                  "String value - first character",
+		   pcfString->String[1]           );
 
 }
