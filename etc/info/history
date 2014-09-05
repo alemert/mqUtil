@@ -12,3 +12,4 @@ ver 0.2.10 mqSetTrigger added
 ver 0.2.11 mqResetQmgrLog added
 ver 0.2.12 dumpPcfHeader added
 ver 0.2.13 dumpPcfString added
+ver 0.2.14 recompile due msgcat ver 0.6.0

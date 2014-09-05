@@ -4,3 +4,5 @@ ver 0.2.03 mqRead setting gmo changed from += to |=
 ver 0.2.04 mqRead wait option removed
 ver 0.2.06 mqRead changing bufferLengt passed by reference
 ver 0.2.06 bug 003(Bugzilla) solved
+ver 0.2.14 recompile due msgcat ver 0.6.0
+
