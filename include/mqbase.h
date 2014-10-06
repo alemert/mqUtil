@@ -96,6 +96,7 @@ PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize );
 MQLONG mqOpenBagAPI(  MQLONG opt       ,   // Bag options
                       PMQHBAG bag     );
 MQLONG mqCloseBag(    PMQHBAG bag     );
+
 MQLONG mqReadBag(  MQHCONN hConn    ,
                    MQHOBJ  odQueue  ,
                    PMQMD   msgDscr  ,
@@ -104,3 +105,8 @@ MQLONG mqReadBag(  MQHCONN hConn    ,
 
 
 MQLONG mqResetQmgrLog( MQHCONN Hconn ); 
+
+MQLONG mqExecPcf( MQHCONN Hconn     ,   // connection handle
+                  MQLONG  pcfCmd    ,   // PCF command
+                  MQHBAG  adminBag  ,   // bag with command options
+                  MQHBAG responBag );   // bag with respond

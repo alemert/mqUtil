@@ -10,19 +10,20 @@
 /*    - mqPut                                                                 */
 /*    - mqGet                                                                 */
 /*    - mqBegin                                                               */
-/*    - mqCommit                                                        */
-/*    - mqRollback                                                        */
+/*    - mqCommit                                                              */
+/*    - mqRollback                                                            */
 /*    - resizeMqMessageBuffer                                                 */
-/*    - mqSetTrigger                                                    */
+/*    - mqSetTrigger                                                        */
 /*    - mqOpenBagAPI                                                          */
 /*    - mqReadBag                                                             */
 /*    - mqCloseBag                                                            */
-/*    - mqResetQmgrLog                                                  */
+/*    - mqResetQmgrLog                                                    */
+/*    - mqExecPcf                      */
 /*                                                                            */
-/*  macros:                                          */
-/*    - mqOpenUserBag                              */
-/*    - mqOpenAdminBag                      */
-/*                              */
+/*  macros:                                              */
+/*    - mqOpenUserBag                                  */
+/*    - mqOpenAdminBag                          */
+/*                                    */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -436,6 +437,7 @@ MQLONG mqGet( MQHCONN _hConn     ,      // connection handle
       break ;                                      //
     }                                              //
                                                    //
+    case MQRC_TRUNCATED_MSG_ACCEPTED:              //
     case MQRC_NO_MSG_AVAILABLE:                    // finding no message is not
     {                                              //  an error per default
       logMQCall( DBG, "MQGET", reason );           //
@@ -843,13 +845,13 @@ MQLONG mqResetQmgrLog( MQHCONN Hconn ) // connection handle
   // create an admin bag for the mqExecute call
   // -------------------------------------------------------
   sysRc = mqOpenAdminBag( &adminBag ) ;
-  if( sysRc != MQRC_NONE ) return sysRc ;
+  if( sysRc != MQRC_NONE ) goto _door;
 
   // -------------------------------------------------------
   // create an admin bag for the mqExecute call
   // -------------------------------------------------------
   sysRc = mqOpenAdminBag( &responBag ) ;
-  if( sysRc != MQRC_NONE ) return sysRc ;
+  if( sysRc != MQRC_NONE ) goto _door;
 
   // -------------------------------------------------------
   // SET TYPE(ADVANCELOG)
@@ -869,7 +871,7 @@ MQLONG mqResetQmgrLog( MQHCONN Hconn ) // connection handle
     default :                          
     {                                 
       logMQCall(ERR,"mqAddInteger",reason);  
-      return reason ;
+      goto _door;
     }                              
   }
 
@@ -886,10 +888,9 @@ MQLONG mqResetQmgrLog( MQHCONN Hconn ) // connection handle
              &execCompCode    , // completion code
              &execReason     ); // reason code
 
-
-  if( compCode == MQCC_FAILED)
+  if( execCompCode == MQCC_FAILED)
   {
-    logMQCall(ERR,"mqExecute",reason);  
+    logMQCall(ERR,"RC(mqExec)",execReason);  
 
     // ---------------------------------------------------
     // analyze answer from mqExecute if NOK
@@ -909,10 +910,119 @@ MQLONG mqResetQmgrLog( MQHCONN Hconn ) // connection handle
                                  &reason        );
 
     logMQCall(DBG,"mqInquireInteger",reason);  
+
+    reason = execReason;
+    goto _door;
   }
 
-  logMQCall(ERR,"RC(mqExec)",execCompCode);  
+  _door:
 
-  return (int) execReason ;
+  logFuncExit( ) ;
+  return (int) reason ;
 }
 
+
+/******************************************************************************/
+/*   M Q   E X E C U T E   P C F   C O M M A N D                              */
+/*   ----------------------------------------------------------------------   */
+/*                                                                            */
+/*   Description: execute PCF command                   */
+/*                              */
+/******************************************************************************/
+MQLONG mqExecPcf( MQHCONN Hconn      ,   // connection handle
+                  MQLONG  pcfCmd     ,   // PCF command
+                  MQHBAG  adminBag   ,   // bag with command options
+                  MQHBAG responBag )   // bag with respond
+{
+  logFuncCall() ;
+
+//MQHBAG adminBag  = MQHB_UNUSABLE_HBAG;  // admin bag for mqExecute
+//MQHBAG responBag = MQHB_UNUSABLE_HBAG;  // response bag for mqExecute
+  MQHBAG resultBag = MQHB_UNUSABLE_HBAG;  // response bag for mqExecute
+
+  MQLONG compCode  ;             // Completion code
+  MQLONG reason    = MQRC_NONE;  // Reason code qualifying CompCode
+  MQLONG execCompCode         ;  // Completion code for mqExec
+  MQLONG execReason           ;  // Reason code for mqExec qualifying execCompCode
+
+#if(0)
+  // -------------------------------------------------------
+  // create an admin bag for the mqExecute call
+  // -------------------------------------------------------
+  reason = mqOpenAdminBag( &adminBag ) ;
+  if( reason != MQRC_NONE ) goto _door;
+
+  // -------------------------------------------------------
+  // create an admin bag for the mqExecute call
+  // -------------------------------------------------------
+  reason = mqOpenAdminBag( responBag ) ;
+  if( reason != MQRC_NONE ) goto _door ;
+#endif
+  // -------------------------------------------------------
+  // setup command 
+  // -------------------------------------------------------
+  mqAddInteger(adminBag, MQIACF_ACTION,
+                         pcfCmd       ,
+                         &compCode    ,
+                         &reason     );
+
+  switch( reason )
+  {
+    case MQRC_NONE :                        
+    {                                      
+      logMQCall(DBG,"mqAddInteger",reason);
+      break;                             
+    }                                   
+    default :                          
+    {                                 
+      logMQCall(ERR,"mqAddInteger",reason);  
+      return reason ;
+    }                              
+  }
+
+  // -------------------------------------------------------
+  // execute bag
+  // -------------------------------------------------------
+  mqExecute( Hconn        ,   // queue manager connection handle
+             pcfCmd       ,   // command to be executed
+             MQHB_NONE    ,   // no options bag
+             adminBag     ,   // handle to bag containing attributes
+             responBag  ,   // handle to bag to receive response
+             MQHO_NONE    ,   // put msg on SYSTEM.ADMIN.COMMAND.QUEUE
+             MQHO_NONE    ,   // create a dynamic q for response
+             &execCompCode,   // completion code
+             &execReason );   // reason code
+
+  if( execCompCode == MQCC_FAILED)
+  {
+    logMQCall(ERR,"mqExecute",execReason);  
+
+    // ---------------------------------------------------
+    // analyze answer from mqExecute if NOK
+    // ---------------------------------------------------
+    mqInquireBag( responBag, MQHA_BAG_HANDLE,
+                             0              ,
+                             &resultBag     ,
+                             &compCode      ,
+                             &reason       );
+
+    logMQCall(DBG,"mqInquireBag",reason);  
+
+    mqInquireInteger( resultBag, MQIASY_COMP_CODE,
+                                 MQIND_NONE      ,
+                                 &execCompCode   ,
+                                 &compCode       ,
+                                 &reason        );
+
+    logMQCall(DBG,"mqInquireInteger",reason);  
+
+    reason = execReason ;
+    goto _door;
+  }
+
+  _door:
+
+  logFuncExit( ) ;
+
+  return reason ;
+}

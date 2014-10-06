@@ -36,7 +36,7 @@ int main( )
 
   MQHCONN hConn ;
 
-  sysRc = initLogging( "test/log/t_mqbase_000.log", INF ) ;
+  sysRc = initLogging( "test/log/t_mqbase_010.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
@@ -48,15 +48,33 @@ int main( )
                 mqConn           , \
                 "OMEGA", &hConn   ) ;
 
+  MQHBAG adminBag  = MQHB_UNUSABLE_HBAG;  // response bag for mqExecute
+  MQHBAG responBag = MQHB_UNUSABLE_HBAG;  // response bag for mqExecute
+
+  doIntTest( "open admin bag" , \
+              0               , \
+              mqOpenAdminBag  , \
+              &adminBag       ) ;
+
+  doIntTest( "open respon bag" , \
+              0               , \
+              mqOpenAdminBag  , \
+              &responBag       ) ;
+
+  doIntTest( "exec pcf"                  , \
+              0                          , \
+              mqExecPcf                  , \
+              hConn                      , \
+              MQCMD_INQUIRE_Q_MGR_STATUS , \
+              adminBag                   , \
+              responBag                  );
+    
+
   doIntTest( "disconnect qmgr"   , \
                 0                , \
                 mqDisc           , \
                 &hConn            ) ;
 
-  doIntTest( "disconnect qmgr"   , \
-                MQRC_HCONN_ERROR , \
-                mqDisc           , \
-                &hConn           ) ;
 #endif
 
 _door:
