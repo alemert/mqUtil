@@ -1,241 +1,241 @@
-2013-10-28 16:28:12   6298 01104 INF logging mq call MQCONN with: MQRC_NONE
-                                     mqConn() in src/mqbase.c (line: 00102)
-2013-10-28 16:28:12   6298 01110 LOG connected to queue manager OMEGA                         
-                                     mqConn() in src/mqbase.c (line: 00103)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :OD                            
-| Structure version             :MQOD_VERSION_1                
-| Object type                   :MQOT_Q                        
-| Object name                   :SOURCE.4.MOVE                 
-| Object queue manager name     :                              
-| Dynamic queue name            :AMQ.*                         
-| Alternate user id             :                              
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 01104 INF logging mq call MQOPEN with: MQRC_NONE
-                                     mqOpenObject() in src/mqbase.c (line: 00215)
-2013-10-28 16:28:12   6298 01112 LOG queue SOURCE.4.MOVE opened
-                                     mqOpenObject() in src/mqbase.c (line: 00216)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for PMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :PMO                           
-| Structure version             :MQPMO_VERSION_1               
-| MQPUT Options                 :0000000000                    
-| Timout Reserved               :-0000000001                   
-| Obj handle                    :0000000000                    
-| Nr of msgs put on qlocal      :0000000000                    
-| Nr of msgs put on qremote     :0000000000                    
-| Nr of puts failed             :0000000000                    
-| Resolved queue name           :                              
-| Resolved qmgr name            :                              
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for PMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :MD                            
-| Structure version             :MQMD_VERSION_1                
-| Report msgs options           :MQRO_NONE                     
-| Msg type                      :MQMT_DATAGRAM                 
-| Msg lifetime                  :-0000000001                   
-| Feedback code                 :MQFB_NONE                     
-| Msg data numeric encoding     :MQENC_NATIVE                  
-| Msg data CCSID                :MQCCSI_Q_MGR                  
-| Msg data Format name          :                              
-| Message priority              :MQPRI_PRIORITY_AS_Q_DEF       
-| Message persistence           :MQPER_PERSISTENCE_AS_Q_DE     
-| Message identifier            :0x 00 00 00 00 00 00 00 00 00 
-| Correlation identifier        :0x 00 00 00 00 00 00 00 00 00 
-| Backout counter               :0000000000                    
-| Name of reply queue           :                              
-| Name of reply qmgr            :                              
-| User identifier               :                              
-| Accounting token              :0x 00 00 00 00 00 00 00 00 00 
-| Appl data relating identity   :                              
-| Appl Put Type                 :MQAT_NO_CONTEXT               
-| Putting appl name             :                              
-| Put Date                      :                              
-| Put time                      :                              
-| Appl data relating to origin  :                              
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for PMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :PMO                           
-| Structure version             :MQPMO_VERSION_1               
-| MQPUT Options                 :0000000000                    
-| Timout Reserved               :-0000000001                   
-| Obj handle                    :0000000000                    
-| Nr of msgs put on qlocal      :0000000001                    
-| Nr of msgs put on qremote     :0000000000                    
-| Nr of puts failed             :0000000000                    
-| Resolved queue name           :SOURCE.4.MOVE                 
-| Resolved qmgr name            :OMEGA                         
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for PMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :MD                            
-| Structure version             :MQMD_VERSION_1                
-| Report msgs options           :MQRO_NONE                     
-| Msg type                      :MQMT_DATAGRAM                 
-| Msg lifetime                  :-0000000001                   
-| Feedback code                 :MQFB_NONE                     
-| Msg data numeric encoding     :MQENC_NATIVE                  
-| Msg data CCSID                :MQCCSI_Q_MGR                  
-| Msg data Format name          :                              
-| Message priority              :MQPRI_PRIORITY_AS_Q_DEF       
-| Message persistence           :MQPER_PERSISTENCE_AS_Q_DE     
-| Message identifier            :0x 41 4d 51 20 4f 4d 45 47 41 
-| Correlation identifier        :0x 00 00 00 00 00 00 00 00 00 
-| Backout counter               :0000000000                    
-| Name of reply queue           :                              
-| Name of reply qmgr            :                              
-| User identifier               :                              
-| Accounting token              :0x 04 32 30 30 30 00 00 00 00 
-| Appl data relating identity   :                              
-| Appl Put Type                 :MQAT_UNIX                     
-| Putting appl name             :t_mqbase_006                  
-| Put Date                      :20131028                      
-| Put time                      :15281270                      
-| Appl data relating to origin  :                              
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 01104 INF logging mq call MQPUT with: MQRC_NONE
-                                     mqPut() in src/mqbase.c (line: 00342)
-2013-10-28 16:28:12   6298 01104 INF logging mq call MQCLOSE with: MQRC_NONE
-                                     mqCloseObject() in src/mqbase.c (line: 00257)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :OD                            
-| Structure version             :MQOD_VERSION_1                
-| Object type                   :MQOT_Q                        
-| Object name                   :SOURCE.4.MOVE                 
-| Object queue manager name     :                              
-| Dynamic queue name            :AMQ.*                         
-| Alternate user id             :                              
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 01104 INF logging mq call MQOPEN with: MQRC_NONE
-                                     mqOpenObject() in src/mqbase.c (line: 00215)
-2013-10-28 16:28:12   6298 01112 LOG queue SOURCE.4.MOVE opened
-                                     mqOpenObject() in src/mqbase.c (line: 00216)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :OD                            
-| Structure version             :MQOD_VERSION_1                
-| Object type                   :MQOT_Q                        
-| Object name                   :GOAL.4.MOVE                   
-| Object queue manager name     :                              
-| Dynamic queue name            :AMQ.*                         
-| Alternate user id             :                              
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 01104 INF logging mq call MQOPEN with: MQRC_NONE
-                                     mqOpenObject() in src/mqbase.c (line: 00215)
-2013-10-28 16:28:12   6298 01112 LOG queue GOAL.4.MOVE opened
-                                     mqOpenObject() in src/mqbase.c (line: 00216)
-2013-10-28 16:28:12   6298 01105 DBG logging mq call MQBEGIN with: MQRC_NO_EXTERNAL_PARTICIPANTS
-                                     mqBegin() in src/mqbase.c (line: 00492)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for GMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :GMO                           
-| Structure version             :MQGMO_VERSION_1               
-| MQGET Options                 :0000024576                    
-| Wait interval                 :0000000001                    
-| Signal1                       :0000000000                    
-| Signal1                       :0000000000                    
-| Resolved destination q name   :                              
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for GMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :MD                            
-| Structure version             :MQMD_VERSION_1                
-| Report msgs options           :MQRO_NONE                     
-| Msg type                      :MQMT_DATAGRAM                 
-| Msg lifetime                  :-0000000001                   
-| Feedback code                 :MQFB_NONE                     
-| Msg data numeric encoding     :MQENC_NATIVE                  
-| Msg data CCSID                :MQCCSI_Q_MGR                  
-| Msg data Format name          :                              
-| Message priority              :MQPRI_PRIORITY_AS_Q_DEF       
-| Message persistence           :MQPER_PERSISTENCE_AS_Q_DE     
-| Message identifier            :0x 41 4d 51 20 4f 4d 45 47 41 
-| Correlation identifier        :0x 00 00 00 00 00 00 00 00 00 
-| Backout counter               :0000000000                    
-| Name of reply queue           :                              
-| Name of reply qmgr            :                              
-| User identifier               :                              
-| Accounting token              :0x 00 00 00 00 00 00 00 00 00 
-| Appl data relating identity   :                              
-| Appl Put Type                 :MQAT_NO_CONTEXT               
-| Putting appl name             :                              
-| Put Date                      :                              
-| Put time                      :                              
-| Appl data relating to origin  :                              
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for GMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :GMO                           
-| Structure version             :MQGMO_VERSION_1               
-| MQGET Options                 :0000024576                    
-| Wait interval                 :0000000001                    
-| Signal1                       :0000000000                    
-| Signal1                       :0000000000                    
-| Resolved destination q name   :SOURCE.4.MOVE                 
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for GMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 00005 DBG Memory dump start for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-| ==============================:==============================
-| Structure identifier          :MD                            
-| Structure version             :MQMD_VERSION_1                
-| Report msgs options           :MQRO_NONE                     
-| Msg type                      :MQMT_DATAGRAM                 
-| Msg lifetime                  :-0000000001                   
-| Feedback code                 :MQFB_NONE                     
-| Msg data numeric encoding     :MQENC_NATIVE                  
-| Msg data CCSID                :UNKNOWN MQ CCSID              
-| Msg data Format name          :                              
-| Message priority              :0                             
-| Message persistence           :MQPER_PERSISTENT              
-| Message identifier            :0x 41 4d 51 20 4f 4d 45 47 41 
-| Correlation identifier        :0x 00 00 00 00 00 00 00 00 00 
-| Backout counter               :0000000000                    
-| Name of reply queue           :                              
-| Name of reply qmgr            :OMEGA                         
-| User identifier               :                              
-| Accounting token              :0x 04 32 30 30 30 00 00 00 00 
-| Appl data relating identity   :                              
-| Appl Put Type                 :MQAT_UNIX                     
-| Putting appl name             :t_mqbase_006                  
-| Put Date                      :20131028                      
-| Put time                      :15281270                      
-| Appl data relating to origin  :                              
-| ==============================:==============================
-2013-10-28 16:28:12   6298 00006 DBG Memory dump end for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00173)
-2013-10-28 16:28:12   6298 01104 INF logging mq call MQGET with: MQRC_NONE
-                                     mqGet() in src/mqbase.c (line: 00455)
+2014-10-08 14:44:33  20803 01104 INF logging mq call MQCONN with: MQRC_NONE
+                                     mqConn() in src/mqbase.c (line: 00110)
+2014-10-08 14:44:33  20803 01110 LOG connected to queue manager                          OMEGA
+                                     mqConn() in src/mqbase.c (line: 00111)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :OD                                             
+| Structure version             :MQOD_VERSION_1                                 
+| Object type                   :MQOT_Q                                         
+| Object name                   :SOURCE.4.MOVE                                  
+| Object queue manager name     :                                               
+| Dynamic queue name            :AMQ.*                                          
+| Alternate user id             :                                               
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 01104 INF logging mq call MQOPEN with: MQRC_NONE
+                                     mqOpenObject() in src/mqbase.c (line: 00223)
+2014-10-08 14:44:33  20803 01112 LOG queue SOURCE.4.MOVE opened
+                                     mqOpenObject() in src/mqbase.c (line: 00224)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for PMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :PMO                                            
+| Structure version             :MQPMO_VERSION_1                                
+| MQPUT Options                 :0000000000                                     
+| Timout Reserved               :-0000000001                                    
+| Obj handle                    :0000000000                                     
+| Nr of msgs put on qlocal      :0000000000                                     
+| Nr of msgs put on qremote     :0000000000                                     
+| Nr of puts failed             :0000000000                                     
+| Resolved queue name           :                                               
+| Resolved qmgr name            :                                               
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for PMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :MD                                             
+| Structure version             :MQMD_VERSION_1                                 
+| Report msgs options           :MQRO_NONE                                      
+| Msg type                      :MQMT_DATAGRAM                                  
+| Msg lifetime                  :-0000000001                                    
+| Feedback code                 :MQFB_NONE                                      
+| Msg data numeric encoding     :MQENC_NATIVE                                   
+| Msg data CCSID                :MQCCSI_Q_MGR                                   
+| Msg data Format name          :                                               
+| Message priority              :MQPRI_PRIORITY_AS_Q_DEF                        
+| Message persistence           :MQPER_PERSISTENCE_AS_Q_DE                      
+| Message identifier            :0x 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Correlation identifier        :0x 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Backout counter               :0000000000                                     
+| Name of reply queue           :                                               
+| Name of reply qmgr            :                                               
+| User identifier               :                                               
+| Accounting token              :0x 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Appl data relating identity   :                                               
+| Appl Put Type                 :MQAT_NO_CONTEXT                                
+| Putting appl name             :                                               
+| Put Date                      :                                               
+| Put time                      :                                               
+| Appl data relating to origin  :                                               
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for PMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :PMO                                            
+| Structure version             :MQPMO_VERSION_1                                
+| MQPUT Options                 :0000000000                                     
+| Timout Reserved               :-0000000001                                    
+| Obj handle                    :0000000000                                     
+| Nr of msgs put on qlocal      :0000000001                                     
+| Nr of msgs put on qremote     :0000000000                                     
+| Nr of puts failed             :0000000000                                     
+| Resolved queue name           :SOURCE.4.MOVE                                   
+| Resolved qmgr name            :OMEGA                                           
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for PMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :MD                                             
+| Structure version             :MQMD_VERSION_1                                 
+| Report msgs options           :MQRO_NONE                                      
+| Msg type                      :MQMT_DATAGRAM                                  
+| Msg lifetime                  :-0000000001                                    
+| Feedback code                 :MQFB_NONE                                      
+| Msg data numeric encoding     :MQENC_NATIVE                                   
+| Msg data CCSID                :MQCCSI_Q_MGR                                   
+| Msg data Format name          :                                               
+| Message priority              :MQPRI_PRIORITY_AS_Q_DEF                        
+| Message persistence           :MQPER_PERSISTENCE_AS_Q_DE                      
+| Message identifier            :0x 41 4d 51 20 4f 4d 45 47 41 20 20 20 20 20 20 20 22 d7 33 54 30 25 00 20
+| Correlation identifier        :0x 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Backout counter               :0000000000                                     
+| Name of reply queue           :                                               
+| Name of reply qmgr            :                                               
+| User identifier               :                                               
+| Accounting token              :0x 04 32 30 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Appl data relating identity   :                                               
+| Appl Put Type                 :MQAT_UNIX                                      
+| Putting appl name             :t_mqbase_006                                   
+| Put Date                      :20141008                                       
+| Put time                      :12443368                                       
+| Appl data relating to origin  :                                               
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 01104 INF logging mq call MQPUT with: MQRC_NONE
+                                     mqPut() in src/mqbase.c (line: 00350)
+2014-10-08 14:44:33  20803 01104 INF logging mq call MQCLOSE with: MQRC_NONE
+                                     mqCloseObject() in src/mqbase.c (line: 00265)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :OD                                             
+| Structure version             :MQOD_VERSION_1                                 
+| Object type                   :MQOT_Q                                         
+| Object name                   :SOURCE.4.MOVE                                  
+| Object queue manager name     :                                               
+| Dynamic queue name            :AMQ.*                                          
+| Alternate user id             :                                               
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 01104 INF logging mq call MQOPEN with: MQRC_NONE
+                                     mqOpenObject() in src/mqbase.c (line: 00223)
+2014-10-08 14:44:33  20803 01112 LOG queue SOURCE.4.MOVE opened
+                                     mqOpenObject() in src/mqbase.c (line: 00224)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :OD                                             
+| Structure version             :MQOD_VERSION_1                                 
+| Object type                   :MQOT_Q                                         
+| Object name                   :GOAL.4.MOVE                                    
+| Object queue manager name     :                                               
+| Dynamic queue name            :AMQ.*                                          
+| Alternate user id             :                                               
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 01104 INF logging mq call MQOPEN with: MQRC_NONE
+                                     mqOpenObject() in src/mqbase.c (line: 00223)
+2014-10-08 14:44:33  20803 01112 LOG queue GOAL.4.MOVE opened
+                                     mqOpenObject() in src/mqbase.c (line: 00224)
+2014-10-08 14:44:33  20803 01105 DBG logging mq call MQBEGIN with: MQRC_NO_EXTERNAL_PARTICIPANTS
+                                     mqBegin() in src/mqbase.c (line: 00498)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for GMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :GMO                                            
+| Structure version             :MQGMO_VERSION_1                                
+| MQGET Options                 :0000024577                                     
+| Wait interval                 :0000000001                                     
+| Signal1                       :0000000000                                     
+| Signal1                       :0000000000                                     
+| Resolved destination q name   :                                               
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for GMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :MD                                             
+| Structure version             :MQMD_VERSION_1                                 
+| Report msgs options           :MQRO_NONE                                      
+| Msg type                      :MQMT_DATAGRAM                                  
+| Msg lifetime                  :-0000000001                                    
+| Feedback code                 :MQFB_NONE                                      
+| Msg data numeric encoding     :MQENC_NATIVE                                   
+| Msg data CCSID                :MQCCSI_Q_MGR                                   
+| Msg data Format name          :                                               
+| Message priority              :MQPRI_PRIORITY_AS_Q_DEF                        
+| Message persistence           :MQPER_PERSISTENCE_AS_Q_DE                      
+| Message identifier            :0x 41 4d 51 20 4f 4d 45 47 41 20 20 20 20 20 20 20 22 d7 33 54 30 25 00 20
+| Correlation identifier        :0x 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Backout counter               :0000000000                                     
+| Name of reply queue           :                                               
+| Name of reply qmgr            :                                               
+| User identifier               :                                               
+| Accounting token              :0x 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Appl data relating identity   :                                               
+| Appl Put Type                 :MQAT_NO_CONTEXT                                
+| Putting appl name             :                                               
+| Put Date                      :                                               
+| Put time                      :                                               
+| Appl data relating to origin  :                                               
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for GMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :GMO                                            
+| Structure version             :MQGMO_VERSION_1                                
+| MQGET Options                 :0000024577                                     
+| Wait interval                 :0000000001                                     
+| Signal1                       :0000000000                                     
+| Signal1                       :0000000000                                     
+| Resolved destination q name   :SOURCE.4.MOVE                                   
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for GMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 00005 DBG Memory dump start for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+| ==============================:========================================       
+| Structure identifier          :MD                                             
+| Structure version             :MQMD_VERSION_1                                 
+| Report msgs options           :MQRO_NONE                                      
+| Msg type                      :MQMT_DATAGRAM                                  
+| Msg lifetime                  :-0000000001                                    
+| Feedback code                 :MQFB_NONE                                      
+| Msg data numeric encoding     :MQENC_NATIVE                                   
+| Msg data CCSID                :UNKNOWN MQ CCSID                               
+| Msg data Format name          :                                               
+| Message priority              :0                                              
+| Message persistence           :MQPER_PERSISTENT                               
+| Message identifier            :0x 41 4d 51 20 4f 4d 45 47 41 20 20 20 20 20 20 20 22 d7 33 54 30 25 00 20
+| Correlation identifier        :0x 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Backout counter               :0000000000                                     
+| Name of reply queue           :                                                
+| Name of reply qmgr            :OMEGA                                           
+| User identifier               :                                               
+| Accounting token              :0x 04 32 30 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Appl data relating identity   :                                               
+| Appl Put Type                 :MQAT_UNIX                                      
+| Putting appl name             :t_mqbase_006                                   
+| Put Date                      :20141008                                       
+| Put time                      :12443368                                       
+| Appl data relating to origin  :                                               
+| ==============================:========================================       
+2014-10-08 14:44:33  20803 00006 DBG Memory dump end for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2014-10-08 14:44:33  20803 01104 INF logging mq call MQGET with: MQRC_NONE
+                                     mqGet() in src/mqbase.c (line: 00461)

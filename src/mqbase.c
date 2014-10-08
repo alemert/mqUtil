@@ -108,7 +108,7 @@ MQLONG mqConn( char* _qmName, PMQHCONN pHconn )
   }
 
   logMQCall( INF, "MQCONN", reason ) ;
-  logger( LMQM_QMGR_CONNECTED, qmName[0] == '\0' ? "default" : qmName );
+  logger( LMQM_QMGR_CONNECTED, qmName[0] == '\0' ? "default" : _qmName );
 
   _door :
   logFuncExit( ) ;
