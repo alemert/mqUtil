@@ -13,17 +13,18 @@
 /*    - mqCommit                                                              */
 /*    - mqRollback                                                            */
 /*    - resizeMqMessageBuffer                                                 */
-/*    - mqSetTrigger                                                        */
+/*    - mqSetTrigger                                                          */
 /*    - mqOpenBagAPI                                                          */
 /*    - mqReadBag                                                             */
 /*    - mqCloseBag                                                            */
-/*    - mqResetQmgrLog                                                    */
-/*    - mqExecPcf                      */
+/*    - mqResetQmgrLog                                                        */
+/*    - mqExecPcf                          */
+/*    - mqAddInqAttrFunc                      */
 /*                                                                            */
-/*  macros:                                              */
-/*    - mqOpenUserBag                                  */
-/*    - mqOpenAdminBag                          */
-/*                                    */
+/*  macros:                                                  */
+/*    - mqOpenUserBag                                      */
+/*    - mqOpenAdminBag                              */
+/*                                                */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -35,6 +36,7 @@
 // system
 // ---------------------------------------------------------
 #include <stdlib.h>
+#include <stdarg.h>
 
 // ---------------------------------------------------------
 // MQ
@@ -589,10 +591,10 @@ MQLONG mqRollback( MQHCONN _hConn )   // connection handle
 }
 
 /******************************************************************************/
-/*   M Q    R E S I Z E   M E S S A G E                                     */
+/*   M Q    R E S I Z E   M E S S A G E                                       */
 /* -------------------------------------------------------------------------- */
 /*                                                                            */
-/*   Description: resize message buffer                                     */
+/*   Description: resize message buffer                                       */
 /*                if the buffer is to short for reading                       */
 /*                                                                            */
 /*   Comment:                                                                 */
@@ -824,7 +826,7 @@ MQLONG mqCloseBag( PMQHBAG bag )
 /*                                                                            */
 /*   Description: this function process:                                      */
 /*                RESET QMGR TYPE(ADVANCELOG)                                 */
-/*            */
+/*                      */
 /******************************************************************************/
 MQLONG mqResetQmgrLog( MQHCONN Hconn ) // connection handle
 {
@@ -921,13 +923,12 @@ MQLONG mqResetQmgrLog( MQHCONN Hconn ) // connection handle
   return (int) reason ;
 }
 
-
 /******************************************************************************/
 /*   M Q   E X E C U T E   P C F   C O M M A N D                              */
 /*   ----------------------------------------------------------------------   */
 /*                                                                            */
 /*   Description: execute PCF command                   */
-/*                              */
+/*                                  */
 /******************************************************************************/
 MQLONG mqExecPcf( MQHCONN Hconn      ,   // connection handle
                   MQLONG  pcfCmd     ,   // PCF command
@@ -1025,4 +1026,31 @@ MQLONG mqExecPcf( MQHCONN Hconn      ,   // connection handle
   logFuncExit( ) ;
 
   return reason ;
+}
+
+/******************************************************************************/
+/*   M Q   A D D   I N Q U I R E   A T T R I B U T E                          */
+/*   ----------------------------------------------------------------------   */
+/*                                                                            */
+/*   Description: add attribute to inquire command                     */
+/*                        */
+/******************************************************************************/
+MQLONG mqAddInqAttrFunc( PMQHBAG bag, int argc, ... )
+{
+  MQLONG mqrc = MQRC_NONE ;
+
+  va_list argp ;
+
+  MQLONG attr ;
+
+  int i;
+
+  for( i=0; i<argc; i++ ) 
+  {
+    attr = va_arg( argp, MQLONG );
+  }
+
+  _door:
+
+  return mqrc ;
 }
