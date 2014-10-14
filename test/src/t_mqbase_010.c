@@ -42,48 +42,52 @@ int main( )
   // -------------------------------------------------------
   // some test
   // -------------------------------------------------------
-#if(1)
   doIntTest( "connect qmgr"      , \
                 0                , \
                 mqConn           , \
                 "OMEGA", &hConn   ) ;
 
-  MQHBAG adminBag  = MQHB_UNUSABLE_HBAG;  // response bag for mqExecute
-  MQHBAG responBag = MQHB_UNUSABLE_HBAG;  // response bag for mqExecute
+  MQHBAG cmdBag = MQHB_UNUSABLE_HBAG ;
+  MQHBAG respBag  =  MQHB_UNUSABLE_HBAG ;
 
   doIntTest( "open admin bag" , \
               0               , \
               mqOpenAdminBag  , \
-              &adminBag       ) ;
+              &cmdBag       ) ;
 
   doIntTest( "open respon bag" , \
               0               , \
               mqOpenAdminBag  , \
-              &responBag       ) ;
-#if(1)
+              &respBag       ) ;
+
+#if(0)
+  MQLONG compCode ;
+  MQLONG reason ;
+
+  mqAddInquiry(cmdBag, MQIACF_ALL , &compCode, &reason);
+
+#endif
   doIntTest( "set inquire attribute" ,    \
               0   ,    \
               mqAddInqAttrFunc ,      \
-              adminBag,    \
-              1 ,         \
-              MQIACF_ALL );
-#endif
+              cmdBag ,    \
+              1   , \
+              MQIACF_ALL    ); 
+
 
   doIntTest( "exec pcf"                  , \
               0                          , \
               mqExecPcf                  , \
               hConn                      , \
               MQCMD_INQUIRE_Q_MGR_STATUS , \
-              adminBag                   , \
-              responBag                  );
+              cmdBag                     , \
+              respBag          );
     
 
   doIntTest( "disconnect qmgr"   , \
                 0                , \
                 mqDisc           , \
                 &hConn            ) ;
-
-#endif
 
 _door:
   return sysRc ;

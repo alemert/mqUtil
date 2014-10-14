@@ -112,10 +112,10 @@ MQLONG mqReadBag(  MQHCONN hConn    ,
 
 MQLONG mqResetQmgrLog( MQHCONN Hconn ); 
 
-MQLONG mqExecPcf( MQHCONN Hconn     ,   // connection handle
-                  MQLONG  pcfCmd    ,   // PCF command
-                  MQHBAG  adminBag  ,   // bag with command options
-                  MQHBAG responBag );   // bag with respond
+MQLONG mqExecPcf( MQHCONN _hConn   ,   // connection handle
+                  MQLONG  _pcfCmd  ,   // PCF command
+                  MQHBAG  _cmdBag  ,   // command bag
+                  MQHBAG  _resBag );  // response bag
 
 MQLONG mqAddInqAttrFunc( MQHBAG bag ,   // Admin bag
                          int     argc,   // amount of inquire attributes
