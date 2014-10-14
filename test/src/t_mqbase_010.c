@@ -36,7 +36,7 @@ int main( )
 
   MQHCONN hConn ;
 
-  sysRc = initLogging( "test/log/t_mqbase_010.log", INF ) ;
+  sysRc = initLogging( "test/log/t_mqbase_010.log", DBG ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
@@ -60,6 +60,14 @@ int main( )
               0               , \
               mqOpenAdminBag  , \
               &responBag       ) ;
+#if(1)
+  doIntTest( "set inquire attribute" ,    \
+              0   ,    \
+              mqAddInqAttrFunc ,      \
+              adminBag,    \
+              1 ,         \
+              MQIACF_ALL );
+#endif
 
   doIntTest( "exec pcf"                  , \
               0                          , \

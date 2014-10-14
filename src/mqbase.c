@@ -994,9 +994,26 @@ MQLONG mqExecPcf( MQHCONN Hconn      ,   // connection handle
              &execCompCode,   // completion code
              &execReason );   // reason code
 
+#define _D_DBG_  
+#ifdef _D_DBG_ 
+  MQLONG numberOfBags ;
+  MQLONG cc;
+  MQLONG rc ;
+  MQHBAG attrBag ;
+#endif
+
   if( execCompCode == MQCC_FAILED)
   {
     logMQCall(ERR,"mqExecute",execReason);  
+
+#ifdef _D_DBG_ 
+      mqCountItems(responBag, MQHA_BAG_HANDLE, &numberOfBags, &cc, &rc);
+      int i;
+      for( i=0; i<numberOfBags; i++)
+      {
+        mqInquireBag(responBag, MQHA_BAG_HANDLE, i, &attrBag, &cc, &rc );
+      }
+#else
 
     // ---------------------------------------------------
     // analyze answer from mqExecute if NOK
@@ -1019,6 +1036,7 @@ MQLONG mqExecPcf( MQHCONN Hconn      ,   // connection handle
 
     reason = execReason ;
     goto _door;
+#endif
   }
 
   _door:
@@ -1035,9 +1053,12 @@ MQLONG mqExecPcf( MQHCONN Hconn      ,   // connection handle
 /*   Description: add attribute to inquire command                     */
 /*                        */
 /******************************************************************************/
-MQLONG mqAddInqAttrFunc( PMQHBAG bag, int argc, ... )
+MQLONG mqAddInqAttrFunc( MQHBAG bag, int argc, ... )
 {
+  logFuncCall() ;
+
   MQLONG mqrc = MQRC_NONE ;
+  MQLONG compCode ;
 
   va_list argp ;
 
@@ -1045,12 +1066,30 @@ MQLONG mqAddInqAttrFunc( PMQHBAG bag, int argc, ... )
 
   int i;
 
+  va_start( argp, argc );
+
   for( i=0; i<argc; i++ ) 
   {
     attr = va_arg( argp, MQLONG );
+    mqAddInquiry( bag, attr, &compCode, &mqrc );
+
+    logMQCall( DBG, "mqAddInquiry", mqrc);  
+
+    switch( mqrc )
+    {
+      case MQRC_NONE : break ;
+      default :
+      {
+        logMQCall( ERR, "mqAddInquiry", mqrc );  
+	goto _door;
+      }
+    }
   }
+
+  va_end( argp );
 
   _door:
 
+  logFuncExit( ) ;
   return mqrc ;
 }

@@ -117,7 +117,7 @@ MQLONG mqExecPcf( MQHCONN Hconn     ,   // connection handle
                   MQHBAG  adminBag  ,   // bag with command options
                   MQHBAG responBag );   // bag with respond
 
-MQLONG mqAddInqAttrFunc( PMQHBAG bag ,   // Admin bag
+MQLONG mqAddInqAttrFunc( MQHBAG bag ,   // Admin bag
                          int     argc,   // amount of inquire attributes
                          ...        );   // va_args list of inquire attributes
 
