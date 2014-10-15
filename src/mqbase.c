@@ -18,13 +18,14 @@
 /*    - mqReadBag                                                             */
 /*    - mqCloseBag                                                            */
 /*    - mqResetQmgrLog                                                        */
-/*    - mqExecPcf                          */
-/*    - mqAddInqAttrFunc                      */
+/*    - mqExecPcf                                */
+/*    - mqAddInqAttrFunc                          */
+/*    - mqInquireErrBag                      */
 /*                                                                            */
-/*  macros:                                                  */
-/*    - mqOpenUserBag                                      */
-/*    - mqOpenAdminBag                              */
-/*                                                */
+/*  macros:                                                      */
+/*    - mqOpenUserBag                                          */
+/*    - mqOpenAdminBag                                  */
+/*                                                      */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -68,6 +69,7 @@ const char gDefaultQmgr[] = "\0" ;
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
+MQLONG mqInquireErrBag( MQHBAG _resBag );
 
 /******************************************************************************/
 /*                                                                            */
@@ -937,44 +939,50 @@ MQLONG mqExecPcf( MQHCONN _hConn   ,   // connection handle
 
   MQHBAG resultBag=MQHB_UNUSABLE_HBAG; // response bag for mqExecute
 
+  MQLONG mqExecRc = MQRC_NONE ;
+  MQLONG mqrc     ;
   MQLONG compCode ;
-  MQLONG mqrc ;
 
-  mqExecute( _hConn   ,                // MQ connection handle   
-             _pcfCmd  ,                // Command to be executed    
-             MQHB_NONE,                // No options bag                       
-             _cmdBag  ,                // Handle to bag containing commands   
-             _resBag  ,                // Handle to bag to receive the response
-             MQHO_NONE,                // Put msg on SYSTEM.ADMIN.COMMAND.QUEUE
-             MQHO_NONE,                // Create a dynamic q for the response
-             &compCode,                // Completion code from the mqexecute
-             &mqrc   );                // Reason code from mqexecute call
-                                       //
-  switch( mqrc )                       //
-  {                                    //
-    case MQRC_NONE : break;            //
-    case MQRC_NO_MSG_AVAILABLE:        // Somer reply messages received, but 
-    {                                  // not all. Reply bag contains
-      logMQCall(ERR,"mqExecute",mqrc); // syste-generated bags for messages 
-      mqInquireBag( 
-    }                                  // that were received
-    case MQRCCF_COMMAND_FAILED :       //
-    {                                  //
-      logMQCall(ERR,"mqExecute",mqrc); //
-    }                                  //
-    default:                           //
-    {                                  //
-      logMQCall(ERR,"mqExecute",mqrc); //
-    }                                  //
-  }                                    //
-                                       //
-  logMQCall(DBG,"mqExecute",mqrc);     //
-                                       //
+  mqExecute( _hConn   ,                  // MQ connection handle   
+             _pcfCmd  ,                  // Command to be executed    
+             MQHB_NONE,                  // No options bag 
+             _cmdBag  ,                  // Handle to bag containing commands   
+             _resBag  ,                  // Handle to bag receiving the response
+             MQHO_NONE,                  // Write SYSTEM.ADMIN.COMMAND.QUEUE
+             MQHO_NONE,                  // Create a dynamic q for the response
+             &compCode,                  // Completion code from the mqexecute
+             &mqrc   );                  // Reason code from mqexecute call
+                                         //
+  switch( mqrc )                         //
+  {                                      //
+    case MQRC_NONE : break;              //
+    case MQRC_NO_MSG_AVAILABLE:          // Some reply messages received, but 
+    {                                    // not all. Reply bag contains
+      logMQCall(ERR,"mqExecute",mqrc);   // syste-generated bags for messages 
+      mqExecRc=mqInquireErrBag(_resBag); // that were received
+      goto _door;                        //
+    }                                    //
+    case MQRCCF_COMMAND_FAILED :         // PCF Command failed
+    {                                    //
+      logMQCall(ERR,"mqExecute",mqrc);   // Reply bag conatins syste-generated 
+      mqExecRc=mqInquireErrBag(_resBag); // bags for messages that were received
+      goto _door;                        //
+    }                                    //
+    default:                             //
+    {                                    //
+      logMQCall(ERR,"mqExecute",mqrc);   //
+      goto _door;                        //
+    }                                    //
+  }                                      //
+                                         //
+  logMQCall(DBG,"mqExecute",mqrc);       //
+                                         //
   _door:
 
   logFuncExit( ) ;
 
-  return mqrc ;
+  if( mqExecRc == MQRC_NONE ) return mqrc ;
+  return mqExecRc ;
 }
 
 /******************************************************************************/
@@ -1063,30 +1071,46 @@ MQLONG mqInquireErrBag( MQHBAG _resBag )
                 &errBag        ,     // error bag
                 &compCode      ,     // Completion code 
                 &mqrc         );     // reason code
-            //
-  switch( mqrc )      //
-  {          //
-    case MQRC_NONE : break;      //
-    default:      //
-    {        //
+                                     //
+  switch( mqrc )                     //
+  {                                  //
+    case MQRC_NONE : break;          //
+    default:                         //
+    {                                //
       logMQCall( ERR, "mqInquireBag", mqrc );  
-      goto _door;      //
-    }        //
-  }                  //
+      goto _door;                    //
+    }                                //
+  }                                  //
   logMQCall( DBG, "mqInquireBag", mqrc );  
-                  //
+                                     //
   // ------------------------------------------------------- 
   // Get the reason code, returned by the command server, 
-  /    from the embedded error bag
+  //   from the embedded error bag
   // ------------------------------------------------------- 
-  mqInquireInteger( errBag, 
-            MQIASY_REASON, 
-          MQIND_NONE, 
-                &mqExecuteRc,
-                    &compCode, 
-            &reason);
-  goto _door:
+  mqInquireInteger( errBag       ,   // inquire erro bag
+                    MQIASY_REASON,   // search for reason item
+                    MQIND_NONE   ,   // dont't care about item index
+                    &mqExecuteRc ,   // put the reason into this vara
+                    &compCode    ,   // Completion code 
+                    &mqrc       );   // general reason code
+                                     //
+  switch( mqrc )                     //
+  {                                  //
+    case MQRC_NONE: break ;          //
+    default :                        //
+    {                                //
+      logMQCall( ERR, "mqInquireInteger", mqrc );  
+      goto _door;                    //
+    }                                //
+  }                                  //
+  logMQCall( DBG, "mqInquireInteger", mqrc );  
+
+  logMQCall( ERR, "mqExecute-RC", mqExecuteRc );
+                                     //
+  _door:
 
   logFuncExit( ) ;
-  return mqrc ;
+
+  if( mqrc != MQRC_NONE ) return -mqrc ;
+  return mqExecuteRc ; 
 }

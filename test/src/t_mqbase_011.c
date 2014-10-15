@@ -36,7 +36,7 @@ int main( )
 
   MQHCONN hConn ;
 
-  sysRc = initLogging( "test/log/t_mqbase_010.log", DBG ) ;
+  sysRc = initLogging( "test/log/t_mqbase_011.log", DBG ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
@@ -65,7 +65,7 @@ int main( )
               mqAddInqAttrFunc       , \
               cmdBag                 , \
               1                      , \
-              MQIACF_EXPIRY_Q_COUNT );
+              MQIACF_ALL             ) ; 
 
   doIntTest( "exec pcf"                  , \
               0                          , \
@@ -73,12 +73,13 @@ int main( )
               hConn                      , \
               MQCMD_INQUIRE_Q_MGR_STATUS , \
               cmdBag                     , \
-              respBag          );
+              respBag                    ) ;
+    
 
   doIntTest( "disconnect qmgr"   , \
                 0                , \
                 mqDisc           , \
-                &hConn            ) ;
+                &hConn           ) ;
 
 _door:
   return sysRc ;
