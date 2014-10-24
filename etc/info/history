@@ -16,3 +16,4 @@ ver 0.2.14 recompile due msgcat ver 0.6.0
 ver 0.2.15 mq exec pcf added
 ver 0.2.16 mqget ok on MQRC_TRUNCATED_MSG_ACCEPTED
 ver 0.2.17 mqConn logger trimmed queue manager name
+ver 0.2.18 mqExec &co added and improved

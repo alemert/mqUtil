@@ -74,7 +74,16 @@ int main( )
               MQCMD_INQUIRE_Q_MGR_STATUS , \
               cmdBag                     , \
               respBag                    ) ;
-    
+
+  MQLONG compCode ;
+  MQLONG mqrc ;
+  MQLONG strlen ;
+  char buff[255];
+ 
+// mqInquireString(qAttrsBag, MQCA_Q_NAME, 0, MQ_Q_NAME_LENGTH, qName, &qNameLength, NULL, &compCode, &reason);
+      
+
+  mqInquireString( respBag, MQCA_INSTALLATION_PATH, MQIND_NONE, 255, buff, &strlen, NULL, &compCode, &mqrc );
 
   doIntTest( "disconnect qmgr"   , \
                 0                , \
