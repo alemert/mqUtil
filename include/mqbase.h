@@ -48,11 +48,11 @@
 #define mqOpenUserBag(  pBag ) mqOpenBagAPI( MQCBO_USER_BAG,  pBag );
 #define mqOpenAdminBag( pBag ) mqOpenBagAPI( MQCBO_ADMIN_BAG, pBag );
 
-#define mqSetInqAttr(     bag, ... )                                  \
-        mqAddInqAttrFunc( bag,                                        \
-                          ( sizeof( (MQLONG[])){NULL,##__VA_ARGS__} ) \
-                            / (sizeof(MQLONG)-1)                    , \
-                          ##__VA_ARGS__      )
+#define mqSetInqAttr(     bag, ... )                              \
+        mqAddInqAttrFunc( bag,                                    \
+                          ( sizeof( (MQLONG[]){0,##__VA_ARGS__} ) \
+                            / sizeof(MQLONG)-1)                 , \
+                           ##__VA_ARGS__      )
 
 #if(0)
 #define mqOpenQueue( queue, hConn, ObjDesc, opt, pHobj )           \
