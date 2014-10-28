@@ -121,3 +121,5 @@ MQLONG mqAddInqAttrFunc( MQHBAG bag ,   // Admin bag
                          int     argc,   // amount of inquire attributes
                          ...        );   // va_args list of inquire attributes
 
+MQLONG mqBagCountItem( MQHBAG _bag      , 
+                       MQLONG _selector);

@@ -18,14 +18,16 @@
 /*    - mqReadBag                                                             */
 /*    - mqCloseBag                                                            */
 /*    - mqResetQmgrLog                                                        */
-/*    - mqExecPcf                                */
-/*    - mqAddInqAttrFunc                          */
-/*    - mqInquireErrBag                      */
+/*    - mqExecPcf                                            */
+/*    - mqAddInqAttrFunc                                  */
+/*    - mqInquireErrBag                              */
+/*    - mqBagCountItem                      */
 /*                                                                            */
-/*  macros:                                                      */
-/*    - mqOpenUserBag                                          */
-/*    - mqOpenAdminBag                                  */
-/*                                                      */
+/*  macros:                                                              */
+/*    - mqOpenUserBag                                                  */
+/*    - mqOpenAdminBag                                          */
+/*    - mqSetInqAttr                        */
+/*                                                            */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -1045,7 +1047,7 @@ MQLONG mqAddInqAttrFunc( MQHBAG bag, int argc, ... )
 /*   Description:  If the mqExecute (PCF) command fails get the system bag    */
 /*                 handle out of the mqexecute response bag. This bag         */
 /*                 contains the reason from the command server why the        */
-/*                 command failed.       */
+/*                 command failed.             */
 /*   Comment:                                                                 */
 /*                                                                            */
 /******************************************************************************/
@@ -1113,4 +1115,45 @@ MQLONG mqInquireErrBag( MQHBAG _resBag )
 
   if( mqrc != MQRC_NONE ) return -mqrc ;
   return mqExecuteRc ; 
+}
+
+/******************************************************************************/
+/*   M Q   B A G   C O U N T   I T E M                                        */
+/*   ----------------------------------------------------------------------   */
+/*                                                                            */
+/*   Description:  interface to mqCountItem                                   */
+/*                                                                            */
+/*   Comment:                                                                 */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqBagCountItem( MQHBAG _bag, MQLONG _selector )
+{
+  logFuncCall() ;
+
+  MQLONG compCode ;
+  MQLONG mqrc = MQRC_NONE ;
+ 
+  MQLONG itemCount ; 
+
+  mqCountItems( _bag, _selector, &itemCount, &compCode, &mqrc );
+
+  switch( mqrc )
+  {
+    case MQRC_NONE : 
+    {
+      mqrc = -itemCount;
+      break ;
+    }
+    default:
+    {
+      logMQCall( ERR, "mqCountItems", mqrc );  
+      goto _door;                    //
+    }
+  }
+  logMQCall( DBG, "mqCountItems", mqrc );  
+
+  _door:
+
+  logFuncExit( ) ;
+  return mqrc ;
 }
