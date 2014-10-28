@@ -1443,6 +1443,9 @@ const char* mqSelector2str( MQLONG id )
     convert( MQIACF_PERMIT_STANDBY            );
     convert( MQIACF_OPERATION_MODE            );
 //  convert( MQIACF_LAST_USED                 );
+//  convert( MQHA_FIRST                       );
+    convert( MQHA_BAG_HANDLE                  );
+//  convert( MQHA_LAST_USED                   );
   }
  
   return unknownReason( "UNKNOWN MQ ITEM SELECTOR ID", (int)id );

@@ -62,9 +62,8 @@ int main( )
 
   doIntTest( "set inquire attribute" , \
               0                      , \
-              mqAddInqAttrFunc       , \
+              mqSetInqAttr       , \
               cmdBag                 , \
-              1                      , \
               MQIACF_ALL             ) ; 
 
   doIntTest( "exec pcf"                  , \
