@@ -75,10 +75,18 @@ int main( )
               cmdBag                     , \
               respBag                    ) ;
 
+  doIntTest( "count items"         , \
+              -10                  , \
+              mqBagCountItem       , \
+               respBag             , \
+              MQSEL_ALL_SELECTORS );
+
   MQLONG compCode ;
   MQLONG mqrc ;
   MQLONG strlen ;
   char buff[255];
+
+
  
 // mqInquireString(qAttrsBag, MQCA_Q_NAME, 0, MQ_Q_NAME_LENGTH, qName, &qNameLength, NULL, &compCode, &reason);
       

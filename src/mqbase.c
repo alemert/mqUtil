@@ -939,8 +939,6 @@ MQLONG mqExecPcf( MQHCONN _hConn   ,   // connection handle
 {
   logFuncCall() ;
 
-  MQHBAG resultBag=MQHB_UNUSABLE_HBAG; // response bag for mqExecute
-
   MQLONG mqExecRc = MQRC_NONE ;
   MQLONG mqrc     ;
   MQLONG compCode ;
@@ -1055,8 +1053,6 @@ MQLONG mqInquireErrBag( MQHBAG _resBag )
 
   MQLONG mqrc = MQRC_NONE ;
   MQLONG compCode ;
-
-  MQLONG itemCount;
 
   MQHBAG errBag ;
   MQLONG mqExecuteRc ;
