@@ -1031,10 +1031,9 @@ MQLONG mqAddInqAttrFunc( MQHBAG bag, int argc, ... )
     logMQCall( DBG, "mqAddInquiry", mqrc);  
   }
 
-  va_end( argp );
-
   _door:
 
+  va_end( argp );
   logFuncExit( ) ;
   return mqrc ;
 }
