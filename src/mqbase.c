@@ -1019,8 +1019,6 @@ MQLONG mqAddInqAttrFunc( MQHBAG bag, int argc, ... )
     attr = va_arg( argp, MQLONG );
     mqAddInquiry( bag, attr, &compCode, &mqrc );
 
-    logMQCall( DBG, "mqAddInquiry", mqrc);  
-
     switch( mqrc )
     {
       case MQRC_NONE : break ;
@@ -1030,6 +1028,7 @@ MQLONG mqAddInqAttrFunc( MQHBAG bag, int argc, ... )
 	goto _door;
       }
     }
+    logMQCall( DBG, "mqAddInquiry", mqrc);  
   }
 
   va_end( argp );
