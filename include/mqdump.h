@@ -46,3 +46,4 @@ void dumpMqBag( const MQHBAG bag );
 void dumpTrigData( const PMQTMC2 trigData );
 void dumpPcfHeader( PMQCFH  pPCFh );
 void dumpPcfString( PMQCFST  pcfString );
+

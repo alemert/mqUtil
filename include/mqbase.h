@@ -123,3 +123,4 @@ MQLONG mqAddInqAttrFunc( MQHBAG bag ,   // Admin bag
 
 MQLONG mqBagCountItem( MQHBAG _bag      , 
                        MQLONG _selector);
+
