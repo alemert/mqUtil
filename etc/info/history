@@ -19,3 +19,4 @@ ver 0.2.17 mqConn logger trimmed queue manager name
 ver 0.2.18 mqExec &co added and improved
 ver 0.2.19 functions handling bags added
 ver 0.3.00 mq 7.5 (additional defines)
+ver 0.3.01 empty lines added at the end of files for rhl 5
