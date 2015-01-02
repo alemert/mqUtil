@@ -18,16 +18,18 @@
 /*    - mqReadBag                                                             */
 /*    - mqCloseBag                                                            */
 /*    - mqResetQmgrLog                                                        */
-/*    - mqExecPcf                                            */
-/*    - mqAddInqAttrFunc                                  */
-/*    - mqInquireErrBag                              */
-/*    - mqBagCountItem                      */
+/*    - mqExecPcf                                                             */
+/*    - mqAddInqAttrFunc                                              */
+/*    - mqAddString                                        */
+/*    - mqAddInt                      */
+/*    - mqInquireErrBag                                        */
+/*    - mqBagCountItem                                        */
 /*                                                                            */
-/*  macros:                                                              */
-/*    - mqOpenUserBag                                                  */
-/*    - mqOpenAdminBag                                          */
-/*    - mqSetInqAttr                        */
-/*                                                            */
+/*  macros:                                                                   */
+/*    - mqOpenUserBag                                                         */
+/*    - mqOpenAdminBag                                                      */
+/*    - mqSetInqAttr                                    */
+/*                                                                            */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -1036,6 +1038,96 @@ MQLONG mqAddInqAttrFunc( MQHBAG bag, int argc, ... )
   return mqrc ;
 }
 
+/******************************************************************************/
+/*   M Q   A D D   S T R I N G                                                */
+/*   ----------------------------------------------------------------------   */
+/*                                                                            */
+/*   Description: add a string to the admin bag                               */
+/*                                                                            */
+/*   Comment: this functions is API for mqAddString                           */
+/*                                                                            */
+/*   Attributes:                                                              */
+/*     @bag          : admin bag handle                                       */
+/*     @selector     : selector for added string                              */
+/*     @buffer length: the length of the buffer   or                          */
+/*                     MQBL_NULL_TERMINATED if the string is null terminated  */
+/*     @buffer       : the string to be added                                 */
+/*     @comp code    :                                                        */
+/*     @reason       :                                                        */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqAddStr( MQHBAG _bag     , 
+		 MQLONG _selector,
+		 MQLONG _buffLng ,
+		 PMQCHAR _buffer  )
+{
+  logFuncCall() ;
+
+  MQLONG mqrc = MQRC_NONE ;
+  MQLONG compCode ;
+
+  mqAddString( _bag, _selector, _buffLng, _buffer, &compCode, &mqrc );
+
+  switch( mqrc )
+  {
+    case MQRC_NONE : break ;
+    default :
+    {
+      logMQCall( ERR, "mqAddString", mqrc );  
+      goto _door;
+    }
+  }
+  logMQCall( DBG, "mqAddString", mqrc);  
+
+  _door:
+
+  logFuncExit( ) ;
+  return mqrc ;
+}
+
+/******************************************************************************/
+/*   M Q   A D D   I N T E G E R                                              */
+/*   ----------------------------------------------------------------------   */
+/*                                                                            */
+/*   Description: add an integer to the admin bag                             */
+/*                                                                            */
+/*   Comment: this functions is API for mqAddInteger                          */
+/*                                                                            */
+/*   Attributes:                                                              */
+/*     @bag       : admin bag handle                                          */
+/*     @selector  : selector for added string                                 */
+/*     @item value: the integer value to be placed in the bag                 */
+/*     @comp code :                                                           */
+/*     @reason    :                                                           */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqAddInt( MQHBAG _bag     , 
+		 MQLONG _selector,
+		 MQLONG _value )
+{
+  logFuncCall() ;
+
+  MQLONG mqrc = MQRC_NONE ;
+  MQLONG compCode ;
+
+  mqAddInteger( _bag, _selector, _value, &compCode, &mqrc );
+
+  switch( mqrc )
+  {
+    case MQRC_NONE : break ;
+    default :
+    {
+      logMQCall( ERR, "mqAddInteger", mqrc );  
+      goto _door;
+    }
+  }
+  logMQCall( DBG, "mqAddInteger", mqrc);  
+
+  _door:
+
+  logFuncExit( ) ;
+  return mqrc ;
+}
 /******************************************************************************/
 /*   M Q   I N Q U I R E   R E S P O N S E   B A G                            */
 /*   ----------------------------------------------------------------------   */
