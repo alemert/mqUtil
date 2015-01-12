@@ -112,12 +112,12 @@ MQLONG mqReadBag(  MQHCONN hConn    ,
 
 MQLONG mqResetQmgrLog( MQHCONN Hconn ); 
 
-MQLONG mqExecPcf( MQHCONN _hConn   ,   // connection handle
-                  MQLONG  _pcfCmd  ,   // PCF command
-                  MQHBAG  _cmdBag  ,   // command bag
-                  MQHBAG  _resBag );  // response bag
+MQLONG mqExecPcf( MQHCONN _hConn   ,     // connection handle
+                  MQLONG  _pcfCmd  ,     // PCF command
+                  MQHBAG  _cmdBag  ,     // command bag
+                  MQHBAG  _resBag );     // response bag
 
-MQLONG mqAddInqAttrFunc( MQHBAG bag ,   // Admin bag
+MQLONG mqAddInqAttrFunc( MQHBAG bag ,    // Admin-bag
                          int     argc,   // amount of inquire attributes
                          ...        );   // va_args list of inquire attributes
 
@@ -137,3 +137,10 @@ MQLONG mqBagCountItem( MQHBAG _bag      ,
 MQLONG mqBagInq( MQHBAG _inBag, 
                  MQLONG _cnt, 
                  PMQHBAG _outBag );
+
+MQLONG mqStrInq( MQHBAG _bag       ,   // admin bag
+                 MQLONG _selector  ,   // selector
+                 MQLONG _itemIndex ,   // item index
+                 MQLONG _maxBuffLng,   // buffer length
+                 PMQCHAR _buffer   ,   // buffer
+                 PMQLONG _lng     );   // real buffer length
