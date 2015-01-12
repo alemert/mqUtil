@@ -20,15 +20,16 @@
 /*    - mqResetQmgrLog                                                        */
 /*    - mqExecPcf                                                             */
 /*    - mqAddInqAttrFunc                                              */
-/*    - mqAddString                                        */
-/*    - mqAddInt                      */
-/*    - mqInquireErrBag                                        */
-/*    - mqBagCountItem                                        */
+/*    - mqAddString                                              */
+/*    - mqAddInt                          */
+/*    - mqInquireErrBag                                          */
+/*    - mqBagCountItem                                          */
+/*    - mqBagInq                      */
 /*                                                                            */
 /*  macros:                                                                   */
 /*    - mqOpenUserBag                                                         */
-/*    - mqOpenAdminBag                                                      */
-/*    - mqSetInqAttr                                    */
+/*    - mqOpenAdminBag                                                        */
+/*    - mqSetInqAttr                                          */
 /*                                                                            */
 /******************************************************************************/
 
@@ -1242,6 +1243,41 @@ MQLONG mqBagCountItem( MQHBAG _bag, MQLONG _selector )
     }
   }
   logMQCall( DBG, "mqCountItems", mqrc );  
+
+  _door:
+
+  logFuncExit( ) ;
+  return mqrc ;
+}
+
+/******************************************************************************/
+/*  M Q   B A G   I N Q                                                */
+/*  ------------------------------------------------------------------------  */
+/*                                                                            */
+/*  Description: interface to mqInquireBag           */
+/*                                                                      */
+/*  Comment:                                              */
+/*                                                                */
+/*  Return Code:                                            */
+/*                                                                          */
+/******************************************************************************/
+MQLONG mqBagInq( MQHBAG _inBag, MQLONG _cnt, PMQHBAG _outBag )
+{
+  logFuncCall() ;
+  MQLONG mqrc = MQRC_NONE ;
+  MQLONG cc ;
+
+  mqInquireBag( _inBag, MQHA_BAG_HANDLE, _cnt, _outBag, &cc, &mqrc );
+  switch( mqrc )
+  {
+    case MQRC_NONE : break ;
+    default:
+    {
+      logMQCall( ERR, "mqInquireBag", mqrc );  
+      goto _door;                    //
+    }
+    logMQCall( DBG, "mqInquireBag", mqrc );  
+  }
 
   _door:
 

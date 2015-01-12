@@ -133,3 +133,7 @@ MQLONG mqAddInt( MQHBAG _bag     ,
 MQLONG mqBagCountItem( MQHBAG _bag      , 
                        MQLONG _selector);
 
+
+MQLONG mqBagInq( MQHBAG _inBag, 
+                 MQLONG _cnt, 
+                 PMQHBAG _outBag );
