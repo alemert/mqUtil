@@ -1211,6 +1211,11 @@ MQLONG mqInquireErrBag( MQHBAG _resBag )
 /*                                                                            */
 /*   Comment:                                                                 */
 /*                                                                            */
+/*   Return Code:                                                             */
+/*      RC > 0  : error, MQ Reason Code                                       */
+/*      RC = 0  : no items found                                              */
+/*      RC < 0  : negative noumber of itmes found                             */
+/*                                                                            */
 /******************************************************************************/
 MQLONG mqBagCountItem( MQHBAG _bag, MQLONG _selector )
 {

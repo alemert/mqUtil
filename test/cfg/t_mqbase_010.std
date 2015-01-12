@@ -1,0 +1,11 @@
+# TEST START mqConn     >>connect qmgr        << test/src/t_mqbase_010.c(0048)
+# TEST OK    mqConn     >>connect qmgr        << test/src/t_mqbase_010.c(0048)
+# TEST START mqOpenAdminBag >>open admin bag      << test/src/t_mqbase_010.c(0056)
+# TEST OK    mqOpenAdminBag >>open admin bag      << test/src/t_mqbase_010.c(0056)
+# TEST START mqOpenAdminBag >>open respon bag     << test/src/t_mqbase_010.c(0061)
+# TEST OK    mqOpenAdminBag >>open respon bag     << test/src/t_mqbase_010.c(0061)
+# TEST START mqAddInqAttrFunc >>set inquire attribute<< test/src/t_mqbase_010.c(0068)
+# TEST OK    mqAddInqAttrFunc >>set inquire attribute<< test/src/t_mqbase_010.c(0068)
+# TEST START mqExecPcf  >>exec pcf            << test/src/t_mqbase_010.c(0076)
+# TEST ERR   mqExecPcf  >>exec pcf            << test/src/t_mqbase_010.c(0076)
+              rcReal:  2067 rcGoal: 000
