@@ -23,3 +23,4 @@ ver 0.3.01 empty lines added at the end of files for rhl 5
 ver 0.3.02 functions mqAddStr and mqAddInt added
 ver 0.3.03 mqBagInq added, comments improved
 ver 0.3.04 mqStrInq added
+ver 0.3.05 mqAddStrFilter added

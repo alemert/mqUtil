@@ -19,18 +19,19 @@
 /*    - mqCloseBag                                                            */
 /*    - mqResetQmgrLog                                                        */
 /*    - mqExecPcf                                                             */
-/*    - mqAddInqAttrFunc                                              */
-/*    - mqAddString                                                    */
-/*    - mqAddInt                              */
-/*    - mqInquireErrBag                                            */
-/*    - mqBagCountItem                                            */
-/*    - mqBagInq                          */
-/*    - mqStrInq                      */
+/*    - mqAddInqAttrFunc                                                      */
+/*    - mqAddStr                                                              */
+/*    - mqAddInt                                              */
+/*    - mqInquireErrBag                                                        */
+/*    - mqBagCountItem                                                        */
+/*    - mqBagInq                                              */
+/*    - mqStrInq                                  */
+/*    - mqAddStrFilter                        */
 /*                                                                            */
 /*  macros:                                                                   */
 /*    - mqOpenUserBag                                                         */
 /*    - mqOpenAdminBag                                                        */
-/*    - mqSetInqAttr                                                */
+/*    - mqSetInqAttr                                                          */
 /*                                                                            */
 /******************************************************************************/
 
@@ -55,9 +56,13 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
-#include <mqbase.h>
 #include <ctl.h>
 #include <msgcat/lgstd.h>
+
+// ---------------------------------------------------------
+// local
+// ---------------------------------------------------------
+#include <mqbase.h>
 
 /******************************************************************************/
 /*   G L O B A L S                                                            */
@@ -1328,6 +1333,71 @@ MQLONG mqStrInq( MQHBAG _bag       ,   // admin bag
     }
     logMQCall( DBG, "mqInquireString", mqrc );  
   }
+
+  _door:
+
+  logFuncExit( ) ;
+  return mqrc ;
+}
+
+/******************************************************************************/
+/*   M Q   A D D   S T R I N G   F I L T E R                                  */
+/*   ----------------------------------------------------------------------   */
+/*                                                                            */
+/*   Description: add a string filter to the admin bag                        */
+/*                                                                            */
+/*   Comment: this functions is API for mqAddStringFilter                     */
+/*                                                                            */
+/*   Attributes:                                                              */
+/*     @bag          : admin bag handle                                       */
+/*     @selector     : selector for added string                              */
+/*     @buffer length: the length of the buffer   or                          */
+/*                     MQBL_NULL_TERMINATED if the string is null terminated  */
+/*     @buffer       : the string to be added                                 */
+/*     @operator     : on of MQCFOP_ compare operators                        */
+/*                       - MQCFOP_LESS                                        */
+/*                       - MQCFOP_EQUAL                                       */
+/*                       - MQCFOP_GREATER                                     */
+/*                       - MQCFOP_NOT_LESS                                    */
+/*                       - MQCFOP_NOT_EQUAL                                   */
+/*                       - MQCFOP_NOT_GREATER                                 */
+/*                       - MQCFOP_LIKE                                        */
+/*                       - MQCFOP_NOT_LIKE                                    */
+/*                       - MQCFOP_CONTAINS                                    */
+/*                       - MQCFOP_EXCLUDES                                    */
+/*                       - MQCFOP_CONTAINS_GEN                                */
+/*                       - MQCFOP_EXCLUDES_GEN                                */
+/*     @comp code    :                                                        */
+/*     @reason       :                                                        */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqAddStrFilter( MQHBAG _bag       ,  // command bag
+                       MQLONG _selector  ,  // selector
+                       MQLONG _buffLng   ,  // buffer length
+                       PMQCHAR _buffer   ,  // buffer
+                       MQLONG  _operator )  // compare operator
+{
+  logFuncCall() ;
+
+  MQLONG mqrc = MQRC_NONE ;
+  MQLONG compCode ;
+
+  
+  mqAddStringFilter( _bag     , _selector, 
+                     _buffLng , _buffer  , 
+                     _operator, 
+                     &compCode, &mqrc   );
+
+  switch( mqrc )
+  {
+    case MQRC_NONE : break ;
+    default :
+    {
+      logMQCall( ERR, "mqAddStringFilter", mqrc );  
+      goto _door;
+    }
+  }
+  logMQCall( DBG, "mqAddStringFilter", mqrc);  
 
   _door:
 

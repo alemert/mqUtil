@@ -144,3 +144,9 @@ MQLONG mqStrInq( MQHBAG _bag       ,   // admin bag
                  MQLONG _maxBuffLng,   // buffer length
                  PMQCHAR _buffer   ,   // buffer
                  PMQLONG _lng     );   // real buffer length
+
+MQLONG mqAddStrFilter( MQHBAG _bag       ,  // command bag
+                       MQLONG _selector  ,  // selector
+                       MQLONG _buffLng   ,  // buffer length
+                       PMQCHAR _buffer   ,  // buffer
+                       MQLONG  _operator);  // compare operator
