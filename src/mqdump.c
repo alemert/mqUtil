@@ -1066,3 +1066,4 @@ void dumpPcfString( PMQCFST  pcfString )
 		   pcfString->String[1]           );
 
 }
+
