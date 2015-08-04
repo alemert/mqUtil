@@ -29,7 +29,7 @@ AROWN =
 LSOWN = msgcat sogen
 
 MQLIB = use
-MQINST = /opt/mqm/750
+MQINST = /opt/mqm/75a
 
 # ------------------------------------------------------------------------------
 # main source
