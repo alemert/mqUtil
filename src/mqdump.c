@@ -192,11 +192,14 @@ void dumpMqStruct( const char* _type, void* _pStruct, FILE* output  )
   }
 
   // -------------------------------------------------------
-  // if you get that far, then it has to be unknown structure
+  // if you get that far, then it has to be an unknown structure
   // -------------------------------------------------------
-  logger( LMQM_UNKNOWN_DMP_STRUCT, _type ) ;
-  goto _door ;
-
+  logger( LMQM_UNKNOWN_DMP_STRUCT, _type );  // ERROR Handling only
+  goto _door ;                               // this code will be SKIPED
+                                             // if structure is known 
+  // -------------------------------------------------------
+  // write known structure to output device
+  // -------------------------------------------------------
   _output :
 
   if( output == NULL )
