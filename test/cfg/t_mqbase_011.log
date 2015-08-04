@@ -1,16 +1,18 @@
-2014-10-28 16:57:16  29374 01104 INF logging mq call MQCONN with: MQRC_NONE
-                                     mqConn() in src/mqbase.c (line: 00116)
-2014-10-28 16:57:16  29374 01110 LOG connected to queue manager                          OMEGA
-                                     mqConn() in src/mqbase.c (line: 00117)
-2014-10-28 16:57:16  29374 01105 DBG logging mq call mqCreateBag with: MQRC_NONE
-                                     mqOpenBagAPI() in src/mqbase.c (line: 00706)
-2014-10-28 16:57:16  29374 01105 DBG logging mq call mqCreateBag with: MQRC_NONE
-                                     mqOpenBagAPI() in src/mqbase.c (line: 00706)
-2014-10-28 16:57:16  29374 01105 DBG logging mq call mqAddInquiry with: MQRC_NONE
-                                     mqAddInqAttrFunc() in src/mqbase.c (line: 01029)
-2014-10-28 16:57:16  29374 01105 DBG logging mq call mqExecute with: MQRC_NONE
-                                     mqExecPcf() in src/mqbase.c (line: 00978)
-2014-10-28 16:57:16  29374 01105 DBG logging mq call mqCountItems with: unknown mq reason code
-                                     mqBagCountItem() in src/mqbase.c (line: 01147)
-2014-10-28 16:57:16  29374 01104 INF logging mq call MQDISC with: MQRC_NONE
-                                     mqDisc() in src/mqbase.c (line: 00151)
+2015-08-04 17:24:59  13689 00100 SYS starting t_mqbase_011
+                                     initLogging() in src/ctl.c (line: 00379)
+2015-08-04 17:24:59  13689 01104 INF logging mq call MQCONN with: MQRC_NONE
+                                     mqConn() in src/mqbase.c (line: 00125)
+2015-08-04 17:24:59  13689 01110 LOG connected to queue manager                          OMEGA
+                                     mqConn() in src/mqbase.c (line: 00126)
+2015-08-04 17:24:59  13689 01105 DBG logging mq call mqCreateBag with: MQRC_NONE
+                                     mqOpenBagAPI() in src/mqbase.c (line: 00715)
+2015-08-04 17:24:59  13689 01105 DBG logging mq call mqCreateBag with: MQRC_NONE
+                                     mqOpenBagAPI() in src/mqbase.c (line: 00715)
+2015-08-04 17:24:59  13689 01105 DBG logging mq call mqAddInquiry with: MQRC_NONE
+                                     mqAddInqAttrFunc() in src/mqbase.c (line: 01038)
+2015-08-04 17:24:59  13689 01105 DBG logging mq call mqExecute with: MQRC_NONE
+                                     mqExecPcf() in src/mqbase.c (line: 00987)
+2015-08-04 17:24:59  13689 01105 DBG logging mq call mqCountItems with: unknown mq reason code
+                                     mqBagCountItem() in src/mqbase.c (line: 01251)
+2015-08-04 17:24:59  13689 01104 INF logging mq call MQDISC with: MQRC_NONE
+                                     mqDisc() in src/mqbase.c (line: 00160)

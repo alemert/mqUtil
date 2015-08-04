@@ -970,7 +970,7 @@ void dumpTrigData( const PMQTMC2 trigData )
                   "Trigger data"         , 
 		   trigData->TriggerData);
 
-  setDumpItemStr(  F_MQCHAR40          ,
+  setDumpItemStr(  F_MQCHAR4           ,
                   "Application type"   , 
 		   trigData->ApplType );
 

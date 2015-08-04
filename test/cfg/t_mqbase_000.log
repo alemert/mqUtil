@@ -1,8 +1,10 @@
-2014-10-08 14:35:25  14198 01104 INF logging mq call MQCONN with: MQRC_NONE
-                                     mqConn() in src/mqbase.c (line: 00110)
-2014-10-08 14:35:25  14198 01110 LOG connected to queue manager                          OMEGA
-                                     mqConn() in src/mqbase.c (line: 00111)
-2014-10-08 14:35:25  14198 01104 INF logging mq call MQDISC with: MQRC_NONE
-                                     mqDisc() in src/mqbase.c (line: 00145)
-2014-10-08 14:35:25  14198 01101 ERR mq call MQDISC failed with: MQRC_HCONN_ERROR
-                                     mqDisc() in src/mqbase.c (line: 00140)
+2015-08-04 17:19:54  23049 00100 SYS starting t_mqbase_000
+                                     initLogging() in src/ctl.c (line: 00379)
+2015-08-04 17:19:54  23049 01104 INF logging mq call MQCONN with: MQRC_NONE
+                                     mqConn() in src/mqbase.c (line: 00125)
+2015-08-04 17:19:54  23049 01110 LOG connected to queue manager                          OMEGA
+                                     mqConn() in src/mqbase.c (line: 00126)
+2015-08-04 17:19:54  23049 01104 INF logging mq call MQDISC with: MQRC_NONE
+                                     mqDisc() in src/mqbase.c (line: 00160)
+2015-08-04 17:19:54  23049 01101 ERR mq call MQDISC failed with: MQRC_HCONN_ERROR
+                                     mqDisc() in src/mqbase.c (line: 00155)

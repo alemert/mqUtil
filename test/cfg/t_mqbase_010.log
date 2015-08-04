@@ -1,18 +1,20 @@
-2014-10-15 16:03:06    354 01104 INF logging mq call MQCONN with: MQRC_NONE
-                                     mqConn() in src/mqbase.c (line: 00114)
-2014-10-15 16:03:06    354 01110 LOG connected to queue manager                          OMEGA
-                                     mqConn() in src/mqbase.c (line: 00115)
-2014-10-15 16:03:06    354 01105 DBG logging mq call mqCreateBag with: MQRC_NONE
-                                     mqOpenBagAPI() in src/mqbase.c (line: 00704)
-2014-10-15 16:03:06    354 01105 DBG logging mq call mqCreateBag with: MQRC_NONE
-                                     mqOpenBagAPI() in src/mqbase.c (line: 00704)
-2014-10-15 16:03:06    354 01105 DBG logging mq call mqAddInquiry with: MQRC_NONE
-                                     mqAddInqAttrFunc() in src/mqbase.c (line: 01020)
-2014-10-15 16:03:06    354 01101 ERR mq call mqExecute failed with: MQRCCF_COMMAND_FAILED
-                                     mqExecPcf() in src/mqbase.c (line: 00967)
-2014-10-15 16:03:06    354 01105 DBG logging mq call mqInquireBag with: MQRC_NONE
-                                     mqInquireErrBag() in src/mqbase.c (line: 01084)
-2014-10-15 16:03:06    354 01105 DBG logging mq call mqInquireInteger with: MQRC_NONE
-                                     mqInquireErrBag() in src/mqbase.c (line: 01106)
-2014-10-15 16:03:06    354 01101 ERR mq call mqExecute-RC failed with: MQRC_SELECTOR_ERROR
-                                     mqInquireErrBag() in src/mqbase.c (line: 01108)
+2015-08-04 17:24:34  10586 00100 SYS starting t_mqbase_010
+                                     initLogging() in src/ctl.c (line: 00379)
+2015-08-04 17:24:34  10586 01104 INF logging mq call MQCONN with: MQRC_NONE
+                                     mqConn() in src/mqbase.c (line: 00125)
+2015-08-04 17:24:34  10586 01110 LOG connected to queue manager                          OMEGA
+                                     mqConn() in src/mqbase.c (line: 00126)
+2015-08-04 17:24:34  10586 01105 DBG logging mq call mqCreateBag with: MQRC_NONE
+                                     mqOpenBagAPI() in src/mqbase.c (line: 00715)
+2015-08-04 17:24:34  10586 01105 DBG logging mq call mqCreateBag with: MQRC_NONE
+                                     mqOpenBagAPI() in src/mqbase.c (line: 00715)
+2015-08-04 17:24:34  10586 01105 DBG logging mq call mqAddInquiry with: MQRC_NONE
+                                     mqAddInqAttrFunc() in src/mqbase.c (line: 01038)
+2015-08-04 17:24:34  10586 01101 ERR mq call mqExecute failed with: MQRCCF_COMMAND_FAILED
+                                     mqExecPcf() in src/mqbase.c (line: 00976)
+2015-08-04 17:24:34  10586 01105 DBG logging mq call mqInquireBag with: MQRC_NONE
+                                     mqInquireErrBag() in src/mqbase.c (line: 01179)
+2015-08-04 17:24:34  10586 01105 DBG logging mq call mqInquireInteger with: MQRC_NONE
+                                     mqInquireErrBag() in src/mqbase.c (line: 01201)
+2015-08-04 17:24:34  10586 01101 ERR mq call mqExecute-RC failed with: MQRC_SELECTOR_ERROR
+                                     mqInquireErrBag() in src/mqbase.c (line: 01203)

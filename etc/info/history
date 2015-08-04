@@ -26,3 +26,4 @@ ver 0.3.04 mqStrInq added
 ver 0.3.05 mqAddStrFilter added
 ver 0.3.06 /opt/mqm/75a build
 ver 0.3.07 comments adjustment
+ver 0.3.08 dumpTrigData; Application Type format set CHAR4

@@ -1,9 +1,11 @@
-2014-10-08 14:41:14  17931 01104 INF logging mq call MQCONN with: MQRC_NONE
-                                     mqConn() in src/mqbase.c (line: 00110)
-2014-10-08 14:41:14  17931 01110 LOG connected to queue manager                          OMEGA
-                                     mqConn() in src/mqbase.c (line: 00111)
-2014-10-08 14:41:14  17931 00005 DBG Memory dump start for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2015-08-04 17:21:39  27782 00100 SYS starting t_mqbase_002
+                                     initLogging() in src/ctl.c (line: 00379)
+2015-08-04 17:21:39  27782 01104 INF logging mq call MQCONN with: MQRC_NONE
+                                     mqConn() in src/mqbase.c (line: 00125)
+2015-08-04 17:21:39  27782 01110 LOG connected to queue manager                          OMEGA
+                                     mqConn() in src/mqbase.c (line: 00126)
+2015-08-04 17:21:39  27782 00005 DBG Memory dump start for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
 | ==============================:========================================       
 | Structure identifier          :OD                                             
 | Structure version             :MQOD_VERSION_1                                 
@@ -13,14 +15,14 @@
 | Dynamic queue name            :AMQ.*                                          
 | Alternate user id             :                                               
 | ==============================:========================================       
-2014-10-08 14:41:14  17931 00006 DBG Memory dump end for OD  
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
-2014-10-08 14:41:14  17931 01104 INF logging mq call MQOPEN with: MQRC_NONE
-                                     mqOpenObject() in src/mqbase.c (line: 00223)
-2014-10-08 14:41:14  17931 01112 LOG queue TEST.MQBASE opened
-                                     mqOpenObject() in src/mqbase.c (line: 00224)
-2014-10-08 14:41:14  17931 00005 DBG Memory dump start for PMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2015-08-04 17:21:39  27782 00006 DBG Memory dump end for OD  
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
+2015-08-04 17:21:39  27782 01104 INF logging mq call MQOPEN with: MQRC_NONE
+                                     mqOpenObject() in src/mqbase.c (line: 00238)
+2015-08-04 17:21:39  27782 01112 LOG queue TEST.MQBASE opened
+                                     mqOpenObject() in src/mqbase.c (line: 00239)
+2015-08-04 17:21:39  27782 00005 DBG Memory dump start for PMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
 | ==============================:========================================       
 | Structure identifier          :PMO                                            
 | Structure version             :MQPMO_VERSION_1                                
@@ -33,10 +35,10 @@
 | Resolved queue name           :                                               
 | Resolved qmgr name            :                                               
 | ==============================:========================================       
-2014-10-08 14:41:14  17931 00006 DBG Memory dump end for PMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
-2014-10-08 14:41:14  17931 00005 DBG Memory dump start for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2015-08-04 17:21:39  27782 00006 DBG Memory dump end for PMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
+2015-08-04 17:21:39  27782 00005 DBG Memory dump start for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
 | ==============================:========================================       
 | Structure identifier          :MD                                             
 | Structure version             :MQMD_VERSION_1                                 
@@ -63,10 +65,10 @@
 | Put time                      :                                               
 | Appl data relating to origin  :                                               
 | ==============================:========================================       
-2014-10-08 14:41:14  17931 00006 DBG Memory dump end for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
-2014-10-08 14:41:14  17931 00005 DBG Memory dump start for PMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2015-08-04 17:21:39  27782 00006 DBG Memory dump end for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
+2015-08-04 17:21:39  27782 00005 DBG Memory dump start for PMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
 | ==============================:========================================       
 | Structure identifier          :PMO                                            
 | Structure version             :MQPMO_VERSION_1                                
@@ -79,10 +81,10 @@
 | Resolved queue name           :TEST.MQBASE                                     
 | Resolved qmgr name            :OMEGA                                           
 | ==============================:========================================       
-2014-10-08 14:41:14  17931 00006 DBG Memory dump end for PMO  
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
-2014-10-08 14:41:14  17931 00005 DBG Memory dump start for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
+2015-08-04 17:21:39  27782 00006 DBG Memory dump end for PMO  
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
+2015-08-04 17:21:39  27782 00005 DBG Memory dump start for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
 | ==============================:========================================       
 | Structure identifier          :MD                                             
 | Structure version             :MQMD_VERSION_1                                 
@@ -95,25 +97,25 @@
 | Msg data Format name          :MQSTR                                          
 | Message priority              :MQPRI_PRIORITY_AS_Q_DEF                        
 | Message persistence           :MQPER_PERSISTENCE_AS_Q_DE                      
-| Message identifier            :0x 41 4d 51 20 4f 4d 45 47 41 20 20 20 20 20 20 20 22 d7 33 54 07 25 00 20
+| Message identifier            :0x 41 4d 51 20 4f 4d 45 47 41 20 20 20 20 20 20 20 ec 76 c0 55 07 2e 00 20
 | Correlation identifier        :0x 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 | Backout counter               :0000000000                                     
 | Name of reply queue           :                                               
 | Name of reply qmgr            :                                               
 | User identifier               :                                               
-| Accounting token              :0x 04 32 30 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+| Accounting token              :0x 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 | Appl data relating identity   :                                               
 | Appl Put Type                 :MQAT_UNIX                                      
 | Putting appl name             :t_mqbase_002                                   
-| Put Date                      :20141008                                       
-| Put time                      :12411427                                       
+| Put Date                      :20150804                                       
+| Put time                      :15213990                                       
 | Appl data relating to origin  :                                               
 | ==============================:========================================       
-2014-10-08 14:41:14  17931 00006 DBG Memory dump end for MD   
-                                     dumpMqStruct() in src/mqdump.c (line: 00206)
-2014-10-08 14:41:14  17931 01104 INF logging mq call MQPUT with: MQRC_NONE
-                                     mqPut() in src/mqbase.c (line: 00350)
-2014-10-08 14:41:14  17931 01104 INF logging mq call MQCLOSE with: MQRC_NONE
-                                     mqCloseObject() in src/mqbase.c (line: 00265)
-2014-10-08 14:41:14  17931 01104 INF logging mq call MQDISC with: MQRC_NONE
-                                     mqDisc() in src/mqbase.c (line: 00145)
+2015-08-04 17:21:39  27782 00006 DBG Memory dump end for MD   
+                                     dumpMqStruct() in src/mqdump.c (line: 00209)
+2015-08-04 17:21:39  27782 01104 INF logging mq call MQPUT with: MQRC_NONE
+                                     mqPut() in src/mqbase.c (line: 00365)
+2015-08-04 17:21:39  27782 01104 INF logging mq call MQCLOSE with: MQRC_NONE
+                                     mqCloseObject() in src/mqbase.c (line: 00280)
+2015-08-04 17:21:39  27782 01104 INF logging mq call MQDISC with: MQRC_NONE
+                                     mqDisc() in src/mqbase.c (line: 00160)
