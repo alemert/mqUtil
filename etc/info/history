@@ -27,3 +27,4 @@ ver 0.3.05 mqAddStrFilter added
 ver 0.3.06 /opt/mqm/75a build
 ver 0.3.07 comments adjustment
 ver 0.3.08 dumpTrigData; Application Type format set CHAR4
+ver 0.3.09 F_STR changed from 47.25 to 25.47
