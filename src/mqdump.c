@@ -65,17 +65,17 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 
 #define F_KEY       "%-30.30s"    // dump format for key
 #define F_STR       "%-25.47"    // dump format for general string
-#define F_MQPTR     "%-47.8s"     // dump format for general pointer
+#define F_MQPTR     "%-8.47s"     // dump format for general pointer
 #define F_MQCHAR    "%c"          // dump format for MQCHAR4
-#define F_MQCHAR4   "%-47.4s"     // dump format for MQCHAR4
-#define F_MQCHAR8   "%-47.8s"     // dump format for MQCHAR8
-#define F_MQCHAR12  "%-47.12"     // dump format for MQCHAR12
-#define F_MQCHAR28  "%-47.28s"    // dump format for MQCHAR28
-#define F_MQCHAR32  "%-47.32s"    // dump format for MQCHAR32
-#define F_MQCHAR40  "%-47.40s"    // dump format for MQCHAR40
-#define F_MQCHAR48  "%-47.48s"    // dump format for MQCHAR48
+#define F_MQCHAR4   "%-4.47s"     // dump format for MQCHAR4
+#define F_MQCHAR8   "%-8.47s"     // dump format for MQCHAR8
+#define F_MQCHAR12  "%-12.47"     // dump format for MQCHAR12
+#define F_MQCHAR28  "%-28.47s"    // dump format for MQCHAR28
+#define F_MQCHAR32  "%-32.47s"    // dump format for MQCHAR32
+#define F_MQCHAR40  "%-40.47s"    // dump format for MQCHAR40
+#define F_MQCHAR48  "%-48.48s"    // dump format for MQCHAR48
 #define F_MQCHAR64  "%-47.64"     // dump format for MQCHAR60
-#define F_MQCHARV   "%-47.20s"    // dump format for MQCHARV dummy
+#define F_MQCHARV   "%-20.47s"    // dump format for MQCHARV dummy
 #define F_MQLONG    "%.10d"       // dump format for MQLONG
 #define F_MQHMSG    "%.10d"       // dump format for MQHMSG
 #define F_MQBYTE16     16         // length of hex string
