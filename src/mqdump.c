@@ -67,7 +67,7 @@ int  _gDmpMsgIx ;                    // index for line in dump buffer
 #define F_STR       "%-25.47s"    // dump format for general string
 #define F_MQPTR     "%-8.47s"     // dump format for general pointer
 #define F_MQCHAR    "%c"          // dump format for MQCHAR4
-#define F_MQCHAR4   "%-4.47s"     // dump format for MQCHAR4
+#define F_MQCHAR4   "%-1.4s"      // dump format for MQCHAR4
 #define F_MQCHAR8   "%-8.47s"     // dump format for MQCHAR8
 #define F_MQCHAR12  "%-12.47"     // dump format for MQCHAR12
 #define F_MQCHAR28  "%-28.47s"    // dump format for MQCHAR28
