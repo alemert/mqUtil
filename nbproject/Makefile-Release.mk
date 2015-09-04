@@ -78,78 +78,78 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libmqUtil.${CND_DLIB_EXT}: ${OBJECTFI
 
 ${OBJECTDIR}/src/main.o: src/main.c 
 	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/main.o src/main.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main.o src/main.c
 
 ${OBJECTDIR}/src/mqbase.o: src/mqbase.c 
 	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/mqbase.o src/mqbase.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/mqbase.o src/mqbase.c
 
 ${OBJECTDIR}/src/mqdump.o: src/mqdump.c 
 	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/mqdump.o src/mqdump.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/mqdump.o src/mqdump.c
 
 ${OBJECTDIR}/src/mqtype.o: src/mqtype.c 
 	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/mqtype.o src/mqtype.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/mqtype.o src/mqtype.c
 
 ${OBJECTDIR}/src/rename_for_new_project.o: src/rename_for_new_project.c 
 	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/rename_for_new_project.o src/rename_for_new_project.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/rename_for_new_project.o src/rename_for_new_project.c
 
 ${OBJECTDIR}/test/src/t_main_000.o: test/src/t_main_000.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_main_000.o test/src/t_main_000.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_main_000.o test/src/t_main_000.c
 
 ${OBJECTDIR}/test/src/t_mqbase_000.o: test/src/t_mqbase_000.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_000.o test/src/t_mqbase_000.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_mqbase_000.o test/src/t_mqbase_000.c
 
 ${OBJECTDIR}/test/src/t_mqbase_001.o: test/src/t_mqbase_001.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_001.o test/src/t_mqbase_001.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_mqbase_001.o test/src/t_mqbase_001.c
 
 ${OBJECTDIR}/test/src/t_mqbase_002.o: test/src/t_mqbase_002.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_002.o test/src/t_mqbase_002.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_mqbase_002.o test/src/t_mqbase_002.c
 
 ${OBJECTDIR}/test/src/t_mqbase_003.o: test/src/t_mqbase_003.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_003.o test/src/t_mqbase_003.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_mqbase_003.o test/src/t_mqbase_003.c
 
 ${OBJECTDIR}/test/src/t_mqbase_004.o: test/src/t_mqbase_004.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_004.o test/src/t_mqbase_004.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_mqbase_004.o test/src/t_mqbase_004.c
 
 ${OBJECTDIR}/test/src/t_mqbase_005.o: test/src/t_mqbase_005.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_005.o test/src/t_mqbase_005.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_mqbase_005.o test/src/t_mqbase_005.c
 
 ${OBJECTDIR}/test/src/t_mqbase_006.o: test/src/t_mqbase_006.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_006.o test/src/t_mqbase_006.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_mqbase_006.o test/src/t_mqbase_006.c
 
 ${OBJECTDIR}/test/src/t_mqbase_007.o: test/src/t_mqbase_007.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_mqbase_007.o test/src/t_mqbase_007.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_mqbase_007.o test/src/t_mqbase_007.c
 
 ${OBJECTDIR}/test/src/t_template_000.o: test/src/t_template_000.c 
 	${MKDIR} -p ${OBJECTDIR}/test/src
-	${RM} $@.d
-	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/test/src/t_template_000.o test/src/t_template_000.c
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/test/src/t_template_000.o test/src/t_template_000.c
 
 # Subprojects
 .build-subprojects:

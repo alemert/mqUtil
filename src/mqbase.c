@@ -14,6 +14,7 @@
 /*    - mqRollback                                                            */
 /*    - resizeMqMessageBuffer                                                 */
 /*    - mqSetTrigger                                                          */
+/*    - mqTrimStr                        */
 /*    - mqOpenBagAPI                                                          */
 /*    - mqReadBag                                                             */
 /*    - mqCloseBag                                                            */
@@ -21,12 +22,14 @@
 /*    - mqExecPcf                                                             */
 /*    - mqAddInqAttrFunc                                                      */
 /*    - mqAddStr                                                              */
-/*    - mqAddInt                                              */
-/*    - mqInquireErrBag                                                        */
+/*    - mqAddInt                                                              */
+/*    - mqInquireErrBag                                                       */
 /*    - mqBagCountItem                                                        */
-/*    - mqBagInq                                              */
-/*    - mqStrInq                                  */
-/*    - mqAddStrFilter                        */
+/*    - mqBagInq                                                              */
+/*    - mqStrInq                                                  */
+/*    - mqIntInq                          */
+/*    - mqItemInfoInq                                */
+/*    - mqAddStrFilter                                          */
 /*                                                                            */
 /*  macros:                                                                   */
 /*    - mqOpenUserBag                                                         */
@@ -693,6 +696,48 @@ MQLONG mqSetTrigger( MQHCONN Hconn   ,   // connection handle
 }
 
 /******************************************************************************/
+/*   M Q    T R I M   S T R I N G                         */
+/*   ----------------------------------------------------------------------   */
+/*                                                                            */
+/*   Description: interface to mqTrim                                         */
+/*                                                                            */
+/*   Comment:                   */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqTrimStr( MQLONG _buffLng, PMQCHAR _pBuff, PMQCHAR _pStr )
+{
+  logFuncCall() ;
+
+  MQLONG compCode;
+  MQLONG reason  ;
+
+  mqTrim( _buffLng ,    
+          _pBuff   ,   
+          _pStr    ,  
+          &compCode, 
+          &reason );
+
+  switch( reason )
+  {                                          
+    case MQRC_NONE :                        
+    {                                      
+      logMQCall(DBG,"mqTrim",reason);
+      break;                             
+    }                                   
+    default :                          
+    {                                 
+      logMQCall(ERR,"mqTrim",reason);  
+      goto _door;                   
+    }                              
+  }                               
+
+  _door:
+
+  logFuncExit() ; 
+  return reason ;
+}
+
+/******************************************************************************/
 /*   M Q    O P E N   B A G   A P I                                           */
 /* -------------------------------------------------------------------------- */
 /*                                                                            */
@@ -703,6 +748,8 @@ MQLONG mqSetTrigger( MQHCONN Hconn   ,   // connection handle
 /******************************************************************************/
 MQLONG mqOpenBagAPI( MQLONG opt, PMQHBAG bag )
 {
+  logFuncCall() ;
+
   MQLONG compCode;
   MQLONG reason  ;
 
@@ -723,6 +770,7 @@ MQLONG mqOpenBagAPI( MQLONG opt, PMQHBAG bag )
   }                               
 
   _door:
+  logFuncExit() ; 
   return reason;
 
 }
@@ -742,6 +790,8 @@ MQLONG mqReadBag( MQHCONN hConn,
                   PMQGMO getMsgOpt, 
                   MQHBAG bag )
 {
+  logFuncCall() ;
+
   MQLONG compCode;
   MQLONG reason  ;
 
@@ -755,7 +805,7 @@ MQLONG mqReadBag( MQHCONN hConn,
   }
 
   getMsgOpt->Options |= MQGMO_WAIT              // wait for new messages
-                     +  MQGMO_FAIL_IF_QUIESCING // fail if quiesching
+                     +  MQGMO_FAIL_IF_QUIESCING // fail if quiescing
                      +  MQGMO_CONVERT ;         // convert if necessary
 
   mqGetBag( hConn    ,     // global (qmgr) connect handle
@@ -791,6 +841,8 @@ MQLONG mqReadBag( MQHCONN hConn,
   }                          
 
   _door:
+
+  logFuncExit() ; 
   return reason;
 }
 
@@ -805,6 +857,8 @@ MQLONG mqReadBag( MQHCONN hConn,
 /******************************************************************************/
 MQLONG mqCloseBag( PMQHBAG bag )
 {
+  logFuncCall() ;
+
   MQLONG compCode;
   MQLONG reason  = MQRC_NONE ;
 
@@ -828,6 +882,8 @@ MQLONG mqCloseBag( PMQHBAG bag )
   }                               
 
   _door:
+
+  logFuncExit() ; 
   return reason;
 }
 
@@ -837,7 +893,7 @@ MQLONG mqCloseBag( PMQHBAG bag )
 /*                                                                            */
 /*   Description: this function process:                                      */
 /*                RESET QMGR TYPE(ADVANCELOG)                                 */
-/*                      */
+/*                                                                            */
 /******************************************************************************/
 MQLONG mqResetQmgrLog( MQHCONN Hconn ) // connection handle
 {
@@ -938,8 +994,8 @@ MQLONG mqResetQmgrLog( MQHCONN Hconn ) // connection handle
 /*   M Q   E X E C U T E   P C F   C O M M A N D                              */
 /*   ----------------------------------------------------------------------   */
 /*                                                                            */
-/*   Description: execute PCF command                   */
-/*                                  */
+/*   Description: execute PCF command                                         */
+/*                                                                            */
 /******************************************************************************/
 MQLONG mqExecPcf( MQHCONN _hConn   ,   // connection handle
                   MQLONG  _pcfCmd  ,   // PCF command
@@ -967,13 +1023,13 @@ MQLONG mqExecPcf( MQHCONN _hConn   ,   // connection handle
     case MQRC_NONE : break;              //
     case MQRC_NO_MSG_AVAILABLE:          // Some reply messages received, but 
     {                                    // not all. Reply bag contains
-      logMQCall(ERR,"mqExecute",mqrc);   // syste-generated bags for messages 
+      logMQCall(ERR,"mqExecute",mqrc);   // system-generated bags for messages 
       mqExecRc=mqInquireErrBag(_resBag); // that were received
       goto _door;                        //
     }                                    //
     case MQRCCF_COMMAND_FAILED :         // PCF Command failed
     {                                    //
-      logMQCall(ERR,"mqExecute",mqrc);   // Reply bag conatins syste-generated 
+      logMQCall(ERR,"mqExecute",mqrc);   // Reply bag contains system-generated 
       mqExecRc=mqInquireErrBag(_resBag); // bags for messages that were received
       goto _door;                        //
     }                                    //
@@ -1140,9 +1196,9 @@ MQLONG mqAddInt( MQHBAG _bag     ,
 /*   ----------------------------------------------------------------------   */
 /*                                                                            */
 /*   Description:  If the mqExecute (PCF) command fails get the system bag    */
-/*                 handle out of the mqexecute response bag. This bag         */
+/*                 handle out of the mqExecute response bag. This bag         */
 /*                 contains the reason from the command server why the        */
-/*                 command failed.             */
+/*                 command failed.                                            */
 /*   Comment:                                                                 */
 /*                                                                            */
 /******************************************************************************/
@@ -1182,9 +1238,9 @@ MQLONG mqInquireErrBag( MQHBAG _resBag )
   // Get the reason code, returned by the command server, 
   //   from the embedded error bag
   // ------------------------------------------------------- 
-  mqInquireInteger( errBag       ,   // inquire erro bag
+  mqInquireInteger( errBag       ,   // inquire err bag
                     MQIASY_REASON,   // search for reason item
-                    MQIND_NONE   ,   // dont't care about item index
+                    MQIND_NONE   ,   // don't care about item index
                     &mqExecuteRc ,   // put the reason into this vara
                     &compCode    ,   // Completion code 
                     &mqrc       );   // general reason code
@@ -1332,6 +1388,97 @@ MQLONG mqStrInq( MQHBAG _bag       ,   // admin bag
       goto _door;                   
     }
     logMQCall( DBG, "mqInquireString", mqrc );  
+  }
+
+  _door:
+
+  logFuncExit( ) ;
+  return mqrc ;
+}
+
+/******************************************************************************/
+/*  M Q   I N T E G E R   I N Q U I R E                                       */
+/*  -----------------------------------------------------------------------   */
+/*                                                                            */
+/*  Description: interface to mqInquireInteger                                */
+/*                                                                            */
+/*  Comment:                                                                  */
+/*                                                                            */
+/*  Return Code:                                                              */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqIntInq( MQHBAG _bag       , 
+                 MQLONG _selector  ,
+                 MQLONG _index     , 
+                 PMQINT32 _pSelVal )
+{
+  logFuncCall() ;
+
+  MQLONG mqrc = MQRC_NONE ;
+  MQLONG compCode ;
+
+  mqInquireInteger( _bag     , 
+                    _selector, 
+                    _index   , 
+                    _pSelVal , 
+                    &compCode, 
+                    &mqrc   );
+
+  switch( mqrc )
+  {
+    case MQRC_NONE: break;
+    default:
+    {
+      logMQCall( ERR, "mqInquireInteger", mqrc );
+      goto _door;
+    }
+    logMQCall( DBG, "mqInquireInteger", mqrc );
+  }
+
+  _door:
+
+  logFuncExit( ) ;
+  return mqrc ;
+}
+
+/******************************************************************************/
+/*  M Q   I T E M   I N F O   I N Q U I R E                                   */
+/*  -----------------------------------------------------------------------   */
+/*                                                                            */
+/*  Description: interface to mqInquireItemInfo                               */
+/*                                                                            */
+/*  Comment: the most common selector to use is MQSEL_ANY_SELECTOR            */
+/*                                                                            */
+/*  Return Code:                                                              */
+/*                                                                            */
+/******************************************************************************/
+MQLONG mqItemInfoInq( MQHBAG _bag           , 
+                      MQLONG _selector      ,
+                      MQLONG _index         , 
+                      PMQLONG _pOutSelector , 
+                      PMQLONG _pOutItemType )
+{
+  logFuncCall() ;
+
+  MQLONG mqrc = MQRC_NONE ;
+  MQLONG compCode ;
+
+  mqInquireItemInfo( _bag          , 
+                     _selector     ,     
+                     _index        ,    
+                     _pOutSelector ,     
+                     _pOutItemType ,     
+                     &compCode     ,     
+                     &mqrc        );    
+  switch( mqrc )
+  {
+    case MQRC_NONE: break;
+    default:
+    {
+      logMQCall( ERR, "mqInquireItemInfo", mqrc );
+      goto _door;
+    }
+    logMQCall( DBG, "mqInquireItemInfo", mqrc );
   }
 
   _door:

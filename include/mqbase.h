@@ -99,6 +99,8 @@ MQLONG mqSetTrigger( MQHCONN Hconn  ,   // connection handle
 
 PMQVOID resizeMqMessageBuffer( PMQVOID message, PMQLONG newSize );
 
+MQLONG mqTrimStr( MQLONG _buffLng, PMQCHAR _pBuff, PMQCHAR _pStr );
+
 MQLONG mqOpenBagAPI(  MQLONG opt       ,   // Bag options
                       PMQHBAG bag     );
 MQLONG mqCloseBag(    PMQHBAG bag     );
@@ -133,6 +135,17 @@ MQLONG mqAddInt( MQHBAG _bag     ,
 MQLONG mqBagCountItem( MQHBAG _bag      , 
                        MQLONG _selector);
 
+
+MQLONG mqItemInfoInq( MQHBAG _bag           , 
+                      MQLONG _selector      ,
+                      MQLONG index          , 
+                      PMQLONG _pOutSelector , 
+                      PMQLONG _pOutItemType);
+
+MQLONG mqIntInq( MQHBAG _bag       , 
+                 MQLONG _selector  ,
+                 MQLONG _index     , 
+                 PMQINT32 _pSelVal);
 
 MQLONG mqBagInq( MQHBAG _inBag, 
                  MQLONG _cnt, 
