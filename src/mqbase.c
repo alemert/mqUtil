@@ -518,7 +518,7 @@ MQLONG mqBegin( MQHCONN _hConn )   // connection handle
     }                                   
     case MQRC_UOW_IN_PROGRESS :
     {
-      logMQCall(WAR,"MQBEGIN",reason);
+      logMQCall(ERR,"MQBEGIN",reason);
       goto _door; 
     }
     default :                          
