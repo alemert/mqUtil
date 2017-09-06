@@ -32,3 +32,4 @@ ver 0.3.10 all dump formats adjustet
 ver 0.3.11 additional wrapper functions for Inquire Bag
 ver 0.3.12 mqbegin, OUW in progress set to warning
 ver 0.3.13 re-bouild with new make file and message catalog
+ver 1.0.00 install path /opt/mqm/tools
